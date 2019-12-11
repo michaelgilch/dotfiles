@@ -42,3 +42,5 @@ fi
 [ -f /usr/share/bash-completion/bash_completion ] && \
     source /usr/share/bash-completion/bash_completion
 
+# Additional sources
+[ -f "$HOME"/.bash_aliases ]    && source "$HOME"/.bash_aliases
