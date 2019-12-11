@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# aliases
+# bash_aliases
 # 
 # Lengthy and complex aliases should be moved to 'bash_functions'.
 # 
