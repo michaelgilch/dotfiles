@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# bash_functions
+# 
+# Michael Gilchrist (michaelgilch@gmail.com)
+
+# History alias, or History Search, depending on argument
+h()
+{
+    if [ $# -eq 0 ]; then
+        history;
+    else
+        history | grep "$1" ;
+    fi
+}
+
+# Make directory and navigate to it
+mcd()
+{
+    mkdir -p "$@" && (cd "$_" || exit);
+}
+
+# Search for string in PS, but remove grep process
+pg()
+{
+    ps -ef | head -1;
+    # Disable using of pgrep instead of ps
+    # shellcheck disable=SC2009
+    ps -ef | grep -v grep | grep -i "$1";
+}
+
+# Open specified directory (if given) or current directory in Sublime Text
+s()
+{
+    if [ $# -eq 0 ]; then
+        sublime_text ./*;
+    else
+        sublime_text "$@";
+    fi
+}
+
+# Simple timer
+timer()
+{
+    echo "Timer started: $(date)"
+    echo "Stop with Ctrl+D"
+    time cat
+    echo
+    echo "Timer ended:   $(date)"
+}
+
+# Move back x directories
+up()
+{
+    for ((i=1; i<="$1"; i++)); do
+        cd ..
+    done;
+}
+
+# Open specified directory (if given) or current directory in Vim
+v()
+{
+    if [ $# -eq 0 ]; then
+        vim ./*;
+    else
+        vim "$@";
+    fi
+}
