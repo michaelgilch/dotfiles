@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# bashrc
+# 
+# Interactive Shell Configuration
+# 
+# This is sourced by the Login Shell (bash_profile). Any intended
+# difference in behavior between a Login and Interactive shell 
+# should be handled appropriately here.
+#
+# Michael Gilchrist (michaelgilch@gmail.com)
+
+PATH=$PATH:$HOME/scripts
+
+export EDITOR="vim"
+export VISUAL="$EDITOR"
+export MANPAGER="less -X"   # Do not clear screen after quitting man pages
+
+# If running interactively, check window size after each command 
+# and update LINES and COLUMNS of terminal if necessary.
+[[ $- == *i* ]] && shopt -s checkwinsize
+
+# History
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=100000
+HISTFILESIZE=$HISTSIZE
+HISTIGNORE="c:clear:h:history:exit"
+shopt -s histappend
+
+# LS_COLORS - dircolors is just a convenient way to update LS_COLORS 
+# environment variable. Checks for ~/.dir_colors and /etc/DIR_COLORS 
+# are included in case I decided to ever go back to customizing them.
+if type -P dircolors >/dev/null ; then
+    if [ -f "$HOME/.dir_colors" ]; then
+        eval "$(dircolors -b "$HOME"/.dir_colors)"
+    else
+        eval "$(dircolors)"
+    fi
+fi
+
+# Bash Completion
+[ -f /usr/share/bash-completion/bash_completion ] && \
+    source /usr/share/bash-completion/bash_completion
+
