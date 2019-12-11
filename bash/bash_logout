@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# bash_logout
+#
+# Michael Gilchrist (michaelgilch@gmail.com)
+
+clear
+reset
+
