@@ -4,6 +4,13 @@
 " Michael Gilchrist <michaelgilch@gmail.com>
 """""""""""""""""""""""""""""""""""""""""""""
 
+let mapleader = " "
+
+set encoding=utf-8
+
+set nocompatible                                " use vim defaults rather than vi defaults
+set backspace=indent,eol,start                  " allow backspacing over all items
+
 """""""""""""""""""""""""""""""""""""""""""""
 " Plugin Manager
 """""""""""""""""""""""""""""""""""""""""""""
@@ -26,18 +33,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'              " statusbar and tabline
     Plug 'vim-airline/vim-airline-themes'       " statusbar and tabline themes
 call plug#end()
-
-
-"""""""""""""""""""""""""""""""""""""""""""""
-" General Settings
-"""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = " "
-
-set encoding=utf-8
-
-set nocompatible                                " use vim defaults rather than vi defaults
-set backspace=indent,eol,start                  " allow backspacing over all items
-
 
 """""""""""""""""""""""""""""""""""""""""""""
 " User Interface
@@ -129,9 +124,20 @@ autocmd BufNewFile *.sh 0r ~/.vim/templates/skel.sh
 " Plugin Settings 
 """""""""""""""""""""""""""""""""""""""""""""
 
-" Airline
+""""""""""""""""""""
+" vim-airline
+""""""""""""""""""""
 set laststatus=2
 let g:airline_theme='minimalist'
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemode = ':t'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" Fix for delay when leaving insert mode
+set ttimeoutlen=10
+augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+augroup END
 
