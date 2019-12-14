@@ -30,9 +30,16 @@ endif
 " and `filetype plugin indent on` and `syntax on` in plug#end
 call plug#begin('~/.vim/plugged')
     Plug 'nanotech/jellybeans.vim'              " color theme
+    Plug 'scrooloose/nerdtree'                  " tree explorer
+    Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'vim-airline/vim-airline'              " statusbar and tabline
     Plug 'vim-airline/vim-airline-themes'       " statusbar and tabline themes
 call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Colors 
+"""""""""""""""""""""""""""""""""""""""""""""
+colorscheme jellybeans                          " nanotech/jellybeans.vim
 
 """""""""""""""""""""""""""""""""""""""""""""
 " User Interface
@@ -67,7 +74,7 @@ set smartcase                                   " ... unless uppercase is specif
 set hlsearch                                    " highlight search results
 
 " change search result highlight colors
-highlight Search cterm=underline ctermfg=white ctermbg=red
+highlight Search ctermfg=black ctermbg=red
 
 " map `space - space` to remove search highlighting
 nnoremap <silent><space><space> :nohlsearch<cr>
@@ -88,11 +95,6 @@ set foldnestmax=3                               " limit folding to 3 levels
 """""""""""""""""""""""""""""""""""""""""""""
 set splitbelow                                  " open new horizontal splits below
 set splitright                                  " open new vertical splits to the right
-
-"""""""""""""""""""""""""""""""""""""""""""""
-" Colors 
-"""""""""""""""""""""""""""""""""""""""""""""
-colorscheme jellybeans                          " nanotech/jellybeans.vim
 
 """""""""""""""""""""""""""""""""""""""""""""
 " Editing 
@@ -140,4 +142,20 @@ augroup FastEscape
     au InsertEnter * set timeoutlen=0
     au InsertLeave * set timeoutlen=1000
 augroup END
+
+""""""""""""""""""""
+" nerdtree
+""""""""""""""""""""
+noremap <C-n> :NERDTreeToggle<cr>
+let g:NERDTreeIndicatorMapCustom = {
+    \ 'Modified'  : '*',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '═',
+    \ 'Deleted'   : '✖',
+    \ 'Dirty'     : '✗',
+    \ 'Clean'     : '✔︎',
+    \ 'Unknown'   : '?'
+    \ }
 
