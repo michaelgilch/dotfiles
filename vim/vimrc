@@ -31,7 +31,9 @@ endif
 call plug#begin('~/.vim/plugged')
     Plug 'nanotech/jellybeans.vim'              " color theme
     Plug 'scrooloose/nerdtree'                  " tree explorer
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'Xuyuanp/nerdtree-git-plugin'          " git status in tree explorer
+    Plug 'godlygeek/tabular'                    " text filtering and alignment (required by plasticboy-vim-markdown)
+    Plug 'plasticboy/vim-markdown'              " markdown syntax and extras
     Plug 'vim-airline/vim-airline'              " statusbar and tabline
     Plug 'vim-airline/vim-airline-themes'       " statusbar and tabline themes
 call plug#end()
@@ -127,10 +129,10 @@ autocmd BufNewFile *.sh 0r ~/.vim/templates/skel.sh
 """""""""""""""""""""""""""""""""""""""""""""
 
 " edit vimrc in split
-nnoremap <leader>ev :split $MYVIMRC
+nnoremap <leader>ev :split $MYVIMRC<cr>
 
 " source vimrc
-nnoremap <leader>sv :source $MYVIMRC
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""
 " Plugin Settings 
@@ -146,12 +148,12 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Fix for delay when leaving insert mode
-set ttimeoutlen=10
-augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
-augroup END
+"set ttimeoutlen=10
+"augroup FastEscape
+"    autocmd!
+"    au InsertEnter * set timeoutlen=0
+"    au InsertLeave * set timeoutlen=1000
+"augroup END
 
 """"""""""""""""""""
 " nerdtree
@@ -168,4 +170,14 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Clean'     : '✔︎',
     \ 'Unknown'   : '?'
     \ }
+
+""""""""""""""""""""
+" vim-markdown
+""""""""""""""""""""
+
+" conceal markdown where possible
+set conceallevel=2
+let g:vim_markdown_conceal_code_blocks = 0
+
+autocmd FileType markdown inoremap ``` ```<Enter>```<C-o>k<C-o>A
 
