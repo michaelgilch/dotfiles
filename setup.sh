@@ -32,6 +32,10 @@ create_symlink()
 [[ $(pacman -Q git 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/git/gitconfig        "$HOME"/.gitconfig
 
+# readline
+[[ $(pacman -Q readline 2>/dev/null != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/readline/inputrc     "$HOME"/.inputrc
+
 # vim
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/vim                  "$HOME"/.vim
