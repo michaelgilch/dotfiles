@@ -74,7 +74,7 @@ set smartcase                                   " ... unless uppercase is specif
 set hlsearch                                    " highlight search results
 
 " change search result highlight colors
-highlight Search ctermfg=black ctermbg=red
+highlight Search cterm=bold ctermfg=white ctermbg=red
 
 " map `space - space` to remove search highlighting
 nnoremap <silent><space><space> :nohlsearch<cr>
