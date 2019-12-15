@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Openbox menu
+  Michael Gilchrist (michaelgilch@gmail.com)
+-->
+
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+    <menu id="root-menu" label="openbox">
+        <item label="Run">
+            <action name="Execute"><execute>gmrun</execute></action>
+        </item>
+        <separator/>
+        <item label="Terminator">
+            <action name="Execute"><execute>terminator</execute></action>
+        </item>
+        <item label="PCManFM">
+            <action name="Execute"><execute>pcmanfm</execute></action>
+        </item>
+        <item label="Chrome">
+            <action name="Execute"><execute>google-chrome-stable</execute></action>
+        </item>
+        <item label="Sublime Text">
+            <action name="Execute"><execute>subl</execute></action>
+        </item>
+        <separator/>
+
+    <menu id="Accessories" label="Accessories">
+        <item label="Archive Manager" icon="/usr/share/icons/hicolor/16x16/apps/file-roller.png">
+            <action name="Execute"><execute>file-roller</execute></action>
+        </item>
+        <item label="Galculator" icon="/usr/share/icons/hicolor/48x48/apps/galculator.png">
+            <action name="Execute"><execute>galculator</execute></action>
+        </item>
+    </menu> <!-- Accessories -->
+
+    <menu id="Development" label="Development">
+        <item label="Eclipse" icon="/usr/share/icons/hicolor/16x16/apps/eclipse.png">
+            <action name="Execute"><execute>eclipse</execute></action>
+        </item>
+        <item label="Sublime Text 3" icon="/usr/share/icons/hicolor/16x16/apps/sublime-text.png">
+            <action name="Execute"><execute>subl</execute></action>
+        </item>
+    </menu> <!-- Development -->
+
+    <menu id="Network" label="Network">
+        <item label="Balsa" icon="/usr/share/pixmaps/gnome-balsa2.png">
+          <action name="Execute"><execute>balsa</execute></action>
+        </item>
+        <item label="Chromium" icon="/usr/share/icons/hicolor/16x16/apps/chromium.png">
+          <action name="Execute"><execute>google-chrome-stable </execute></action>
+        </item>
+        <item label="Dropbox" icon="/usr/share/pixmaps/dropbox.png">
+          <action name="Execute"><execute>dropbox</execute></action>
+        </item>
+    </menu> <!-- Network -->
+
+  <menu id="Office" label="Office">
+      <item label="LibreOffice" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-startcenter.png">
+        <action name="Execute"><execute>libreoffice </execute></action>
+      </item>
+      <item label="LibreOffice Base" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-base.png">
+        <action name="Execute"><execute>libreoffice --base </execute></action>
+      </item>
+      <item label="LibreOffice Calc" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-calc.png">
+        <action name="Execute"><execute>libreoffice --calc </execute></action>
+      </item>
+      <item label="LibreOffice Draw" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-draw.png">
+        <action name="Execute"><execute>libreoffice --draw </execute></action>
+      </item>
+      <item label="LibreOffice Impress" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-impress.png">
+        <action name="Execute"><execute>libreoffice --impress </execute></action>
+      </item>
+      <item label="LibreOffice Math" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-math.png">
+        <action name="Execute"><execute>libreoffice --math </execute></action>
+      </item>
+      <item label="LibreOffice Writer" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-writer.png">
+        <action name="Execute"><execute>libreoffice --writer </execute></action>
+      </item>
+  </menu> <!-- Office -->
+
+  <menu id="Sound &amp; Video" label="Sound &amp; Video">
+      <item label="PulseAudio Volume Control">
+        <action name="Execute"><execute>pavucontrol</execute></action>
+      </item>
+      <item label="Rhythmbox" icon="/usr/share/icons/hicolor/16x16/apps/rhythmbox.png">
+          <action name="Execute"><execute>rhythmbox </execute></action>
+      </item>
+        <item label="VLC media player" icon="/usr/share/icons/hicolor/16x16/apps/vlc.png">
+          <action name="Execute"><execute>/usr/bin/vlc --started-from-file </execute></action>
+      </item>
+  </menu> <!-- Sound & Video -->
+
+  <menu id="System Tools" label="System Tools">
+      <item label="File Manager PCManFM">
+          <action name="Execute"><execute>pcmanfm </execute></action>
+      </item>
+        <item label="Terminator" icon="/usr/share/icons/hicolor/16x16/apps/terminator.png">
+          <action name="Execute"><execute>terminator</execute></action>
+        </item>
+  </menu> <!-- System Tools -->
+
+</menu> <!-- root -->
+    
+</openbox_menu>
