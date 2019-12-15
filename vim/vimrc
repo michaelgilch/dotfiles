@@ -123,6 +123,16 @@ nnoremap <S-Tab> :bprev<cr>
 autocmd BufNewFile *.sh 0r ~/.vim/templates/skel.sh
 
 """""""""""""""""""""""""""""""""""""""""""""
+" Vim specific 
+"""""""""""""""""""""""""""""""""""""""""""""
+
+" edit vimrc in split
+nnoremap <leader>ev :split $MYVIMRC
+
+" source vimrc
+nnoremap <leader>sv :source $MYVIMRC
+
+"""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Settings 
 """""""""""""""""""""""""""""""""""""""""""""
 
