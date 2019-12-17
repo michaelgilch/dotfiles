@@ -40,6 +40,9 @@ create_symlink()
 [[ $(pacman -Q readline 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/readline/inputrc     "$HOME"/.inputrc
 
+[[ $(pacman -Q sublime-text 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/sublime              "$CONFIG_DIR"/sublime-text-3/Packages/User
+
 # vim
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/vim                  "$HOME"/.vim
