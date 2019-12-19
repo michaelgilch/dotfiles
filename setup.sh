@@ -40,8 +40,13 @@ create_symlink()
 [[ $(pacman -Q readline 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/readline/inputrc     "$HOME"/.inputrc
 
+# sublime-text-3
 [[ $(pacman -Q sublime-text 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/sublime              "$CONFIG_DIR"/sublime-text-3/Packages/User
+
+# terminator
+[[ $(pacman -Q terminator 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/terminator           "$CONFIG_DIR"/terminator
 
 # vim
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
