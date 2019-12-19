@@ -7,9 +7,8 @@
 	],
 	"rulers":
 	[
-		110
 	],
-	"theme": "Adaptive.sublime-theme",
+	"theme": "Monokai+.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"use_tab_stops": true
 }
