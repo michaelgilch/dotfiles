@@ -48,6 +48,10 @@ create_symlink()
 [[ $(pacman -Q terminator 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/terminator           "$CONFIG_DIR"/terminator
 
+# tint2
+[[ $(pacman -Q tint2 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/tint2                "$CONFIG_DIR"/tint2
+
 # vim
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/vim                  "$HOME"/.vim
