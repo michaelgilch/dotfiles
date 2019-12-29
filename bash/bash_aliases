@@ -53,3 +53,4 @@ alias wget='wget -c'                    # continue partial downloads
 
 # Navigation
 alias dev='cd ~/dev/'
+alias dot='cd ~/dev/git-workspace/dotfiles/'
