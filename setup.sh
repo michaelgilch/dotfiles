@@ -32,6 +32,10 @@ create_symlink()
 [[ $(pacman -Q git 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/git/gitconfig        "$HOME"/.gitconfig
 
+# nitrogen
+[[ $(pacman -Q nitrogen 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/nitrogen             "$CONFIG_DIR"/nitrogen
+
 # openbox
 [[ $(pacman -Q openbox 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/openbox              "$CONFIG_DIR"/openbox
@@ -56,5 +60,6 @@ create_symlink()
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/vim                  "$HOME"/.vim
 
+# volumeicon
 [[ $(pacman -Q volumeicon 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/volumeicon           "$CONFIG_DIR"/volumeicon
