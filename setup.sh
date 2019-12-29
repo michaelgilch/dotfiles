@@ -55,3 +55,6 @@ create_symlink()
 # vim
 [[ $(pacman -Q vim 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/vim                  "$HOME"/.vim
+
+[[ $(pacman -Q volumeicon 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/volumeicon           "$CONFIG_DIR"/volumeicon
