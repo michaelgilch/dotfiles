@@ -46,6 +46,7 @@ create_symlink()
 
 # sublime-text-3
 [[ $(pacman -Q sublime-text 2>/dev/null) != "" ]] && \
+    rm -rf "$CONFIG_DIR"/sublime-text-3/Packages/User 
     create_symlink "$DOTFILES_DIR"/sublime              "$CONFIG_DIR"/sublime-text-3/Packages/User
 
 # terminator
