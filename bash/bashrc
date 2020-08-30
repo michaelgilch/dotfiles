@@ -11,6 +11,7 @@
 # Michael Gilchrist (michaelgilch@gmail.com)
 
 PATH=$PATH:$HOME/scripts
+PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
 
 export EDITOR="vim"
 export VISUAL="$EDITOR"
