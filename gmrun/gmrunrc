@@ -1,0 +1,30 @@
+# .gmrunrc
+#
+# Michael Gilchrist (michaelgilch@gmail.com)
+
+# Set window geometry
+Width = 300
+Top = 150
+Left = 800
+
+# Set terminal
+Terminal = terminator
+TermExec = ${Terminal} -e
+AlwaysInTerm = vim man
+
+# History
+History = 512
+ShowLast = 1
+
+ShowDotFiles = 1
+
+# URL Handlers
+URL_http = google-chrome-stable %u
+URL_file = pcmanfm %s
+URL_g = google-chrome-stable 'http://www.google.com/search?q=%s'
+
+# Extension Handlers
+EXT:doc,rtf = libreoffice-writer %s
+EXT:xls,xlsx = libreoffice-calc %s
+EXT:txt,csv,cpp,h,java,xml,py,rb = subl %s
+
