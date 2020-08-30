@@ -41,6 +41,7 @@ alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
 # Misc
 alias c='clear'                         # clear the terminal
+alias cpu='sensors | grep Core'         # display CPU temps
 alias df='df -hT -x tmpfs -x devtmpfs'  # human readable, show partition type
 alias mkdir='mkdir -pv'                 # make parents, verbose
 alias myip='curl ifconfig.co'           # external ip
