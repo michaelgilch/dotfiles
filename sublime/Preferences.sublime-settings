@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 	"font_face": "Hack",
 	"font_size": 8,
 	"ignored_packages":
@@ -8,7 +8,7 @@
 	"rulers":
 	[
 	],
-	"theme": "Monokai+.sublime-theme",
+	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"use_tab_stops": true
 }
