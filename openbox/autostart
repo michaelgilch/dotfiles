@@ -15,7 +15,7 @@ volumeicon &
 
 pcmanfm -d &
 
-#dropbox &
+dropbox &
 
 conky -c ~/.config/conky/package-info.conf &
 conky -c ~/.config/conky/system-info.conf &
