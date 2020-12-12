@@ -53,5 +53,6 @@ alias used='du -sh * | sort -h'         # list directories by human readable siz
 alias wget='wget -c'                    # continue partial downloads
 
 # Navigation
+alias aur='cd ~/dev/aur_pkgs/'
 alias dev='cd ~/dev/'
 alias dot='cd ~/dev/github/dotfiles/'
