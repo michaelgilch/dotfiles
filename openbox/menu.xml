@@ -40,16 +40,16 @@
         <item label="Eclipse" icon="/usr/share/icons/hicolor/16x16/apps/eclipse.png">
             <action name="Execute"><execute>eclipse</execute></action>
         </item>
+        <item label="IntelliJ-Idea" icon="/usr/share/icons/hicolor/scalable/apps/idea.svg">
+            <action name="Execute"><execute>idea</execute></action>
+        </item>
         <item label="Sublime Text 3" icon="/usr/share/icons/hicolor/16x16/apps/sublime-text.png">
             <action name="Execute"><execute>subl</execute></action>
         </item>
     </menu> <!-- Development -->
 
     <menu id="Network" label="Network">
-        <item label="Balsa" icon="/usr/share/pixmaps/gnome-balsa2.png">
-          <action name="Execute"><execute>balsa</execute></action>
-        </item>
-        <item label="Chromium" icon="/usr/share/icons/hicolor/16x16/apps/chromium.png">
+        <item label="Chrome" icon="/usr/share/icons/hicolor/16x16/apps/google-chrome.png">
           <action name="Execute"><execute>google-chrome-stable </execute></action>
         </item>
         <item label="Dropbox" icon="/usr/share/pixmaps/dropbox.png">
@@ -58,6 +58,9 @@
     </menu> <!-- Network -->
 
   <menu id="Office" label="Office">
+    <item label="EVince" icon="/usr/share/evince/icons/hicolor/scalable/mimetypes/x-office-presentation.svg">
+      <action name="Execute"><execute>evince </execute></action>
+    </item>
       <item label="LibreOffice" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-startcenter.png">
         <action name="Execute"><execute>libreoffice </execute></action>
       </item>
@@ -93,7 +96,7 @@
       </item>
   </menu> <!-- Sound & Video -->
 
-  <menu id="System Tools" label="System Tools">
+  <menu id="Utilities" label="Utilities">
     <item label="gmrun">
       <action name="Execute"><execute>gmrun </execute></action>
     </item>
@@ -107,32 +110,38 @@
 
   <separator/>
 
-  <menu id="Openbox" label="Openbox">
-    <item label="OBConf">
-      <action name="Execute"><execute>obconf</execute></action>
-    </item>
+  <menu id="System" label="System">
     <item label="lxAppearance">
       <action name="Execute"><execute>lxappearance</execute></action>
     </item>
+    <item label="nitrogen">
+      <action name="Execute"><execute>nitrogen</execute></action>
+    </item>
+    <item label="nvidia-settings">
+      <action name="Execute"><execute>nvidia-settings</execute></action>
+    </item>
+    <item label="obconf">
+      <action name="Execute"><execute>obconf</execute></action>
+    </item>
     <separator/>
-    <item label="Reconfigure/Reload">
+    <item label="Reload Openbox">
       <action name="Execute"><execute>openbox --reconfigure</execute></action>
     </item>
-    <item label="Restart">
+    <item label="Restart Openbox">
       <action name="Execute"><execute>openbox --restart</execute></action>
     </item>
   </menu> <!-- Openbox -->
 
   <separator/>
 
-  <menu id="Power" label="Power">
+  <!--<menu id="Power" label="Power">-->
     <item label="Reboot">
       <action name="Execute"><execute>shutdown -r now</execute></action>
     </item>
     <item label="Shutdown">
       <action name="Execute"><execute>shutdown -h now</execute></action>
     </item>
-  </menu> <!-- Power -->
+  <!--</menu> <!-- Power -->
 
 </menu> <!-- root -->
     
