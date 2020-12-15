@@ -28,39 +28,39 @@
     <separator/>
 
     <menu id="Accessories" label="Accessories">
-        <item label="Archive Manager" icon="/usr/share/icons/hicolor/scalable/apps/org.gnome.ArchiveManager.svg">
-            <action name="Execute"><execute>file-roller</execute></action>
-        </item>
-        <item label="Galculator" icon="/usr/share/icons/hicolor/48x48/apps/galculator.png">
-            <action name="Execute"><execute>galculator</execute></action>
-        </item>
+      <item label="Archive Manager" icon="/usr/share/icons/hicolor/scalable/apps/org.gnome.ArchiveManager.svg">
+        <action name="Execute"><execute>file-roller</execute></action>
+      </item>
+      <item label="Galculator" icon="/usr/share/icons/hicolor/48x48/apps/galculator.png">
+        <action name="Execute"><execute>galculator</execute></action>
+      </item>
     </menu> <!-- Accessories -->
 
     <menu id="Development" label="Development">
-        <item label="Eclipse" icon="/usr/share/icons/hicolor/16x16/apps/eclipse.png">
-            <action name="Execute"><execute>eclipse</execute></action>
-        </item>
-        <item label="IntelliJ-Idea" icon="/usr/share/icons/hicolor/scalable/apps/idea.svg">
-            <action name="Execute"><execute>idea</execute></action>
-        </item>
-        <item label="Sublime Text 3" icon="/usr/share/icons/hicolor/16x16/apps/sublime-text.png">
-            <action name="Execute"><execute>subl</execute></action>
-        </item>
+      <item label="Eclipse" icon="/usr/share/icons/hicolor/16x16/apps/eclipse.png">
+        <action name="Execute"><execute>eclipse</execute></action>
+      </item>
+      <item label="IntelliJ-Idea" icon="/usr/share/icons/hicolor/scalable/apps/idea.svg">
+        <action name="Execute"><execute>idea</execute></action>
+      </item>
+      <item label="Sublime Text 3" icon="/usr/share/icons/hicolor/16x16/apps/sublime-text.png">
+        <action name="Execute"><execute>subl</execute></action>
+      </item>
     </menu> <!-- Development -->
 
     <menu id="Network" label="Network">
-        <item label="Chrome" icon="/usr/share/icons/hicolor/16x16/apps/google-chrome.png">
-          <action name="Execute"><execute>google-chrome-stable </execute></action>
-        </item>
-        <item label="Dropbox" icon="/usr/share/pixmaps/dropbox.png">
-          <action name="Execute"><execute>dropbox</execute></action>
-        </item>
+      <item label="Chrome" icon="/usr/share/icons/hicolor/16x16/apps/google-chrome.png">
+        <action name="Execute"><execute>google-chrome-stable </execute></action>
+      </item>
+      <item label="Dropbox" icon="/usr/share/pixmaps/dropbox.png">
+        <action name="Execute"><execute>dropbox</execute></action>
+      </item>
     </menu> <!-- Network -->
 
-  <menu id="Office" label="Office">
-    <item label="EVince" icon="/usr/share/evince/icons/hicolor/scalable/mimetypes/x-office-presentation.svg">
-      <action name="Execute"><execute>evince </execute></action>
-    </item>
+    <menu id="Office" label="Office">
+      <item label="EVince" icon="/usr/share/evince/icons/hicolor/scalable/mimetypes/x-office-presentation.svg">
+        <action name="Execute"><execute>evince </execute></action>
+      </item>
       <item label="LibreOffice" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-startcenter.png">
         <action name="Execute"><execute>libreoffice </execute></action>
       </item>
@@ -82,67 +82,67 @@
       <item label="LibreOffice Writer" icon="/usr/share/icons/hicolor/16x16/apps/libreoffice-writer.png">
         <action name="Execute"><execute>libreoffice --writer </execute></action>
       </item>
-  </menu> <!-- Office -->
+    </menu> <!-- Office -->
 
-  <menu id="Sound &amp; Video" label="Sound &amp; Video">
+    <menu id="Sound &amp; Video" label="Sound &amp; Video">
       <item label="PulseAudio Volume Control">
         <action name="Execute"><execute>pavucontrol</execute></action>
       </item>
       <item label="Rhythmbox" icon="/usr/share/icons/hicolor/16x16/apps/rhythmbox.png">
-          <action name="Execute"><execute>rhythmbox </execute></action>
+        <action name="Execute"><execute>rhythmbox </execute></action>
       </item>
-        <item label="VLC media player" icon="/usr/share/icons/hicolor/16x16/apps/vlc.png">
-          <action name="Execute"><execute>/usr/bin/vlc --started-from-file </execute></action>
+      <item label="VLC media player" icon="/usr/share/icons/hicolor/16x16/apps/vlc.png">
+        <action name="Execute"><execute>/usr/bin/vlc --started-from-file </execute></action>
       </item>
-  </menu> <!-- Sound & Video -->
+    </menu> <!-- Sound & Video -->
 
-  <menu id="Utilities" label="Utilities">
-    <item label="gmrun">
-      <action name="Execute"><execute>gmrun </execute></action>
-    </item>
-    <item label="PCManFM">
-      <action name="Execute"><execute>pcmanfm </execute></action>
-    </item>
-    <item label="Terminator" icon="/usr/share/icons/hicolor/16x16/apps/terminator.png">
-      <action name="Execute"><execute>terminator</execute></action>
-    </item>
-  </menu> <!-- System Tools -->
+    <menu id="Utilities" label="Utilities">
+      <item label="gmrun">
+        <action name="Execute"><execute>gmrun </execute></action>
+      </item>
+      <item label="PCManFM">
+        <action name="Execute"><execute>pcmanfm </execute></action>
+      </item>
+      <item label="Terminator" icon="/usr/share/icons/hicolor/16x16/apps/terminator.png">
+        <action name="Execute"><execute>terminator</execute></action>
+      </item>
+    </menu> <!-- System Tools -->
 
-  <separator/>
-
-  <menu id="System" label="System">
-    <item label="lxAppearance">
-      <action name="Execute"><execute>lxappearance</execute></action>
-    </item>
-    <item label="nitrogen">
-      <action name="Execute"><execute>nitrogen</execute></action>
-    </item>
-    <item label="nvidia-settings">
-      <action name="Execute"><execute>nvidia-settings</execute></action>
-    </item>
-    <item label="obconf">
-      <action name="Execute"><execute>obconf</execute></action>
-    </item>
     <separator/>
-    <item label="Reload Openbox">
-      <action name="Execute"><execute>openbox --reconfigure</execute></action>
-    </item>
-    <item label="Restart Openbox">
-      <action name="Execute"><execute>openbox --restart</execute></action>
-    </item>
-  </menu> <!-- Openbox -->
 
-  <separator/>
+    <menu id="System" label="System">
+      <item label="lxAppearance">
+        <action name="Execute"><execute>lxappearance</execute></action>
+      </item>
+      <item label="nitrogen">
+        <action name="Execute"><execute>nitrogen</execute></action>
+      </item>
+      <item label="nvidia-settings">
+        <action name="Execute"><execute>nvidia-settings</execute></action>
+      </item>
+      <item label="obconf">
+        <action name="Execute"><execute>obconf</execute></action>
+      </item>
 
-  <!--<menu id="Power" label="Power">-->
+      <separator/>
+
+      <item label="Reload Openbox">
+        <action name="Execute"><execute>openbox --reconfigure</execute></action>
+      </item>
+      <item label="Restart Openbox">
+        <action name="Execute"><execute>openbox --restart</execute></action>
+      </item>
+    </menu> <!-- Openbox -->
+
+    <separator/>
+
     <item label="Reboot">
       <action name="Execute"><execute>shutdown -r now</execute></action>
     </item>
     <item label="Shutdown">
       <action name="Execute"><execute>shutdown -h now</execute></action>
     </item>
-  <!--</menu> <!-- Power -->
 
-</menu> <!-- root -->
+  </menu> <!-- root -->
     
 </openbox_menu>
