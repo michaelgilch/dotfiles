@@ -108,6 +108,13 @@
   <separator/>
 
   <menu id="Openbox" label="Openbox">
+    <item label="OBConf">
+      <action name="Execute"><execute>obconf</execute></action>
+    </item>
+    <item label="lxAppearance">
+      <action name="Execute"><execute>lxappearance</execute></action>
+    </item>
+    <separator/>
     <item label="Reconfigure/Reload">
       <action name="Execute"><execute>openbox --reconfigure</execute></action>
     </item>
@@ -126,7 +133,7 @@
       <action name="Execute"><execute>shutdown -h now</execute></action>
     </item>
   </menu> <!-- Power -->
-  
+
 </menu> <!-- root -->
     
 </openbox_menu>
