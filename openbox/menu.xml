@@ -37,9 +37,6 @@
     </menu> <!-- Accessories -->
 
     <menu id="Development" label="Development">
-      <item label="Eclipse" icon="/usr/share/icons/hicolor/16x16/apps/eclipse.png">
-        <action name="Execute"><execute>eclipse</execute></action>
-      </item>
       <item label="IntelliJ-Idea" icon="/usr/share/icons/hicolor/scalable/apps/idea.svg">
         <action name="Execute"><execute>idea</execute></action>
       </item>
@@ -52,8 +49,8 @@
       <item label="Chrome" icon="/usr/share/icons/hicolor/16x16/apps/google-chrome.png">
         <action name="Execute"><execute>google-chrome-stable </execute></action>
       </item>
-      <item label="Dropbox" icon="/usr/share/pixmaps/dropbox.png">
-        <action name="Execute"><execute>dropbox</execute></action>
+      <item label="ReMarkable-Client">
+        <action name="Execute"><execute>reMarkable</execute></action>
       </item>
     </menu> <!-- Network -->
 
