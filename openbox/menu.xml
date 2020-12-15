@@ -6,27 +6,29 @@
 -->
 
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
-    <menu id="root-menu" label="openbox">
-        <item label="Run">
-            <action name="Execute"><execute>gmrun</execute></action>
-        </item>
-        <separator/>
-        <item label="Terminator">
-            <action name="Execute"><execute>terminator</execute></action>
-        </item>
-        <item label="PCManFM">
-            <action name="Execute"><execute>pcmanfm</execute></action>
-        </item>
-        <item label="Chrome">
-            <action name="Execute"><execute>google-chrome-stable</execute></action>
-        </item>
-        <item label="Sublime Text">
-            <action name="Execute"><execute>subl</execute></action>
-        </item>
-        <separator/>
+  
+  <menu id="root-menu" label="openbox">
+    <item label="Run (Super + R)">
+      <action name="Execute"><execute>gmrun</execute></action>
+    </item>
+    <separator/>
+    <item label="Terminator (Super + T)">
+      <action name="Execute"><execute>terminator</execute></action>
+    </item>
+    <item label="PCManFM (Super + E)">
+      <action name="Execute"><execute>pcmanfm</execute></action>
+    </item>
+    <item label="Chrome (Super + W)">
+      <action name="Execute"><execute>google-chrome-stable</execute></action>
+    </item>
+    <item label="Sublime Text (Super + S)">
+      <action name="Execute"><execute>subl</execute></action>
+    </item>
+  
+    <separator/>
 
     <menu id="Accessories" label="Accessories">
-        <item label="Archive Manager" icon="/usr/share/icons/hicolor/16x16/apps/file-roller.png">
+        <item label="Archive Manager" icon="/usr/share/icons/hicolor/scalable/apps/org.gnome.ArchiveManager.svg">
             <action name="Execute"><execute>file-roller</execute></action>
         </item>
         <item label="Galculator" icon="/usr/share/icons/hicolor/48x48/apps/galculator.png">
@@ -92,14 +94,39 @@
   </menu> <!-- Sound & Video -->
 
   <menu id="System Tools" label="System Tools">
-      <item label="File Manager PCManFM">
-          <action name="Execute"><execute>pcmanfm </execute></action>
-      </item>
-        <item label="Terminator" icon="/usr/share/icons/hicolor/16x16/apps/terminator.png">
-          <action name="Execute"><execute>terminator</execute></action>
-        </item>
+    <item label="gmrun">
+      <action name="Execute"><execute>gmrun </execute></action>
+    </item>
+    <item label="PCManFM">
+      <action name="Execute"><execute>pcmanfm </execute></action>
+    </item>
+    <item label="Terminator" icon="/usr/share/icons/hicolor/16x16/apps/terminator.png">
+      <action name="Execute"><execute>terminator</execute></action>
+    </item>
   </menu> <!-- System Tools -->
 
+  <separator/>
+
+  <menu id="Openbox" label="Openbox">
+    <item label="Reconfigure/Reload">
+      <action name="Execute"><execute>openbox --reconfigure</execute></action>
+    </item>
+    <item label="Restart">
+      <action name="Execute"><execute>openbox --restart</execute></action>
+    </item>
+  </menu> <!-- Openbox -->
+
+  <separator/>
+
+  <menu id="Power" label="Power">
+    <item label="Reboot">
+      <action name="Execute"><execute>shutdown -r now</execute></action>
+    </item>
+    <item label="Shutdown">
+      <action name="Execute"><execute>shutdown -h now</execute></action>
+    </item>
+  </menu> <!-- Power -->
+  
 </menu> <!-- root -->
     
 </openbox_menu>
