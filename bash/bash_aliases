@@ -56,3 +56,4 @@ alias wget='wget -c'                    # continue partial downloads
 alias aur='cd ~/dev/aur_pkgs/'
 alias dev='cd ~/dev/'
 alias dot='cd ~/dev/github/dotfiles/'
+alias github='cd ~/dev/github/'
