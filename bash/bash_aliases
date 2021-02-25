@@ -56,5 +56,7 @@ alias wget='wget -c'                    # continue partial downloads
 # Navigation
 alias aur='cd ~/dev/aur_pkgs/'
 alias dev='cd ~/dev/'
-alias dot='cd ~/dev/github/dotfiles/'
 alias github='cd ~/dev/github/'
+alias dot='cd ~/dev/github/dotfiles/'
+alias notes='cd ~/dev/github/notes/'
+alias pdfm='cd ~/dev/github/pdfm/'
