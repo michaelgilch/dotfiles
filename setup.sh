@@ -64,3 +64,7 @@ create_symlink()
 # volumeicon
 [[ $(pacman -Q volumeicon 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/volumeicon           "$CONFIG_DIR"/volumeicon
+
+# xdg
+[[ $(pacman -Q xdg-user-dirs 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/xdg/user-dirs.dirs   "$CONFIG_DIR"/user-dirs.dirs
