@@ -1,1 +1,15 @@
+# List possible completions in color
+set colored-stats on
+
+# Mark the common prefix of possible completions
+set colored-completion-prefix on
+
+# List directories with appended slash
+set mark-directories on
+set mark-symlinked-directories on
+
+# List possible completions on first tab
 set show-all-if-ambiguous on
+
+
+
