@@ -34,6 +34,7 @@ alias gl='git log --oneline'
 alias gp='git push'
 alias gr='git rm'
 alias gs='git status'
+alias gb='git checkout -b'
 alias gss='git status --short --branch'
 
 # Vim
