@@ -10,7 +10,7 @@
 nitrogen --restore &
 
 tint2 &
-#nm-applet &
+nm-applet &
 volumeicon &
 
 pcmanfm -d &
@@ -19,3 +19,4 @@ dropbox &
 
 conky -c ~/.config/conky/package-info.conf &
 conky -c ~/.config/conky/system-info.conf &
+conky -c ~/.config/conky/virtualbox-info.conf &
