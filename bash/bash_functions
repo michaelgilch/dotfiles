@@ -66,3 +66,24 @@ v()
         vim "$@";
     fi
 }
+
+vbox() 
+{
+    case $1 in
+  	    start)
+		    vboxmanage startvm $2
+			;;
+		stop)
+            vboxmanage controlvm $2 acpipowerbutton
+            ;;
+        list)
+            echo; echo "All:"
+            vboxmanage list --sorted vms
+            echo; echo "Running:"
+            vboxmanage list --sorted runningvms
+		    ;;
+  		*)
+            echo "vbox <start|stop|list> <name>"
+		    ;;
+	esac
+}
