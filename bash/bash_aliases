@@ -12,14 +12,14 @@ alias ls='ls --color=auto'
 alias pacman='pacman --color=auto'
 
 # List
-alias l.='ls -d .*'     # dotfiles only
-alias la='ls -A'        # all files
-alias ld='ls -d */'     # directories only
-alias ll='ls -lh'       # non-dotfiles w/ attributes
-alias ll.='ls -l -d .*' # dotfiles w/ attributes
-alias lla='ls -lhA'     # all files w/ attributes
-alias lls='ls -lShr'    # all files w/ attributes, by size, reversed
-alias llt='ls -lthr'    # all files w/ attributes, by time, reversed
+alias l.='ls --directory .*'
+alias la='ls --almost-all'
+alias ld='ls --directory */'
+alias ll='ls -l --human-readable'
+alias ll.='ls -l --directory .*'
+alias lla='ls -l --human-readable --almost-all'
+alias lls='ls -l --sort=size --human-readable --reverse'
+alias llt='ls -l --sort=time --human-readable --reverse'
 
 # Find
 alias f='find . -name'      # find in current directory
@@ -38,7 +38,7 @@ alias gb='git checkout -b'
 alias gss='git status --short --branch'
 
 # Vim
-alias vi='vim'                      # use vim instead of vi
+alias vi='vim'
 alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
 # Misc
@@ -55,7 +55,7 @@ alias used='du -sh * | sort -h'         # list directories by human readable siz
 alias wget='wget -c'                    # continue partial downloads
 
 # Navigation
-alias aur='cd ~/dev/aur_pkgs/'
+alias aur='cd ~/.aur/'
 alias dev='cd ~/dev/'
 alias github='cd ~/dev/github/'
 alias dot='cd ~/dev/github/dotfiles/'
