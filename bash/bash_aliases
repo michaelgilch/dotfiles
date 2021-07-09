@@ -6,12 +6,12 @@
 # 
 # Michael Gilchrist (michaelgilch@gmail.com)
 
-# Color
+# Add Color
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
 alias pacman='pacman --color=auto'
 
-# List
+# Lists
 alias l.='ls --directory .*'
 alias la='ls --almost-all'
 alias ld='ls --directory */'
@@ -42,22 +42,20 @@ alias vi='vim'
 alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
 # Misc
-alias c='clear'                         # clear the terminal
-alias cpu='sensors | grep Core'         # display CPU temps
-alias df='df -hT -x tmpfs -x devtmpfs'  # human readable, show partition type
-alias mkdir='mkdir -pv'                 # make parents, verbose
-alias myip='curl ifconfig.co'           # external ip
-alias path='echo -e ${PATH//:/\\n}'     # PATH as newline separated list
+alias c='clear'
+alias cpu='sensors | grep Core'
+alias df='df --human-readable --print-type --exclude-type=tmpfs --exclude-type=devtmpfs'  
+alias mkdir='mkdir --parents --verbose'
+alias myip='curl ifconfig.co'
+alias path='echo -e ${PATH//:/\\n}'
 alias sudo='sudo '                      # enables aliases to be sudoed
-alias umount='sudo umount'              # easier unmounting
-alias upgrade='sudo pacman -Syu'        # upgrade packages
-alias used='du -sh * | sort -h'         # list directories by human readable size
-alias wget='wget -c'                    # continue partial downloads
+alias umount='sudo umount'
+alias upgrade='sudo pacman -Syu'
+alias used='du --summarize --human-readable * | sort -h'         # list directories by human readable size
+alias wget='wget --continue'
 
 # Navigation
 alias aur='cd ~/.aur/'
 alias dev='cd ~/dev/'
 alias github='cd ~/dev/github/'
-alias dot='cd ~/dev/github/dotfiles/'
-alias notes='cd ~/dev/github/notes/'
-alias pdfm='cd ~/dev/github/pdfm/'
+alias dot='cd ~/dotfiles'
