@@ -87,3 +87,14 @@ vbox()
 		    ;;
 	esac
 }
+
+pwdd()
+{
+    log=$(pwd -L)
+    phy=$(pwd -P)
+    if [ "$log" == "$phy" ]; then
+        echo "$log"
+    else
+        echo "$log ($phy)"
+    fi
+}
