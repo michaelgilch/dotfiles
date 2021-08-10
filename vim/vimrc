@@ -159,6 +159,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 " nerdtree
 """"""""""""""""""""
 noremap <C-n> :NERDTreeToggle<cr>
+let g:NERDTreeGitStatusConcealBrackets = 1
 let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ 'Modified'  : '*',
     \ 'Staged'    : '✚',
