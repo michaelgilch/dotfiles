@@ -93,8 +93,11 @@ set foldmethod=indent                           " fold based on indentation leve
 set foldnestmax=3                               " limit folding to 3 levels
 
 """""""""""""""""""""""""""""""""""""""""""""
-" Splits 
+" Splits / Windows
 """""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>hs <C-w>s                      " split window horizontally
+nnoremap <leader>vs <C-w>v                      " split window vertically
+
 set splitbelow                                  " open new horizontal splits below
 set splitright                                  " open new vertical splits to the right
 
