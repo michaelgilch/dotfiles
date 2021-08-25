@@ -52,7 +52,7 @@ alias sudo='sudo '                      # enables aliases to be sudoed
 alias sync='sync; sync'
 alias mounted='mount | grep '^/dev/' | sort'
 alias umount='sudo umount'
-alias upgrade='sudo pacman -Syu'
+alias upgrade='sudo pacman --sync --refresh --sysupgrade'
 alias used='du --summarize --human-readable * | sort -h'         # list directories by human readable size
 alias wget='wget --continue'
 
