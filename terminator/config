@@ -1,14 +1,24 @@
 [global_config]
 [keybindings]
   new_tab = <Ctrl><Shift>T
-  next_tab = <Ctrl>Page_Down
-  prev_tab = <Ctrl>Page_Up
+  split_horiz = <Ctrl><Shift>O
+  split_vert = <Ctrl><Shift>E
+  resize_up = <Ctrl><Shift>Up
   resize_down = <Ctrl><Shift>Down
   resize_left = <Ctrl><Shift>Left
   resize_right = <Ctrl><Shift>Right
-  resize_up = <Ctrl><Shift>Up
-  split_horiz = <Ctrl><Shift>O
-  split_vert = <Ctrl><Shift>E
+  next_tab = <Ctrl>Page_Down
+  prev_tab = <Ctrl>Page_Up
+[profiles]
+  [[default]]
+    cursor_color = "#aaaaaa"
+    font = Hack 8
+    foreground_color = "#ffffff"
+    show_titlebar = False
+    scroll_on_output = True
+    scrollback_infinite = True
+    use_system_font = False
+    copy_on_selection = True
 [layouts]
   [[default]]
     [[[child1]]]
@@ -19,13 +29,3 @@
       size = 750, 425
       type = Window
 [plugins]
-[profiles]
-  [[default]]
-    copy_on_selection = True
-    cursor_color = "#aaaaaa"
-    font = Hack 8
-    foreground_color = "#ffffff"
-    scroll_on_output = True
-    scrollback_infinite = True
-    show_titlebar = False
-    use_system_font = False
