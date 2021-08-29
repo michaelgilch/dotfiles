@@ -5,12 +5,11 @@
 	],
 	"installed_packages":
 	[
-		"GitHub Markdown Snippets",
 		"Increment Selection",
 		"Markdown Table Formatter",
 		"MarkdownPreview",
 		"Package Control",
 		"Theme - Gravity",
-		"Theme - Monokai+"
-	]
+		"Theme - Monokai+",
+	],
 }
