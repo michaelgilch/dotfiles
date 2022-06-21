@@ -154,7 +154,7 @@
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
-          <name>Gootle Chrome</name>
+          <name>Google Chrome</name>
         </startupnotify>
         <command>google-chrome-stable</command>
       </action>
