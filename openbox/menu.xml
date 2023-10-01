@@ -9,42 +9,19 @@
 
   <menu id="root-menu" label="openbox">
   
-    <menu id="Applications" label="Applications" execute="xdg_menu --format openbox3-pipe --root-menu /etc/xdg/menus/arch-applications.menu" />
+    <!--<menu id="Applications" label="Applications" execute="xdg_menu --format openbox3-pipe --root-menu /etc/xdg/menus/arch-applications.menu" />
+
+    <separator/>-->
+    
+    <menu id="Openbox" label="Openbox">
+      <item label="Reload Openbox"><action name="Execute"><execute>openbox --reconfigure</execute></action></item>
+      <item label="Restart Openbox"><action name="Execute"><execute>openbox --restart</execute></action></item>
+    </menu>
 
     <separator/>
 
-    <menu id="System" label="System">
-      <item label="lxAppearance">
-        <action name="Execute"><execute>lxappearance</execute></action>
-      </item>
-      <item label="nitrogen">
-        <action name="Execute"><execute>nitrogen</execute></action>
-      </item>
-      <item label="nvidia-settings">
-        <action name="Execute"><execute>nvidia-settings</execute></action>
-      </item>
-      <item label="obconf">
-        <action name="Execute"><execute>obconf</execute></action>
-      </item>
-
-      <separator/>
-
-      <item label="Reload Openbox">
-        <action name="Execute"><execute>openbox --reconfigure</execute></action>
-      </item>
-      <item label="Restart Openbox">
-        <action name="Execute"><execute>openbox --restart</execute></action>
-      </item>
-    </menu> <!-- Openbox -->
-
-    <separator/>
-
-    <item label="Reboot">
-      <action name="Execute"><execute>shutdown -r now</execute></action>
-    </item>
-    <item label="Shutdown">
-      <action name="Execute"><execute>shutdown -h now</execute></action>
-    </item>
+    <item label="Reboot"><action name="Execute"><execute>shutdown -r now</execute></action></item>
+    <item label="Shutdown"><action name="Execute"><execute>shutdown -h now</execute></action></item>
 
   </menu> <!-- root -->
     
