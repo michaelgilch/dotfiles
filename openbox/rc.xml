@@ -103,9 +103,177 @@
     <showDelay>300</showDelay>
     <moveButton>Middle</moveButton>
   </dock>
-  
-  <xi:include href="keyboard.xml"/>
-
+  <keyboard>
+    <chainQuitKey>C-g</chainQuitKey>
+    <!-- Keybindings for desktop switching -->
+    <keybind key="C-A-Left">
+      <action name="GoToDesktop">
+        <to>left</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="C-A-Right">
+      <action name="GoToDesktop">
+        <to>right</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="C-S-A-Left">
+      <action name="SendToDesktop">
+        <to>left</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="C-S-A-Right">
+      <action name="SendToDesktop">
+        <to>right</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-d">
+      <action name="ToggleShowDesktop"/>
+    </keybind>
+    <!-- Keybindings for windows -->
+    <keybind key="A-F4">
+      <action name="Close"/>
+    </keybind>
+    <keybind key="A-Escape">
+      <action name="Lower"/>
+      <action name="FocusToBottom"/>
+      <action name="Unfocus"/>
+    </keybind>
+    <keybind key="A-space">
+      <action name="ShowMenu">
+        <menu>client-menu</menu>
+      </action>
+    </keybind>
+    <!-- Keybindings for window switching -->
+    <keybind key="A-Tab">
+      <action name="NextWindow">
+        <finalactions>
+          <action name="Focus"/>
+          <action name="Raise"/>
+          <action name="Unshade"/>
+        </finalactions>
+      </action>
+    </keybind>
+    <keybind key="A-S-Tab">
+      <action name="PreviousWindow">
+        <finalactions>
+          <action name="Focus"/>
+          <action name="Raise"/>
+          <action name="Unshade"/>
+        </finalactions>
+      </action>
+    </keybind>
+    <!-- Keybindings for window switching with the arrow keys -->
+    <keybind key="W-S-Right">
+      <action name="DirectionalCycleWindows">
+        <direction>right</direction>
+      </action>
+    </keybind>
+    <keybind key="W-S-Left">
+      <action name="DirectionalCycleWindows">
+        <direction>left</direction>
+      </action>
+    </keybind>
+    <keybind key="W-S-Up">
+      <action name="DirectionalCycleWindows">
+        <direction>up</direction>
+      </action>
+    </keybind>
+    <keybind key="W-S-Down">
+      <action name="DirectionalCycleWindows">
+        <direction>down</direction>
+      </action>
+    </keybind>
+    <!-- Keybindings for snap -->
+    <keybind key="W-Left">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -s l</command>
+      </action>
+    </keybind>
+    <keybind key="W-Right">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -s r</command>
+      </action>
+    </keybind>
+    <keybind key="W-Up">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -s u</command>
+      </action>
+    </keybind>
+    <keybind key="W-Down">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -s d</command>
+      </action>
+    </keybind>
+    <keybind key="W-C-Left">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -m l</command>
+      </action>
+    </keybind>
+    <keybind key="W-C-Right">
+      <action name="Execute">
+        <command>/home/michael/dev/github/snap/snap -m r</command>
+      </action>
+    </keybind>
+    <!-- Keybindings for running applications -->
+    <keybind key="W-e">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>PCManFM</name>
+        </startupnotify>
+        <command>pcmanfm</command>
+      </action>
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>dmenu</name>
+        </startupnotify>
+        <command>dmenu_run -fn 'Hack-10'</command>
+      </action>
+    </keybind>
+    <keybind key="W-s">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Sublime Text</name>
+        </startupnotify>
+        <command>subl</command>
+      </action>
+    </keybind>
+    <keybind key="W-t">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Terminator</name>
+        </startupnotify>
+        <command>terminator</command>
+      </action>
+    </keybind>
+    <keybind key="W-w">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Google Chrome</name>
+        </startupnotify>
+        <command>google-chrome-stable</command>
+      </action>
+    </keybind>
+    <keybind key="W-v">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Virtual Box</name>
+        </startupnotify>
+        <command>virtualbox</command>
+      </action>
+    </keybind>
+  </keyboard>
   <mouse>
     <dragThreshold>1</dragThreshold>
     <doubleClickTime>500</doubleClickTime>
