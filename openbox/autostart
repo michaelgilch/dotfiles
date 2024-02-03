@@ -5,17 +5,18 @@
 #
 # Michael Gilchrist (michaelgilch@gmail.com)
 
-#compton -b --config ~/.config/compton/compton.conf &
-
+# Desktop
 nitrogen --restore &
-
 tint2 &
-#nm-applet &
 volumeicon &
-#pcmanfm -d &
 
-conky -c ~/conky/package-info.conf &
-conky -c ~/conky/system-info.conf &
+# Background
+udiskie &
+
+# Conky
+conky -c ~/dev/conky/package-info.conf &
+conky -c ~/dev/conky/system-info.conf &
 #conky -c ~/.config/conky/pihole.conf &
 #conky -c ~/.config/conky/virtualbox-info.conf &
 #conky -c ~/.config/conky/logs.conf &
+
