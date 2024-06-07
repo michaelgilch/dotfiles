@@ -190,32 +190,32 @@
     <!-- Keybindings for snap -->
     <keybind key="W-Left">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -s l</command>
+	      <command>/home/michael/git/snap/snap -s l</command>
       </action>
     </keybind>
     <keybind key="W-Right">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -s r</command>
+        <command>/home/michael/git/snap/snap -s r</command>
       </action>
     </keybind>
     <keybind key="W-Up">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -s u</command>
+	      <command>/home/michael/git/snap/snap -s u</command>
       </action>
     </keybind>
     <keybind key="W-Down">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -s d</command>
+        <command>/home/michael/git/snap/snap -s d</command>
       </action>
     </keybind>
     <keybind key="W-C-Left">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -m l</command>
+        <command>/home/michael/git/snap/snap -m l</command>
       </action>
     </keybind>
     <keybind key="W-C-Right">
       <action name="Execute">
-        <command>/home/michael/dev/github/snap/snap -m r</command>
+        <command>/home/michael/git/snap/snap -m r</command>
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
