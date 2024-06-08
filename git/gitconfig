@@ -3,7 +3,6 @@
     name = Michael Gilchrist
 [core]
     editor = vim
-    #pager = diff-so-fancy | less --tabs=4 -RFX
 [color]
     ui = true
     status = auto
