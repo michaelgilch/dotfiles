@@ -44,6 +44,9 @@ create_symlink()
 [[ $(pacman -Q readline 2>/dev/null) != "" ]] && \
     create_symlink "$DOTFILES_DIR"/readline/inputrc     "$HOME"/.inputrc
 
+[[ $(pacman -Q sqlite3 2>/dev/null) != "" ]] && \
+    create_symlink "$DOTFILES_DIR"/sqlite3/sqliterc 	"$HOME"/.sqliterc
+
 # sublime-text-3
 [[ $(pacman -Q sublime-text 2>/dev/null) != "" ]] && \
     rm -rf "$CONFIG_DIR"/sublime-text-3/Packages/User 
