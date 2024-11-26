@@ -6,6 +6,7 @@
 # Michael Gilchrist (michaelgilch@gmail.com)
 
 # Desktop
+picom -b &
 nitrogen --restore &
 tint2 &
 
