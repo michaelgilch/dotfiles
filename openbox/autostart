@@ -18,5 +18,6 @@ conky -c ~/git/conky/package-info.conf &
 conky -c ~/git/conky/system-info.conf &
 conky -c ~/git/conky/virtualbox-info.conf &
 conky -c ~/git/conky/logs.conf &
+conky -c ~/git/conky/git.conf &
 
 volumeicon &
