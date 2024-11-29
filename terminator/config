@@ -17,7 +17,6 @@
       type = Window
       parent = ""
       order = 0
-      position = 263:228
       maximised = False
       fullscreen = False
       size = 882, 591
