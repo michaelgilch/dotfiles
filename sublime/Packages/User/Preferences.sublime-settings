@@ -1,0 +1,15 @@
+{
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"font_face": "Hack",
+	"font_size": 8,
+	"ignored_packages":
+	[
+	],
+	"rulers":
+	[
+	],
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"use_tab_stops": true,
+	"index_files": true,
+}

@@ -1,0 +1,19 @@
+[
+    {
+        "class": "sidebar_heading",
+        "font.bold": true,
+        "font.size": 10,
+        "shadow_color": [0, 0, 0]
+    },
+    {
+        "class": "sidebar_label",
+        "font.bold": false,
+        "font.size": 10
+    },
+    {
+        "class": "label_control",
+        "shadow_color": [20,20,20],
+        "shadow_offset": [0, 1]
+    },
+
+]
