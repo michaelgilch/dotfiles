@@ -32,8 +32,12 @@ while IFS=',' read -r package file location; do
 
         mkdir -p "$(dirname "$location")"
 
-        ln -sf "$file" "$location"
-        echo "Created symlink: $file -> $location"
+	if [ -L ${location} ] && [ -e ${location} ]; then
+		echo "Link or file already exists."
+	else
+        	ln -sf "$file" "$location"
+        	echo "Created symlink: $file -> $location"
+	fi
     else
         echo "Package '$package' is not installed. Skipping..."
     fi
