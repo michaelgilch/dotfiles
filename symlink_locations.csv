@@ -16,3 +16,6 @@ volumeicon,volumeicon,~/.config/volumeicon
 pcmanfm,pcmanfm,~/.config/pcmanfm
 picom,picom,~/.config/picom
 rofi,rofi,~/.config/rofi
+galculator,galculator,~/.config/galculator
+sublime-text-4,sublime,~/.config/sublime-text
+
