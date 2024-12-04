@@ -5,7 +5,7 @@ set -euo pipefail
 
 usage() {
     echo "Usage: $0 [-f] [-d] <csv_file>"
-    echo "  -f    Force overwrite existing symlinks."
+    echo "  -f    Force overwrite existing files or symlinks."
     echo "  -d    Enable debug output."
     exit 1
 }
@@ -74,20 +74,25 @@ while IFS=',' read -r package file location; do
             if [[ "$force_overwrite" == true ]]; then
                 debug_print "Overwriting existing symlink at $location."
                 rm "$location"
-                ln -s "$file" "$location"
-                echo "Created symlink: $file -> $location"
             else
                 debug_print "Symlink already exists at $location. Skipping."
+                continue
             fi
         elif [[ -e "$location" ]]; then
             # If a regular file or directory exists
-            debug_print "File already exists at $location. Skipping."
-        else
-            # Create the symlink
-            mkdir -p "$(dirname "$location")"
-            ln -s "$file" "$location"
-            echo "Created symlink: $file -> $location"
+            if [[ "$force_overwrite" == true ]]; then
+                debug_print "Overwriting existing file at $location."
+                rm -rf "$location"
+            else
+                debug_print "File already exists at $location. Skipping."
+                continue
+            fi
         fi
+
+        # Create the symlink
+        mkdir -p "$(dirname "$location")"
+        ln -s "$file" "$location"
+        echo "Created symlink: $file -> $location"
     else
         debug_print "Package '$package' is not installed. Skipping..."
     fi
