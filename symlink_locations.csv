@@ -23,6 +23,8 @@ readline,readline/inputrc,~/.inputrc
 
 rofi,rofi,~/.config/rofi
 
+sqlite3,sqlite3/sqliterc,~/.sqliterc
+
 # Many ignored files contained in sublime directory
 sublime-text-4,sublime,~/.config/sublime-text
 
@@ -33,3 +35,5 @@ tint2,tint2,~/.config/tint2
 vim,vim,~/.vim
 
 volumeicon,volumeicon,~/.config/volumeicon
+
+xdg-user-dirs,xdg/user-dirs.dirs,~/.config/user-dirs.dirs
