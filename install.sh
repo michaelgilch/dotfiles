@@ -50,9 +50,9 @@ debug_print() {
 
 # Read the CSV file line by line
 while IFS=',' read -r package file location; do
-    # Skip empty lines or lines with missing fields
-    if [[ -z "$package" || -z "$file" || -z "$location" ]]; then
-        debug_print "Skipping invalid entry: $package, $file, $location"
+    # Skip lines that are comments or empty
+    if [[ "$package" =~ ^# ]] || [[ -z "$package" || -z "$file" || -z "$location" ]]; then
+        debug_print "Skipping comment or invalid entry: $package, $file, $location"
         continue
     fi
 
