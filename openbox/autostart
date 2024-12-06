@@ -20,4 +20,6 @@ conky -c ~/git/conky/virtualbox-info.conf &
 conky -c ~/git/conky/logs.conf &
 conky -c ~/git/conky/git-info.conf &
 
+flameshot &
+
 volumeicon &
