@@ -23,6 +23,8 @@ readline,readline/inputrc,~/.inputrc
 
 rofi,rofi,~/.config/rofi
 
+qalculate-gtk,qalculate,~/.config/qalculate
+
 sqlite3,sqlite3/sqliterc,~/.sqliterc
 
 # Many ignored files contained in sublime directory
