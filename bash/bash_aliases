@@ -57,7 +57,4 @@ alias used='du --summarize --human-readable * | sort -h'         # list director
 alias wget='wget --continue'
 
 # Navigation
-alias aur='cd ~/aur/'
-alias dev='cd ~/dev/'
-alias github='cd ~/dev/github/'
-alias dot='cd ~/dotfiles'
+alias dot='cd ~/git/dotfiles'
