@@ -1,7 +1,7 @@
 {
 	"color_scheme": "Monokai.sublime-color-scheme",
 	"font_face": "Hack",
-	"font_size": 9,
+	"font_size": 10,
 	"ignored_packages":
 	[
 	],
@@ -9,7 +9,8 @@
 	[
 	],
 	"theme": "Adaptive.sublime-theme",
-	"translate_tabs_to_spaces": true,
+	"tab_size": 2,
+	"translate_tabs_to_spaces": false,
 	"use_tab_stops": true,
 	"index_files": true,
 }
