@@ -64,6 +64,14 @@ while IFS=',' read -r package file location; do
         file="$cwd/$file"
     fi
 
+    # Check if the file has hostname specific versions
+    host="$HOSTNAME"
+    host="${host^^}"
+    file_with_hostname="${file}-${host}"
+    if [[ -e "$file_with_hostname" ]]; then
+        file="$file_with_hostname"
+    fi
+
     # Check if the package is installed
     if pacman -Q "$package" &>/dev/null; then
         debug_print "Package '$package' is installed. Processing..."

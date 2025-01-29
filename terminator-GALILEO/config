@@ -1,0 +1,32 @@
+[global_config]
+[keybindings]
+[profiles]
+  [[default]]
+    font = Hack 12
+    scrollback_infinite = True
+    use_system_font = False
+    title_hide_sizetext = True
+    title_transmit_fg_color = "#000000"
+    title_transmit_bg_color = "#1a5fb4"
+    title_inactive_bg_color = "#5e5c64"
+    title_use_system_font = False
+    title_font = Hack 8
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      maximised = False
+      fullscreen = False
+      size = 882, 591
+      title = terminator
+      last_active_term = 56ed2b02-001c-43ce-ad25-54e6a0bf4a96
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = default
+      uuid = 56ed2b02-001c-43ce-ad25-54e6a0bf4a96
+[plugins]
