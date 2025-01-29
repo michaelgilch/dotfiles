@@ -4,22 +4,31 @@
 set -euo pipefail
 
 usage() {
-    echo "Usage: $0 [-f] [-d] <csv_file>"
-    echo "  -f    Force overwrite existing files or symlinks."
-    echo "  -d    Enable debug output."
+    echo "Usage: $0 [-f] [-d] [-p <package>] <csv_file>"
+    echo "  -f          Force overwrite existing files or symlinks."
+    echo "  -d          Enable debug output."
+    echo "  -p <pkg>    Only process this specific package from CSV."
     exit 1
 }
 
 force_overwrite=false
 debug=false
+target_package=""
 
-while getopts ":fd" opt; do
+while getopts ":fdp:" opt; do
     case $opt in
         f)
             force_overwrite=true
             ;;
         d)
             debug=true
+            ;;
+        p)
+            if [[ -z "${OPTARG:-}" ]]; then
+                echo "Error: -p requires a non-empty argument."
+                usage
+            fi
+            target_package="$OPTARG"
             ;;
         *)
             usage
@@ -50,13 +59,20 @@ debug_print() {
 
 # Read the CSV file line by line
 while IFS=',' read -r package file location; do
-    # Skip lines that are comments or empty
+
+    # Skip comments or invalid lines
     if [[ "$package" =~ ^# ]] || [[ -z "$package" || -z "$file" || -z "$location" ]]; then
-        debug_print "Skipping comment or invalid entry: $package, $file, $location"
+        debug_print "Skipping comment/invalid line: $package, $file, $location"
         continue
     fi
 
-    # Expand ~ to the home directory if present in the location
+    # If a package was specified, only process that package
+    if [[ -n "$target_package" && "$package" != "$target_package" ]]; then
+        debug_print "Skipping package '$package' (not the target package)."
+        continue
+    fi
+
+    # Expand ~ to $HOME if present in the location
     location="${location/#\~/$HOME}"
 
     # Prepend the current working directory to the file path if it's relative
@@ -64,9 +80,8 @@ while IFS=',' read -r package file location; do
         file="$cwd/$file"
     fi
 
-    # Check if the file has hostname specific versions
-    host="$HOSTNAME"
-    host="${host^^}"
+    # Check if the file has hostname-specific versions
+    host="${HOSTNAME^^}" # Convert hostname to uppercase
     file_with_hostname="${file}-${host}"
     if [[ -e "$file_with_hostname" ]]; then
         file="$file_with_hostname"
