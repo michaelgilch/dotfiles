@@ -5,6 +5,10 @@
 #
 # Michael Gilchrist (michaelgilch@gmail.com)
 
+# X11 settings
+xset b off          # system beep on/off
+xset r rate 500 33  # keyboard delay and cps (characters per second) repeat rate
+
 # Desktop
 picom -b &
 nitrogen --restore &
