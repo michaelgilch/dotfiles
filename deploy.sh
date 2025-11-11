@@ -6,6 +6,10 @@
 #
 # Author: Michael Gilchrist (michaelgilch@gmail.com) 
 
+set -e
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HOME_DIR="$DOTFILES_DIR/home"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -31,6 +35,49 @@ log_warning() {
 
 log_error() {
     echo -e "${RED}✗${NC} $1"
+}
+
+deploy_all() {
+	log_info "Starting deployment for host: $HOSTNAME"
+	echo ""
+
+	find "$HOME_DIR" -mindepth 1 -maxdepth 1 | while read -r src; do
+		filename="$(basename "$src")"
+
+		if [ "$filename" = "config" ]; then
+		        # Special handling for config/ - symlink each subdirectory
+		        find "$src" -mindepth 1 -maxdepth 1 -type d | while read -r config_dir; do
+		        	app_name="$(basename "$config_dir")"
+				dest="$HOME/.config/$app_name"
+
+				# Skip if destination already exists
+			        if [ -e "$dest" ] || [ -L "$dest" ]; then
+			                echo "Skipped (exists): $dest"
+			                continue
+		            fi
+            
+		            # Create .config if it doesn't exist
+		            mkdir -p "$HOME/.config"
+            
+		            # Create symlink
+		            ln -sf "$config_dir" "$dest"
+		            echo "Linked: $dest -> $config_dir"
+		        done
+		else
+        		# Regular files/directories in home/ -> ~/.filename
+		        dest="$HOME/.$filename"
+	        
+		        # Create parent directory if needed
+		        mkdir -p "$(dirname "$dest")"
+        
+		        # Create symlink
+		        ln -sf "$src" "$dest"
+		        echo "Linked: $dest -> $src"
+		fi
+	done
+
+	echo ""
+	log_success "Deployment complete!"
 }
 
 # Usage information
@@ -69,7 +116,6 @@ while [[ $# -gt 0 ]]; do
 			exit 0
 			;;
 		-f|--force)
-			log_warning "$1 not yet implemented."
 			FORCE_MODE=true
 			shift
 			;;
@@ -94,4 +140,8 @@ done
 if [ "$FORCE_MODE" = true ] && [ "$NEW_ONLY_MODE" = true ]; then
 	log_error "Cannot use --force and --new-only together"
 	exit 1
+fi
+
+if [ "$FORCE_MODE" = true ]; then
+	deploy_all
 fi
