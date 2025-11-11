@@ -1,0 +1,5 @@
+[user]
+	email = michaelgilch@gmail.com
+	name = Michael Gilchrist
+[core]
+	editor = vim
