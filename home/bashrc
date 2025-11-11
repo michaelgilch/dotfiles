@@ -1,10 +1,15 @@
 #
 # ~/.bashrc
 #
+# Interactive Shell Configuration
+#
+# This is sourced by the login shell (bash_profile). Any intended difference
+# in behavior between a Login and Interactive shell should be handled 
+# appropriately here.
+#
+# Author: Michael Gilchrist (michaelgilch@gmail.com)
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
+
+# Additional Sources
+[ -f "$HOME"/.bash_aliases ] && source "$HOME"/.bash_aliases
