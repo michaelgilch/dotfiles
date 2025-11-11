@@ -1,8 +1,5 @@
-qalc.history
-qalculate-gtk.history
-
 sublime
 !sublime/Packages/User/*
 
-vim/autoload
-vim/plugged
+home/vim/autoload
+home/vim/plugged
