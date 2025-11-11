@@ -67,8 +67,17 @@ deploy_all() {
         		# Regular files/directories in home/ -> ~/.filename
 		        dest="$HOME/.$filename"
 	        
-		        # Create parent directory if needed
-		        mkdir -p "$(dirname "$dest")"
+		        # Skip if destination already exists
+		        if [ -e "$dest" ] || [ -L "$dest" ]; then
+		                echo "Skipped (exists): $dest"
+		                continue
+		        fi
+		        
+		        # Only create parent directory if src is a FILE
+		        # If src is a directory, we're symlinking the whole directory
+		        if [ -f "$src" ]; then
+		            mkdir -p "$(dirname "$dest")"
+		        fi
         
 		        # Create symlink
 		        ln -sf "$src" "$dest"
@@ -91,7 +100,7 @@ OPTIONS:
 	-h, --help	Show this help message
 	-f, --force	Force deployment (backup and replace existing files)
 	-n, --new-only	Only deploy files that don't already exist
-	-d, --dry-run	Show deployment plan without making chagnes
+	-d, --dry-run	Show deployment plan without making changes
 
 DIRECTORY STRUCTURE:
 	home/		-> ~/.*
@@ -126,6 +135,7 @@ while [[ $# -gt 0 ]]; do
 			;;
 		-d|--dry-run)
 			log_warning "$1 not yet implemented."
+			shift
 			;;
 		*)
 			log_error "Unknown option: $1"
@@ -142,6 +152,5 @@ if [ "$FORCE_MODE" = true ] && [ "$NEW_ONLY_MODE" = true ]; then
 	exit 1
 fi
 
-if [ "$FORCE_MODE" = true ]; then
-	deploy_all
-fi
+# Run deployment
+deploy_all
