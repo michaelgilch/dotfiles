@@ -1,0 +1,188 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vimrc
+" 
+" Michael Gilchrist <michaelgilch@gmail.com>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let mapleader = " "
+
+set encoding=utf-8
+
+set nocompatible                                " use vim defaults rather than vi defaults
+set backspace=indent,eol,start                  " allow backspacing over all items
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Plugin Manager
+"""""""""""""""""""""""""""""""""""""""""""""
+
+" Automatic installation of Vim-Plug
+let curl_path=expand('curl')
+if empty(glob('~/.vim/autoload/plug.vim'))
+    if !executable(curl_path)
+        echoerr "You must install curl or install vim-plug manually!"
+        execute "q!"
+    endif
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Vim-Plug automatically handles `filetype off` in plug#begin
+" and `filetype plugin indent on` and `syntax on` in plug#end
+call plug#begin('~/.vim/plugged')
+    Plug 'nanotech/jellybeans.vim'              " color theme
+    Plug 'scrooloose/nerdtree'                  " tree explorer
+    Plug 'Xuyuanp/nerdtree-git-plugin'          " git status in tree explorer
+    Plug 'godlygeek/tabular'                    " text filtering and alignment (required by plasticboy-vim-markdown)
+    Plug 'plasticboy/vim-markdown'              " markdown syntax and extras
+    Plug 'vim-airline/vim-airline'              " statusbar and tabline
+    Plug 'vim-airline/vim-airline-themes'       " statusbar and tabline themes
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Colors 
+"""""""""""""""""""""""""""""""""""""""""""""
+colorscheme jellybeans                          " nanotech/jellybeans.vim
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" User Interface
+"""""""""""""""""""""""""""""""""""""""""""""
+set number                                      " show line numbers
+set cursorline                                  " highlight the line currently under the cursor
+set showcmd                                     " show command in statusbar
+set showmatch                                   " show matching brackets
+set title                                       " show filename in titlebar
+set titlestring=vim:\ %F                        " change format of title in titlebar
+set scrolloff=10                                " keep lines visible when scrolling to EOF
+set autoread                                    " reload buffer when external changes detected
+set linebreak                                   " avoid wrapping in middle of words
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Indentation 
+"""""""""""""""""""""""""""""""""""""""""""""
+set autoindent                                  " new lines inherit indentation of previous line
+set expandtab                                   " convert tabs to spaces
+set tabstop=4                                   " number of visual spaces per existing tab
+set softtabstop=4                               " number of spaces inserted for a tab
+set smartindent                                 " auto-indenting on newlines and c-style brackets
+set shiftwidth=4                                " reindent operations (<< and >>)
+set shiftround                                  " shift to the nearest multiple of `shiftwidth`
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Searching 
+"""""""""""""""""""""""""""""""""""""""""""""
+set incsearch                                   " search as characters are entered
+set ignorecase                                  " ignore case when searching
+set smartcase                                   " ... unless uppercase is specified
+set hlsearch                                    " highlight search results
+
+" change search result highlight colors
+highlight Search cterm=bold ctermfg=white ctermbg=darkred
+
+" map `space - space` to remove search highlighting
+nnoremap <silent><space><space> :nohlsearch<cr>
+
+" center on search
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Folding 
+"""""""""""""""""""""""""""""""""""""""""""""
+set nofoldenable                                " disable folding by default
+set foldmethod=indent                           " fold based on indentation levels
+set foldnestmax=3                               " limit folding to 3 levels
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Splits / Windows
+"""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader>hs <C-w>s                      " split window horizontally
+nnoremap <leader>vs <C-w>v                      " split window vertically
+
+set splitbelow                                  " open new horizontal splits below
+set splitright                                  " open new vertical splits to the right
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Editing 
+"""""""""""""""""""""""""""""""""""""""""""""
+set pastetoggle=<F2>                            " to avoid unexpected effects when pasting
+
+" move entire lines around easily
+nnoremap <leader>k :m-2<cr>==
+nnoremap <leader>j :m+<cr>==
+xnoremap <leader>k :m-2<cr>gv=gv
+xnoremap <leader>j :m'>+<cr>gv=gv
+
+" show hidden characters
+nmap <leader>l :set list!<cr>
+set listchars=tab:▸-,trail:-,eol:$
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Buffers 
+"""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <Tab> :bnext<cr>
+nnoremap <S-Tab> :bprev<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Templates 
+"""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufNewFile *.sh 0r ~/.vim/templates/skel.sh
+autocmd BufNewFile *.md 0r ~/.vim/templates/skel.md
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Vim specific 
+"""""""""""""""""""""""""""""""""""""""""""""
+
+" edit vimrc in split
+nnoremap <leader>ev :split $MYVIMRC<cr>
+
+" source vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin Settings 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""
+" vim-airline
+""""""""""""""""""""
+set laststatus=2
+let g:airline_theme='minimalist'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" Fix for delay when leaving insert mode
+"set ttimeoutlen=10
+"augroup FastEscape
+"    autocmd!
+"    au InsertEnter * set timeoutlen=0
+"    au InsertLeave * set timeoutlen=1000
+"augroup END
+
+""""""""""""""""""""
+" nerdtree
+""""""""""""""""""""
+noremap <C-n> :NERDTreeToggle<cr>
+let g:NERDTreeGitStatusConcealBrackets = 1
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ 'Modified'  : '*',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '═',
+    \ 'Deleted'   : '✖',
+    \ 'Dirty'     : '✗',
+    \ 'Clean'     : '✔︎',
+    \ 'Unknown'   : '?'
+    \ }
+
+""""""""""""""""""""
+" vim-markdown
+""""""""""""""""""""
+
+" conceal markdown where possible
+set conceallevel=2
+let g:vim_markdown_conceal_code_blocks = 0
+
+autocmd FileType markdown inoremap ``` ```<Enter>```<C-o>k<C-o>A
+
