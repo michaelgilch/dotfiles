@@ -30,8 +30,7 @@ alias gds='git diff --staged'
 alias gl='git log --oneline'
 alias gp='git push'
 alias gr='git rm'
-alias gs='git status'
-alias gss='git status --short --branch'
+alias gs='git status --short --branch'
 
 # Vim
 alias vi='vim'
