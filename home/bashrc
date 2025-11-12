@@ -13,6 +13,7 @@ PS1='[\u@\h \W]\$ '
 
 export EDITOR="vim"
 export VISUAL="$EDITOR"
+export MANPAGER="less --no-init"
 
 # Additional Sources
 [ -f "$HOME"/.bash_aliases ] && source "$HOME"/.bash_aliases
