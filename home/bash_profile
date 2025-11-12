@@ -1,5 +1,10 @@
-#
 # ~/.bash_profile
 #
+# Login shell configuration
+#
+# Sources Interactive Shell Configuration (bashrc), where
+# Login vs Interactive differences will be handled accordingly
+#
+# Author: Michael Gilchrist (michaelgilch@gmail.com)
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+[[ -f "$HOME"/.bashrc ]] && source "$HOME"/.bashrc
