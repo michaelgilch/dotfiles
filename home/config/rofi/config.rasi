@@ -1,0 +1,7 @@
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+window {
+    width: 30%;
+}
+listview {
+    lines: 12;
+}
