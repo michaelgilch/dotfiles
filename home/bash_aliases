@@ -36,6 +36,9 @@ alias gs='git status --short --branch'
 alias vi='vim'
 alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
+# Navigation
+alias dot='cd ~/git/dotfiles/'
+
 # Misc
 alias c='clear'
 alias df='df --human-readable --print-type --exclude-type=tmpfs --exclude-type=devtmpfs'  
@@ -46,4 +49,5 @@ alias mounted='mount | grep '^/dev/' | sort'
 alias umount='sudo umount'
 alias used='du --summarize --human-readable * | sort -h'         # list directories by human readable size
 alias wget='wget --continue'
+
 
