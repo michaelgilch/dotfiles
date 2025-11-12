@@ -3,3 +3,9 @@
 	name = Michael Gilchrist
 [core]
 	editor = vim
+[color]
+    ui = true
+    status = auto
+    branch = auto
+[merge]
+    tool = vimdiff
