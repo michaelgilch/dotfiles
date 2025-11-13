@@ -1,4 +1,4 @@
-@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+@theme "./rounded-nord-dark.rasi"
 window {
     width: 30%;
 }
