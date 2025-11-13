@@ -1,4 +1,8 @@
 @theme "./rounded-nord-dark.rasi"
+configuration {
+    show-icons: true;
+    icon-theme: "Papirus";
+}
 window {
     width: 30%;
 }
