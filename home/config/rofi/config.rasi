@@ -2,6 +2,3 @@
 window {
     width: 30%;
 }
-listview {
-    lines: 12;
-}
