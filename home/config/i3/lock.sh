@@ -35,7 +35,7 @@ i3lock \
 --layout-color=e5e9f0ff \
 --ind-pos="x+w/2:y+h/2-100" \
 --time-str="%H:%M:%S" \
---date-str="%A, %B %d" \
+--date-str="%a, %b %d" \
 --verif-text="Verifying..." \
 --wrong-text="Incorrect!" \
 --noinput-text="No Input" \
@@ -52,7 +52,7 @@ i3lock \
 --indicator \
 --time-size=32 \
 --date-size=18 \
---keylayout 0
+#--keylayout 0
 
 # Cleanup
 rm /tmp/screen.png /tmp/screen_blurred.png /tmp/wallpaper_resized.png /tmp/lock_final.png
