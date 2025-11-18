@@ -49,6 +49,9 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '' -B 'Exit i3' 'i3-msg exit'
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# Lock Screen
+bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/lock.sh 
+
 # ---------------------
 # Applications
 # ---------------------

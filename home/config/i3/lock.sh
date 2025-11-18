@@ -1,0 +1,59 @@
+#!/bin/bash
+# Capture ALL screens with proper geometry
+scrot -m /tmp/screen.png
+
+# Get the total screen resolution for multi-monitor
+RESOLUTION=$(xdpyinfo | grep dimensions | awk '{print $2}')
+
+# Resize wallpaper to match total screen size, then blur the screenshot
+magick /tmp/screen.png -blur 0x8 /tmp/screen_blurred.png
+
+magick ~/.wallpaper/nord_waves.png -resize ${RESOLUTION}^ -gravity center -extent ${RESOLUTION} /tmp/wallpaper_resized.png
+
+# Composite wallpaper on top of blurred screen
+magick /tmp/screen_blurred.png /tmp/wallpaper_resized.png \
+    -gravity center \
+    -compose blend -define compose:args=30,70 \
+    -composite /tmp/lock_final.png
+
+# Lock with the composited image
+i3lock \
+--image=/tmp/lock_final.png \
+--insidever-color=3b4252ff \
+--insidewrong-color=3b4252ff \
+--inside-color=2e3440ff \
+--ringver-color=88c0d0ff \
+--ringwrong-color=bf616aff \
+--ring-color=5e81acff \
+--keyhl-color=a3be8cff \
+--bshl-color=d08770ff \
+--separator-color=4c566aff \
+--verif-color=88c0d0ff \
+--wrong-color=bf616aff \
+--time-color=eceff4ff \
+--date-color=d8dee9ff \
+--layout-color=e5e9f0ff \
+--ind-pos="x+w/2:y+h/2-100" \
+--time-str="%H:%M:%S" \
+--date-str="%A, %B %d" \
+--verif-text="Verifying..." \
+--wrong-text="Incorrect!" \
+--noinput-text="No Input" \
+--lock-text="Locking..." \
+--lockfailed-text="Lock Failed!" \
+--time-font="Hack" \
+--date-font="Hack" \
+--layout-font="Hack" \
+--verif-font="Hack" \
+--wrong-font="Hack" \
+--radius=120 \
+--ring-width=10 \
+--clock \
+--indicator \
+--time-size=32 \
+--date-size=18 \
+--keylayout 0
+
+# Cleanup
+rm /tmp/screen.png /tmp/screen_blurred.png /tmp/wallpaper_resized.png /tmp/lock_final.png
+
