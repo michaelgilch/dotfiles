@@ -22,6 +22,7 @@ focus_follows_mouse no
 # -----------------------------
 
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id ~/.config/polybar/launch.sh
 
 # Compositor
 exec --no-startup-id exec picom -b
@@ -177,24 +178,3 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# =============================
-# Status Bar
-# =============================
-bar {
-    position        top
-    status_command  i3blocks -c ~/.config/i3blocks/config
-    font pango:Hack 10, Font Awesome 7 Brands 10
-    height 25
-    
-    ### Nord Theme (matches common dark themes)
-    colors {
-        background #2e3440
-        statusline #eceff4
-        separator  #4c566a
-
-        focused_workspace  #88c0d0 #88c0d0 #2e3440
-        active_workspace   #4c566a #4c566a #eceff4
-        inactive_workspace #2e3440 #2e3440 #4c566a
-        urgent_workspace   #bf616a #bf616a #eceff4
-    }
-}
