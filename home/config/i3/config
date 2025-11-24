@@ -66,8 +66,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+d exec "rofi -modi drun,run,window -show drun"
 
 bindsym Print exec "flameshot gui"
-bindsym $mod+c exec "google-chrome"
-bindsym $mod+t exec "thunar"
+bindsym $mod+Shift+w exec "google-chrome"
+bindsym $mod+Shift+t exec "thunar"
 
 # ---------------------
 # Navigation
