@@ -29,7 +29,7 @@ endif
 " Vim-Plug automatically handles `filetype off` in plug#begin
 " and `filetype plugin indent on` and `syntax on` in plug#end
 call plug#begin('~/.vim/plugged')
-    Plug 'nanotech/jellybeans.vim'              " color theme
+    Plug 'nordtheme/vim'              " color theme
     Plug 'scrooloose/nerdtree'                  " tree explorer
     Plug 'Xuyuanp/nerdtree-git-plugin'          " git status in tree explorer
     Plug 'godlygeek/tabular'                    " text filtering and alignment (required by plasticboy-vim-markdown)
@@ -41,7 +41,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""
 " Colors 
 """""""""""""""""""""""""""""""""""""""""""""
-colorscheme jellybeans                          " nanotech/jellybeans.vim
+colorscheme nord                                " nordtheme/vim
 
 """""""""""""""""""""""""""""""""""""""""""""
 " User Interface
