@@ -43,6 +43,15 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""
 colorscheme nord                                " nordtheme/vim
 
+" Override Nord's comment color to be brighter
+augroup NordOverrides
+    autocmd!
+    autocmd ColorScheme nord highlight Comment ctermfg=248 guifg=#a8aecb
+augroup END
+
+" Re-apply colorscheme to trigger the override
+colorscheme nord
+
 """""""""""""""""""""""""""""""""""""""""""""
 " User Interface
 """""""""""""""""""""""""""""""""""""""""""""
