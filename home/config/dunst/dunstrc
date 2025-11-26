@@ -28,7 +28,7 @@
     idle_threshold = 120
     
     # Text
-    font = Hack Nerd Font 10
+    font = Hack Nerd Font 12
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
