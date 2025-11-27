@@ -22,6 +22,7 @@ NC='\033[0m' # No Color
 FORCE_MODE=false
 NEW_ONLY_MODE=false
 SKIP_PACKAGE_CHECK=false
+DRY_RUN=false
 
 log_info() {
     echo -e "${BLUE}ℹ${NC} $1"
@@ -115,6 +116,10 @@ should_deploy_config() {
 deploy_all() {
 	log_info "Starting deployment for host: $HOSTNAME"
 	
+    if [ "$DRY_RUN" = true ]; then
+        log_info "DRY RUN MODE - No changes will be made"
+    fi
+
 	if [ "$SKIP_PACKAGE_CHECK" = false ] && [ -f "$PACKAGES_MAP" ]; then
 	    log_info "Package checking enabled (use --skip-package-check to disable)"
 	else
@@ -144,6 +149,12 @@ deploy_all() {
 			                echo "Skipped (exists): $dest"
 			                continue
 		            fi
+
+                    # DRY RUN: Don't actually create anything
+                    if [ "$DRY_RUN" = true ]; then
+                        log_info "[DRY RUN] Would link: $dest -> $config_dir"
+                        continue
+                    fi
             
 		            # Create .config if it doesn't exist
 		            mkdir -p "$HOME/.config"
@@ -168,6 +179,12 @@ deploy_all() {
 		                echo "Skipped (exists): $dest"
 		                continue
 		        fi
+
+                # DRY RUN: Don't actually create anything
+                if [ "$DRY_RUN" = true ]; then
+                    log_info "[DRY RUN] Would link: $dest -> $src"
+                    continue
+                fi
 		        
 		        # Only create parent directory if src is a FILE
 		        if [ -f "$src" ]; then
@@ -181,7 +198,12 @@ deploy_all() {
 	done
 
 	echo ""
-	log_success "Deployment complete!"
+
+    if [ "$DRY_RUN" = true ]; then
+        log_info "Dry run complete - no changes were made"
+    else
+    	log_success "Deployment complete!"
+    fi
 }
 
 # Usage information
@@ -234,7 +256,7 @@ while [[ $# -gt 0 ]]; do
 			shift
 			;;
 		-d|--dry-run)
-			log_warning "$1 not yet implemented."
+			DRY_RUN=true
 			shift
 			;;
 		-s|--skip-package-check)
