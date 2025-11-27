@@ -10,6 +10,7 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOME_DIR="$DOTFILES_DIR/home"
 PACKAGES_MAP="$DOTFILES_DIR/packages.map"
+BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
 # Colors for output
 RED='\033[0;31m'
@@ -38,6 +39,69 @@ log_warning() {
 
 log_error() {
     echo -e "${RED}✗${NC} $1"
+}
+
+# Create backup directory if it doesn't exist
+create_backup_dir() {
+    if [ ! -d "$BACKUP_DIR" ]; then
+        mkdir -p "$BACKUP_DIR"
+        log_info "Created backup directory: $BACKUP_DIR"
+    fi
+}
+
+# Backup a file/directory/symlink
+backup_path() {
+    local path="$1"
+
+    # Nothing to backup if it doesn't exist
+    [ ! -e "$path" ] && [ ! -L "$path" ] && return 0
+
+    # In dry-run mode, just show what would be backed up
+    if [ "$DRY_RUN" = true ]; then
+        log_info "[DRY_RUN] Would backup: $path"
+        return 0
+    fi
+
+    create_backup_dir
+
+    # Create relative path for backup
+    local rel_path="${path#$HOME/}"
+    local backup_path="$BACKUP_DIR/$rel_path"
+
+    # Create parent directory in backup
+    mkdir -p "$(dirname "$backup_path")"
+
+    # Copy (preserving symlinks and attributes)
+    if cp --no-dereference --preserve=all --recursive "$path" "$backup_path" 2>/dev/null; then
+        log_info "Backed up: $path"
+        return 0
+    else
+        log_warning "Failed to backup: $path"
+        return 1
+    fi
+}
+
+# Remove existing path (after backup if in force mode)
+remove_existing() {
+    local path="$1"
+
+    # Nothing to remove if it doesn't exist
+    [ ! -e "$path" ] && [ ! -L "$path" ] && return 0
+
+    if [ "$FORCE_MODE" = true ]; then
+        backup_path "$path"
+
+        if [ "$DRY_RUN" = true ]; then
+            log_info "[DRY RUN] Would remove: $path"
+        else
+            rm -rf "$path"
+            log_info "Removed: $path"
+        fi
+        return 0
+    else
+        # Not in force mode, destination exists = skip
+        return 1
+    fi
 }
 
 # Check if package is installed
@@ -120,6 +184,10 @@ deploy_all() {
         log_info "DRY RUN MODE - No changes will be made"
     fi
 
+    if [ "$FORCE_MODE" = true ]; then
+        log_warning "FORCE MODE - Existing files will be backed up and replaced"
+    fi
+
 	if [ "$SKIP_PACKAGE_CHECK" = false ] && [ -f "$PACKAGES_MAP" ]; then
 	    log_info "Package checking enabled (use --skip-package-check to disable)"
 	else
@@ -137,6 +205,15 @@ deploy_all() {
 		        	app_name="$(basename "$config_dir")"
 				dest="$HOME/.config/$app_name"
 				
+				# Check if destination exists
+			    if [ -e "$dest" ] || [ -L "$dest" ]; then
+                    # Try to remove (will backup if force mode)
+                    if ! remove_existing "$dest"; then
+			            echo "Skipped (exists): $dest"
+			            continue
+                    fi
+		        fi
+
 				# Check if required packages are installed
 				if ! should_deploy_config "$app_name"; then
 				    required=$(get_required_packages "$app_name")
@@ -144,56 +221,53 @@ deploy_all() {
 				    continue
 				fi
 
-				# Skip if destination already exists
-			        if [ -e "$dest" ] || [ -L "$dest" ]; then
-			                echo "Skipped (exists): $dest"
-			                continue
-		            fi
-
-                    # DRY RUN: Don't actually create anything
-                    if [ "$DRY_RUN" = true ]; then
-                        log_info "[DRY RUN] Would link: $dest -> $config_dir"
-                        continue
-                    fi
-            
-		            # Create .config if it doesn't exist
-		            mkdir -p "$HOME/.config"
-            
-		            # Create symlink
-		            ln -sf "$config_dir" "$dest"
-		            log_success "Linked: $dest"
-		        done
-		else
-        		# Regular files/directories in home/ -> ~/.filename
-		        dest="$HOME/.$filename"
-		        
-		        # Check if required packages are installed
-		        if ! should_deploy_config "$filename"; then
-		            required=$(get_required_packages "$filename")
-		            log_warning "Skipped (missing packages): $filename (needs: $required)"
-		            continue
-		        fi
-	        
-		        # Skip if destination already exists
-		        if [ -e "$dest" ] || [ -L "$dest" ]; then
-		                echo "Skipped (exists): $dest"
-		                continue
-		        fi
-
                 # DRY RUN: Don't actually create anything
                 if [ "$DRY_RUN" = true ]; then
-                    log_info "[DRY RUN] Would link: $dest -> $src"
+                    log_info "[DRY RUN] Would link: $dest -> $config_dir"
                     continue
                 fi
-		        
-		        # Only create parent directory if src is a FILE
-		        if [ -f "$src" ]; then
-		            mkdir -p "$(dirname "$dest")"
-		        fi
-        
+            
+		        # Create .config if it doesn't exist
+		        mkdir -p "$HOME/.config"
+            
 		        # Create symlink
-		        ln -sf "$src" "$dest"
+		        ln -sf "$config_dir" "$dest"
 		        log_success "Linked: $dest"
+		    done
+		else
+            # Regular files/directories in home/ -> ~/.filename
+		    dest="$HOME/.$filename"
+		        
+            # Check if destination exists
+		    if [ -e "$dest" ] || [ -L "$dest" ]; then
+                # Try to remove (will backup if force mode)
+                if ! remove_existing "$dest"; then
+                    echo "Skipped (exists): $dest"
+	    	        continue
+                fi
+		    fi
+
+		    # Check if required packages are installed
+		    if ! should_deploy_config "$filename"; then
+		        required=$(get_required_packages "$filename")
+		        log_warning "Skipped (missing packages): $filename (needs: $required)"
+		        continue
+		    fi
+	        
+            # DRY RUN: Don't actually create anything
+            if [ "$DRY_RUN" = true ]; then
+                log_info "[DRY RUN] Would link: $dest -> $src"
+                continue
+            fi
+		        
+		    # Only create parent directory if src is a FILE
+		    if [ -f "$src" ]; then
+		        mkdir -p "$(dirname "$dest")"
+		    fi
+        
+		    # Create symlink
+		    ln -sf "$src" "$dest"
+		    log_success "Linked: $dest"
 		fi
 	done
 
@@ -201,9 +275,13 @@ deploy_all() {
 
     if [ "$DRY_RUN" = true ]; then
         log_info "Dry run complete - no changes were made"
+    elif [ "$FORCE_MODE" = true ] && [ -d "$BACKUP_DIR" ]; then
+        log_success "Deployment complete!"
+        log_info "Backups saved to: $BACKUP_DIR"
     else
     	log_success "Deployment complete!"
     fi
+
 }
 
 # Usage information
@@ -215,7 +293,7 @@ Deploy dotfiles with automatic path inference and hostname-specific overrides.
 
 OPTIONS:
 	-h, --help		Show this help message
-	-f, --force		Force deployment (backup and replace existing files)
+	-f, --force		Backup and replace ALL existing files/symlinks
 	-n, --new-only		Only deploy files that don't already exist
 	-d, --dry-run		Show deployment plan without making changes
 	-s, --skip-package-check	Skip package dependency checking
@@ -224,6 +302,14 @@ DIRECTORY STRUCTURE:
 	home/		-> ~/.*
 	home/config/	-> ~/.config/*
 	home/vim/	-> ~/.vim/*
+
+FORCE MODE:
+    With --force, existing files/directories/symlinks are backed up to
+    ~/.dotfiles_backup_YYYYMMDD_HHMMSS/ and **then** replaced.
+    This handles:
+        - Regular files that conflict with dotfiles
+        - Old symlinks from previous deployments
+        - Orphaned configs from uninstalled packages
 
 PACKAGE CHECKING:
 	By default, configs are only deployed if required packages are installed.
