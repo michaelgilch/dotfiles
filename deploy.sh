@@ -9,6 +9,7 @@
 set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOME_DIR="$DOTFILES_DIR/home"
+PACKAGES_MAP="$DOTFILES_DIR/packages.map"
 
 # Colors for output
 RED='\033[0;31m'
@@ -20,6 +21,7 @@ NC='\033[0m' # No Color
 # Deployment mode
 FORCE_MODE=false
 NEW_ONLY_MODE=false
+SKIP_PACKAGE_CHECK=false
 
 log_info() {
     echo -e "${BLUE}ℹ${NC} $1"
@@ -37,8 +39,88 @@ log_error() {
     echo -e "${RED}✗${NC} $1"
 }
 
+# Check if package is installed
+is_package_installed() {
+    local package="$1"
+    
+    # Check with pacman (Arch)
+    if command -v pacman &> /dev/null; then
+        pacman -Q "$package" &> /dev/null && return 0
+    fi
+    
+    # Check with dpkg (Debian/Ubuntu)
+    if command -v dpkg &> /dev/null; then
+        dpkg -l "$package" 2> /dev/null | grep -q "^ii" && return 0
+    fi
+    
+    # Check with rpm (RedHat/Fedora)
+    if command -v rpm &> /dev/null; then
+        rpm -q "$package" &> /dev/null && return 0
+    fi
+    
+    # Check if command exists (fallback)
+    command -v "$package" &> /dev/null && return 0
+    
+    return 1
+}
+
+# Get required packages for a config
+get_required_packages() {
+    local config_name="$1"
+    
+    # If packages.map doesn't exist, assume no requirements
+    [ ! -f "$PACKAGES_MAP" ] && return 0
+    
+    # Look for config in packages.map
+    local line=$(grep "^${config_name}:" "$PACKAGES_MAP" 2>/dev/null)
+    
+    # If not found in map, assume no requirements
+    [ -z "$line" ] && return 0
+    
+    # Extract packages (everything after the colon)
+    local packages="${line#*:}"
+    
+    # If empty (config: with nothing after), no requirements
+    [ -z "$packages" ] && return 0
+    
+    echo "$packages"
+}
+
+# Check if all required packages are installed
+should_deploy_config() {
+    local config_name="$1"
+    
+    # If skipping package checks, always deploy
+    [ "$SKIP_PACKAGE_CHECK" = true ] && return 0
+    
+    local required_packages=$(get_required_packages "$config_name")
+    
+    # No requirements, always deploy
+    [ -z "$required_packages" ] && return 0
+    
+    # Check each package (comma-separated)
+    IFS=',' read -ra PACKAGES <<< "$required_packages"
+    for package in "${PACKAGES[@]}"; do
+        # Trim whitespace
+        package=$(echo "$package" | xargs)
+        
+        if ! is_package_installed "$package"; then
+            return 1
+        fi
+    done
+    
+    return 0
+}
+
 deploy_all() {
 	log_info "Starting deployment for host: $HOSTNAME"
+	
+	if [ "$SKIP_PACKAGE_CHECK" = false ] && [ -f "$PACKAGES_MAP" ]; then
+	    log_info "Package checking enabled (use --skip-package-check to disable)"
+	else
+	    log_warning "Package checking disabled"
+	fi
+	
 	echo ""
 
 	find "$HOME_DIR" -mindepth 1 -maxdepth 1 | while read -r src; do
@@ -49,6 +131,13 @@ deploy_all() {
 		        find "$src" -mindepth 1 -maxdepth 1 -type d | while read -r config_dir; do
 		        	app_name="$(basename "$config_dir")"
 				dest="$HOME/.config/$app_name"
+				
+				# Check if required packages are installed
+				if ! should_deploy_config "$app_name"; then
+				    required=$(get_required_packages "$app_name")
+				    log_warning "Skipped (missing packages): $app_name (needs: $required)"
+				    continue
+				fi
 
 				# Skip if destination already exists
 			        if [ -e "$dest" ] || [ -L "$dest" ]; then
@@ -61,11 +150,18 @@ deploy_all() {
             
 		            # Create symlink
 		            ln -sf "$config_dir" "$dest"
-		            echo "Linked: $dest -> $config_dir"
+		            log_success "Linked: $dest"
 		        done
 		else
         		# Regular files/directories in home/ -> ~/.filename
 		        dest="$HOME/.$filename"
+		        
+		        # Check if required packages are installed
+		        if ! should_deploy_config "$filename"; then
+		            required=$(get_required_packages "$filename")
+		            log_warning "Skipped (missing packages): $filename (needs: $required)"
+		            continue
+		        fi
 	        
 		        # Skip if destination already exists
 		        if [ -e "$dest" ] || [ -L "$dest" ]; then
@@ -74,14 +170,13 @@ deploy_all() {
 		        fi
 		        
 		        # Only create parent directory if src is a FILE
-		        # If src is a directory, we're symlinking the whole directory
 		        if [ -f "$src" ]; then
 		            mkdir -p "$(dirname "$dest")"
 		        fi
         
 		        # Create symlink
 		        ln -sf "$src" "$dest"
-		        echo "Linked: $dest -> $src"
+		        log_success "Linked: $dest"
 		fi
 	done
 
@@ -97,15 +192,20 @@ Usage: $(basename "$0") [OPTIONS]
 Deploy dotfiles with automatic path inference and hostname-specific overrides.
 
 OPTIONS:
-	-h, --help	Show this help message
-	-f, --force	Force deployment (backup and replace existing files)
-	-n, --new-only	Only deploy files that don't already exist
-	-d, --dry-run	Show deployment plan without making changes
+	-h, --help		Show this help message
+	-f, --force		Force deployment (backup and replace existing files)
+	-n, --new-only		Only deploy files that don't already exist
+	-d, --dry-run		Show deployment plan without making changes
+	-s, --skip-package-check	Skip package dependency checking
 
 DIRECTORY STRUCTURE:
 	home/		-> ~/.*
 	home/config/	-> ~/.config/*
 	home/vim/	-> ~/.vim/*
+
+PACKAGE CHECKING:
+	By default, configs are only deployed if required packages are installed.
+	Edit packages.map to define package requirements for each config.
 
 SPECIAL FILES:
 	filename@hostname	Override for specific host
@@ -135,6 +235,10 @@ while [[ $# -gt 0 ]]; do
 			;;
 		-d|--dry-run)
 			log_warning "$1 not yet implemented."
+			shift
+			;;
+		-s|--skip-package-check)
+			SKIP_PACKAGE_CHECK=true
 			shift
 			;;
 		*)

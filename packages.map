@@ -1,0 +1,38 @@
+# packages.map
+# Format: config_name:package1,package2,package3
+# Lines starting with # are ignored
+# If no packages listed, config is always deployed
+
+# Shell configs (always deploy)
+bash_aliases:
+bash_logout:
+bash_profile:
+bash_prompt:
+bashrc:
+dir_colors:
+wallpaper:
+
+# Version control
+gitconfig:git
+
+# Editors
+vim:vim
+
+# Terminal emulators
+kitty:kitty
+
+# Window managers / Desktop
+i3:i3-wm
+i3blocks:i3blocks
+i3status:i3status
+dunst:dunst
+picom:picom
+polybar:polybar
+rofi:rofi
+
+# Applications
+flameshot:flameshot
+thunar:thunar
+
+# Audio
+pipewire:pipewire
