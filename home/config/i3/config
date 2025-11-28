@@ -28,7 +28,7 @@ exec --no-startup-id dunst
 # Compositor
 exec --no-startup-id exec picom -b
 # Background
-exec --no-startup-id exec feh --randomize --bg-fill ~/.wallpaper/*
+exec --no-startup-id exec ~/.config/i3/set-wallpaper.sh
 # Lock on suspend
 exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh 
 # Network Manager Applet - TODO do I need this?
