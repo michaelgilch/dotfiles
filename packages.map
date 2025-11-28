@@ -20,6 +20,7 @@ vim:vim
 
 # Terminal emulators
 kitty:kitty
+inputrc:readline
 
 # Window managers / Desktop
 i3:i3-wm
