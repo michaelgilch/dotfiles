@@ -183,3 +183,5 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# Load host-specific configurations
+include ~/.config/i3/config.d/$(hostnamectl hostname)
