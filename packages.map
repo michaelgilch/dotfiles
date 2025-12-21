@@ -33,7 +33,7 @@ rofi:rofi
 
 # Applications
 flameshot:flameshot
-thunar:thunar
+Thunar:thunar
 
 # Audio
 pipewire:pipewire
