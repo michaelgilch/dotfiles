@@ -11,9 +11,6 @@ rm -f /tmp/polybar-*.log
 
 echo "=== POLYBAR LAUNCH DEBUG ===" | tee /tmp/polybar-launch.log
 
-# Get hostname to determine which machine we're on
-HOSTNAME=$(hostname)
-
 echo "Hostname: $HOSTNAME" | tee -a /tmp/polybar-launch.log
 
 # Desktop-specific monitor names
