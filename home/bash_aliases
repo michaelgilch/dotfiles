@@ -38,8 +38,8 @@ alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
 # Navigation
 alias data='cd /data/'
-alias dot='cd ~/git/dotfiles/'
-alias conf='cd ~/git/arch-config/'
+alias dot='cd $DOTFILES'
+alias conf='cd $REPOS/personal/arch-config'
 
 # Misc
 alias c='clear'
@@ -52,4 +52,4 @@ alias umount='sudo umount'
 alias used='du --summarize --human-readable * | sort -h'         # list directories by human readable size
 alias wget='wget --continue'
 
-
+source ~/.bash_aliases_private

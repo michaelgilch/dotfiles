@@ -16,6 +16,10 @@ export VISUAL="$EDITOR"
 export MANPAGER="less --no-init"
 export PATH=$HOME/.npm-global/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/bin:$PATH
+
+export REPOS="$HOME/repos"
+export DOTFILES="$REPOS/personal/dotfiles"
 
 # History
 HISTCONTROL=ignoredups:ignorespace
