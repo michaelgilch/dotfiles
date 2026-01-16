@@ -65,6 +65,10 @@ bindsym $mod+Shift+q kill
 # Lock Screen
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/lock.sh 
 
+# jgmenu
+bindsym $mod+Ctrl+Left exec --no-startup-id /home/michael/.local/bin/sidepanel left
+bindsym $mod+Ctrl+Right exec --no-startup-id /home/michael/.local/bin/sidepanel right
+
 # ---------------------
 # Applications
 # ---------------------
@@ -75,6 +79,8 @@ bindsym $mod+d exec "rofi -modi drun,run,window -show drun"
 bindsym Print exec "flameshot gui"
 bindsym $mod+Shift+w exec "google-chrome-stable"
 bindsym $mod+Shift+t exec "thunar"
+
+bindsym $mod+x exec jgmenu_run
 
 # ---------------------
 # Navigation
