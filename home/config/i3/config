@@ -22,7 +22,7 @@ focus_follows_mouse no
 # -----------------------------
 
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id ~/.config/polybar/launch.sh
+exec --no-startup-id ~/bin/polybar-launch.sh
 exec --no-startup-id dunst
 exec --no-startup-id udiskie
 exec --no-startup-id solaar -w hide
