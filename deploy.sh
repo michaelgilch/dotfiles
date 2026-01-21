@@ -9,6 +9,7 @@
 set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOME_DIR="$DOTFILES_DIR/home"
+BIN_DIR="$DOTFILES_DIR/bin"
 PACKAGES_MAP="$DOTFILES_DIR/packages.map"
 BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
@@ -271,6 +272,42 @@ deploy_all() {
 		fi
 	done
 
+	# Deploy bin/ scripts (individual symlinks to ~/bin/)
+	if [ -d "$BIN_DIR" ]; then
+		find "$BIN_DIR" -mindepth 1 -maxdepth 1 -type f | while read -r script; do
+			script_name="$(basename "$script")"
+			dest="$HOME/bin/$script_name"
+
+			# Check if destination exists
+			if [ -e "$dest" ] || [ -L "$dest" ]; then
+				if ! remove_existing "$dest"; then
+					echo "Skipped (exists): $dest"
+					continue
+				fi
+			fi
+
+			# Check if required packages are installed
+			if ! should_deploy_config "$script_name"; then
+				required=$(get_required_packages "$script_name")
+				log_warning "Skipped (missing packages): $script_name (needs: $required)"
+				continue
+			fi
+
+			# DRY RUN: Don't actually create anything
+			if [ "$DRY_RUN" = true ]; then
+				log_info "[DRY RUN] Would link: $dest -> $script"
+				continue
+			fi
+
+			# Create ~/bin if it doesn't exist
+			mkdir -p "$HOME/bin"
+
+			# Create symlink
+			ln -sf "$script" "$dest"
+			log_success "Linked: $dest"
+		done
+	fi
+
 	echo ""
 
     if [ "$DRY_RUN" = true ]; then
@@ -302,6 +339,7 @@ DIRECTORY STRUCTURE:
 	home/		-> ~/.*
 	home/config/	-> ~/.config/*
 	home/vim/	-> ~/.vim/*
+	bin/		-> ~/bin/* (helper scripts used by configs)
 
 FORCE MODE:
     With --force, existing files/directories/symlinks are backed up to

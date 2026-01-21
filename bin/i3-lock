@@ -56,4 +56,3 @@ i3lock \
 
 # Cleanup
 rm /tmp/screen.png /tmp/screen_blurred.png /tmp/wallpaper_resized.png /tmp/lock_final.png
-
