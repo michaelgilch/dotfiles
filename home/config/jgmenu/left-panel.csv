@@ -1,0 +1,16 @@
+^sep(Places)
+Home,xdg-open ~,user-home
+Documents,xdg-open ~/Documents,folder-documents
+Downloads,xdg-open ~/downloads,folder-download
+Pictures,xdg-open ~/Pictures,folder-pictures
+Videos,xdg-open ~/Videos,folder-videos
+Music,xdg-open ~/Music,folder-music
+^sep(System)
+File Manager,thunar,system-file-manager
+Terminal,kitty,utilities-terminal
+^sep(Session)
+Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen
+Reboot,systemctl reboot,system-reboot
+Shutdown,systemctl poweroff,system-shutdown
+^sep()
+Edit this menu,xdg-open ~/.config/jgmenu/left-panel.csv,text-editor

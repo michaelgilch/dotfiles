@@ -1,0 +1,14 @@
+^sep(Quick Launch)
+Web Browser,xdg-open https://,web-browser
+Text Editor,xdg-open ~/.bashrc,text-editor
+Calculator,gnome-calculator,accessories-calculator
+^sep(System)
+Rename Workspace,/home/michael/bin/i3-rename-workspace,rename-workspace
+Random Wallpaper,/home/michael/bin/set-wallpaper,wallpaper-switcher
+Settings,gnome-control-center,preferences-system
+^sep(Session)
+Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen
+Reboot,systemctl reboot,system-reboot
+Shutdown,systemctl poweroff,system-shutdown
+^sep()
+Edit this menu,xdg-open ~/.config/jgmenu/right-panel.csv,text-editor
