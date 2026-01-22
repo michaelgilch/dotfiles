@@ -24,9 +24,8 @@ inputrc:readline
 
 # Window managers / Desktop
 i3:i3-wm
-i3blocks:i3blocks
-i3status:i3status
 dunst:dunst
+jgmenu:jgmenu
 picom:picom
 polybar:polybar
 rofi:rofi
