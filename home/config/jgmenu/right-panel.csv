@@ -1,10 +1,10 @@
 ^sep(Quick Launch)
 Web Browser,xdg-open https://,web-browser
-Text Editor,xdg-open ~/.bashrc,text-editor
+Text Editor,subl,sublime-text
 Calculator,gnome-calculator,accessories-calculator
 ^sep(System)
 Rename Workspace,/home/michael/bin/i3-rename-workspace,rename-workspace
-Random Wallpaper,/home/michael/bin/set-wallpaper,wallpaper-switcher
+Wallpaper,^pipe(/home/michael/bin/jg-wallpaper-menu),wallpaper
 Settings,gnome-control-center,preferences-system
 ^sep(Session)
 Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+WALLPAPER_DIR="$HOME/.wallpaper"
+SET_WALLPAPER="$HOME/bin/set-wallpaper"
+
+echo "Randomize,$SET_WALLPAPER,wallpaper"
+echo "^sep()"
+
+find -L "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" \) -print0 | sort -z | while IFS= read -r -d '' wallpaper; do
+    name=$(basename "$wallpaper")
+    echo "$name,$SET_WALLPAPER \"$wallpaper\",image-x-generic"
+done
