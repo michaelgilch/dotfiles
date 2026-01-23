@@ -1,21 +1,7 @@
 #!/bin/bash
-# Simple sidepanel launcher for jgmenu
-# Usage: sidepanel left|right
+# Sidepanel launcher for jgmenu
 
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/jgmenu"
-#CONFIG_DIR="$HOME/mabox/myjgmenu"
 
-case "$1" in
-    left)
-        jgmenu --simple --config-file="$CONFIG_DIR/left-panel.conf" \
-               --csv-file="$CONFIG_DIR/left-panel.csv"
-        ;;
-    right)
-        jgmenu --simple --config-file="$CONFIG_DIR/right-panel.conf" \
-               --csv-file="$CONFIG_DIR/right-panel.csv"
-        ;;
-    *)
-        echo "Usage: sidepanel left|right"
-        exit 1
-        ;;
-esac
+jgmenu --simple --config-file="$CONFIG_DIR/panel.conf" \
+       --csv-file="$CONFIG_DIR/panel.csv"

@@ -66,8 +66,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+x exec --no-startup-id ~/bin/i3-lock 
 
 # jgmenu
-bindsym $mod+Ctrl+Left exec --no-startup-id ~/bin/jg-sidepanel left
-bindsym $mod+Ctrl+Right exec --no-startup-id ~/bin/jg-sidepanel right
+bindsym $mod+z exec --no-startup-id ~/bin/jg-sidepanel
 
 # ---------------------
 # Applications
