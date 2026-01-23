@@ -5,6 +5,11 @@ Calculator,gnome-calculator,accessories-calculator
 ^sep(System)
 Rename Workspace,/home/michael/bin/i3-rename-workspace,rename-workspace
 Wallpaper,^pipe(/home/michael/bin/jg-wallpaper-menu),wallpaper
+Reload i3 Config,i3-msg reload,i3
+Restart i3,i3-msg restart,i3
+Restart Polybar,/home/michael/bin/polybar-launch,polybar
+Restart Picom,pkill picom; picom -b,picom
+Restart Dunst,killall dunst; dunst &,dunst
 Settings,gnome-control-center,preferences-system
 ^sep(Session)
 Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen
