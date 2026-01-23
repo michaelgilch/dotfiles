@@ -1,6 +1,7 @@
 #!/bin/bash
 
-new_name=$(echo "" | rofi -dmenu -p "Rename workspace")
+ws_num=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .num')
+new_name=$(echo "" | rofi -dmenu -p "Rename workspace $ws_num:")
 if [ -n "$new_name" ]; then
-    i3-msg "rename workspace to \"$new_name\""
+    i3-msg "rename workspace to \"$ws_num: $new_name\""
 fi
