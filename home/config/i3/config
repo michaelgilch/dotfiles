@@ -22,6 +22,7 @@ focus_follows_mouse no
 # -----------------------------
 
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id ~/bin/polybar-launch
 exec --no-startup-id dunst
 exec --no-startup-id udiskie
@@ -37,6 +38,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/bin/i3-lock
 exec --no-startup-id nm-applet
 # Screenshots
 exec --no-startup-id flameshot
+
+# Drop Down Terminal (using persistent scratchpad)
+exec --no-startup-id kitty --name dropdown-term --class dropdown-term
+for_window [instance="dropdown-term"] floating enable, move scratchpad, resize set 50ppt 25ppt, border pixel 3
+bindsym F12 exec --no-startup-id $HOME/bin/i3-dropdown-toggle
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -67,6 +73,10 @@ bindsym $mod+Shift+x exec --no-startup-id ~/bin/i3-lock
 
 # jgmenu
 bindsym $mod+z exec --no-startup-id ~/bin/jg-sidepanel
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 # ---------------------
 # Applications
