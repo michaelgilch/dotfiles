@@ -11,9 +11,11 @@ Wallpaper,^pipe(/home/michael/bin/jg-wallpaper-menu),wallpaper
 ^sep(System)
 Reload i3 Config,i3-msg reload,i3-wm
 Restart i3,i3-msg restart,i3
+^sep()
+Restart Dunst,killall dunst; dunst &,dunst
 Restart Polybar,/home/michael/bin/polybar-launch,polybar
 Restart Picom,pkill picom; picom -b,picom
-Restart Dunst,killall dunst; dunst &,dunst
+Restart Dropdown Term,kitty --class dropdown-term --name dropdown-term &
 ^sep(Session)
 Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen
 Reboot,systemctl reboot,system-reboot
