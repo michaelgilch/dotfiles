@@ -21,6 +21,9 @@ focus_follows_mouse no
 # Autostart
 # -----------------------------
 
+# Export Gnome Keyring for saving 1Password Token
+exec_always --no-startup-id export GNOME_KEYRING_CONTROL=/run/user/$(id -u)/keyring
+
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id dbus-update-activation-environment --all
 exec --no-startup-id ~/bin/polybar-launch
