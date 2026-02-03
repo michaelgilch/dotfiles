@@ -16,9 +16,8 @@ export VISUAL="$EDITOR"
 export MANPAGER="less --no-init"
 export PATH=$HOME/.npm-global/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/bin:$PATH
 
-export DOTFILES="$HOME/git/dotfiles"
+export DOTFILES="$HOME/git/personal/dotfiles"
 
 # History
 HISTCONTROL=ignoredups:ignorespace

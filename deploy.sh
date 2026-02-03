@@ -272,11 +272,11 @@ deploy_all() {
 		fi
 	done
 
-	# Deploy bin/ scripts (individual symlinks to ~/bin/)
+	# Deploy bin/ scripts (individual symlinks to ~/.local/bin/)
 	if [ -d "$BIN_DIR" ]; then
 		find "$BIN_DIR" -mindepth 1 -maxdepth 1 -type f | while read -r script; do
 			script_name="$(basename "$script")"
-			dest="$HOME/bin/$script_name"
+			dest="$HOME/.local/bin/$script_name"
 
 			# Check if destination exists
 			if [ -e "$dest" ] || [ -L "$dest" ]; then
