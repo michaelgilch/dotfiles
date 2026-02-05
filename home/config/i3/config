@@ -72,10 +72,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '' -B 'Exit i3' 'i3-msg exit'
 bindsym $mod+Shift+q kill
 
 # Lock Screen
-bindsym $mod+Shift+x exec --no-startup-id ~/bin/i3-lock 
+bindsym $mod+Shift+x exec --no-startup-id ~/.local/bin/i3-lock 
 
 # jgmenu
-bindsym $mod+z exec --no-startup-id ~/bin/jg-sidepanel
+bindsym $mod+z exec --no-startup-id ~/.local/bin/jg-sidepanel
 
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
