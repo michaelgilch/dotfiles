@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WALLPAPER_DIR="$HOME/.wallpaper"
-SET_WALLPAPER="$HOME/bin/set-wallpaper"
+SET_WALLPAPER="set-wallpaper"
 
 echo "Randomize,$SET_WALLPAPER,wallpaper"
 echo "^sep()"

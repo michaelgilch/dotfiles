@@ -6,17 +6,17 @@ Pictures,xdg-open ~/Pictures,folder-pictures
 File Manager,thunar,system-file-manager
 Terminal,kitty,utilities-terminal
 ^sep(Settings)
-Rename Workspace,/home/michael/bin/i3-rename-workspace,rename-workspace
-Wallpaper,^pipe(/home/michael/bin/jg-wallpaper-menu),wallpaper
+Rename Workspace,i3-rename-workspace,rename-workspace
+Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
 ^sep(System)
 Reload i3 Config,i3-msg reload,i3-wm
 Restart i3,i3-msg restart,i3
 ^sep()
 Restart Dunst,killall dunst; dunst &,dunst
-Restart Polybar,/home/michael/bin/polybar-launch,polybar
+Restart Polybar,polybar-launch,polybar
 Restart Picom,pkill picom; picom -b,picom
 Restart Dropdown Term,kitty --class dropdown-term --name dropdown-term &
 ^sep(Session)
-Lock Screen,/home/michael/.config/i3/lock.sh,system-lock-screen
+Lock Screen,i3-lock,system-lock-screen
 Reboot,systemctl reboot,system-reboot
 Shutdown,systemctl poweroff,system-shutdown
