@@ -299,8 +299,8 @@ deploy_all() {
 				continue
 			fi
 
-			# Create ~/bin if it doesn't exist
-			mkdir -p "$HOME/bin"
+			# Create ~/.local/bin if it doesn't exist
+			mkdir -p "$HOME/.local/bin"
 
 			# Create symlink
 			ln -sf "$script" "$dest"
