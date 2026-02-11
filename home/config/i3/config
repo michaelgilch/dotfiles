@@ -51,6 +51,10 @@ bindsym F8 exec --no-startup-id $HOME/.local/bin/i3-dropdown-toggle
 for_window [class="Qalculate-gtk"] floating enable, move scratchpad, resize set 725px 550px, border pixel 3
 bindsym F7 exec --no-startup-id i3-qalculate-toggle
 
+# Qalculate-GTK instance
+for_window [instance="crx_mdpkiolbdkhdjpekfbkbmhigcaggjagi"] floating enable, move scratchpad, resize set 950px 800px, border pixel 3
+bindsym F5 exec --no-startup-id i3-google-chat-toggle
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
