@@ -39,7 +39,7 @@ alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 # Navigation
 alias data='cd /data/'
 alias dot='cd $DOTFILES'
-alias conf='cd $HOME/git/arch-config'
+alias conf='cd $HOME/git/personal/arch-config'
 
 # Misc
 alias c='clear'
