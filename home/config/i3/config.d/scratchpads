@@ -1,0 +1,22 @@
+# ---------------------------------
+# Scratchpad Toggle Applications
+# ---------------------------------
+# Each scratchpad app needs two things:
+#   1. A `for_window` rule matches the window when it first appears and auto-floats it, moves it into the scratchpad,
+#      sets its size, and gives it a visible border. Without this, the app would just appear as a normal tiled window.
+#   2. A keybinding calls a toggle script that either launches the app and shows it, or toggles its visibility.
+
+# Drop-down terminal (kitty)
+for_window [instance="dropdown-term"] floating enable, move scratchpad, resize set 33ppt 33ppt, border pixel 5
+bindsym F8 exec --no-startup-id i3-scratchpad-toggle --match-type instance --match-value "dropdown-term" \
+    --launch-cmd "kitty --name dropdown-term --class dropdown-term"
+
+# Qalculate-GTK
+for_window [class="Qalculate-gtk"] floating enable, move scratchpad, resize set 725px 550px, border pixel 5
+bindsym F7 exec --no-startup-id i3-scratchpad-toggle --match-type class --match-value "Qalculate-gtk" \
+    --launch-cmd "qalculate-gtk" --sleep 0.5
+
+# Google Chat window.
+for_window [instance="crx_mdpkiolbdkhdjpekfbkbmhigcaggjagi"] floating enable, move scratchpad, resize set 950px 800px, border pixel 5
+bindsym F5 exec --no-startup-id i3-scratchpad-toggle --match-type instance --match-value "crx_mdpkiolbdkhdjpekfbkbmhigcaggjagi" \
+    --launch-cmd "google-chrome-stable --profile-directory='Profile 1' --app-id='mdpkiolbdkhdjpekfbkbmhigcaggjagi'"

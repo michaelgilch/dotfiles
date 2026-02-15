@@ -1,11 +1,26 @@
-# i3 config file 
+# i3 config file
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# -----------------------------
+# Variables
+# -----------------------------
+
 set $mod Mod4
 
+set $ws1 "1: Home"
+set $ws2 "2: Utility"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
 # -----------------------------
-# Look and Feel
+# Appearance
 # -----------------------------
 
 default_border          pixel 3
@@ -18,103 +33,81 @@ font pango:DejaVu Sans Mono 10
 focus_follows_mouse no
 
 # -----------------------------
+# Window Rules
+# -----------------------------
+# See Scratchpads section and ./config.d/scratchpads for window rules related to scratchpad applications
+
+for_window [title="System Updates"] floating enable, resize set 800 600, move position center, move to output DP-1
+
+# -----------------------------
 # Autostart
 # -----------------------------
 
 # Export Gnome Keyring for saving 1Password Token
 exec_always --no-startup-id export GNOME_KEYRING_CONTROL=/run/user/$(id -u)/keyring
 
+# XDG Autostart .desktop files in ~/.config/autostart and /etc/xdg/autostart
 exec --no-startup-id dex --autostart --environment i3
+
+# Export all environment variables to D-Bus session so D-Bus-activated services can use (keyring, etc)
 exec --no-startup-id dbus-update-activation-environment --all
-exec --no-startup-id ~/.local/bin/polybar-launch
-exec --no-startup-id dunst
-exec --no-startup-id udiskie
-exec --no-startup-id solaar -w hide
 
-# Compositor
-exec --no-startup-id exec picom -b
-# Background
-exec --no-startup-id exec ~/.local/bin/set-wallpaper
-# Lock on suspend
-exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.local/bin/i3-lock 
-# Network Manager Applet - TODO do I need this?
-exec --no-startup-id nm-applet
-# Screenshots
-exec --no-startup-id flameshot
+# Listen for screensaver and suspend events to run lock script
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3-lock
 
-# ---------------------------------
-# Scratchpad Toggle Applications
-# ---------------------------------
-# Each scratchpad app needs two things:
-#   1. A `for_window` rule matches the window when it first appears and auto-floats it, moves it into the scratchpad,
-#      sets its size, and gives it a visible border. Without this, the app would just appear as a normal tiled window.
-#   2. A keybinding calls a toggle script that either launches the app and shows it, or toggles its visibility.
-
-# Drop-down terminal (kitty)
-for_window [instance="dropdown-term"] floating enable, move scratchpad, resize set 33ppt 33ppt, border pixel 5
-bindsym F8 exec --no-startup-id i3-scratchpad-toggle --match-type instance --match-value "dropdown-term" \
-    --launch-cmd "kitty --name dropdown-term --class dropdown-term"
-
-# Qalculate-GTK
-for_window [class="Qalculate-gtk"] floating enable, move scratchpad, resize set 725px 550px, border pixel 5
-bindsym F7 exec --no-startup-id i3-scratchpad-toggle --match-type class --match-value "Qalculate-gtk" \
-    --launch-cmd "qalculate-gtk" --sleep 0.5
-
-# Google Chat window.
-for_window [instance="crx_mdpkiolbdkhdjpekfbkbmhigcaggjagi"] floating enable, move scratchpad, resize set 950px 800px, border pixel 5
-bindsym F5 exec --no-startup-id i3-scratchpad-toggle --match-type instance --match-value "crx_mdpkiolbdkhdjpekfbkbmhigcaggjagi" \
-    --launch-cmd "google-chrome-stable --profile-directory='Profile 1' --app-id='mdpkiolbdkhdjpekfbkbmhigcaggjagi'"
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# Force workspace creation with proper names at startup
+# Force workspace creation with proper names at startup and switches back to WS1
 exec --no-startup-id "i3-msg 'workspace \"1: Home\"; workspace \"2: Utility\"; workspace \"1: Home\"'"
 
-# =============================
-# Keyboard Shortcuts
-# =============================
+exec --no-startup-id dunst
+exec --no-startup-id flameshot
+exec --no-startup-id nm-applet
+exec --no-startup-id picom --daemon
+exec --no-startup-id polybar-launch
+exec --no-startup-id set-wallpaper
+exec --no-startup-id solaar --window=hide
+exec --no-startup-id udiskie
+
+# -----------------------------
+# Scratchpads
+# -----------------------------
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+include ~/.config/i3/config.d/scratchpads
+
+# -----------------------------
+# Keybindings: General
+# -----------------------------
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '' -B 'Exit i3' 'i3-msg exit'"
+bindsym Control+Mod1+Shift+q exec "i3-nagbar -t warning -m '' -B 'Exit i3' 'i3-msg exit'"
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # Lock Screen
-bindsym $mod+Shift+x exec --no-startup-id ~/.local/bin/i3-lock 
+bindsym $mod+Escape exec --no-startup-id i3-lock
 
-# jgmenu
-bindsym $mod+z exec --no-startup-id ~/.local/bin/jg-sidepanel
+# -----------------------------
+# Keybindings: Applications
+# -----------------------------
 
-# Scratchpad
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
-
-# ---------------------
-# Applications
-# ---------------------
 bindsym $mod+Return exec i3-sensible-terminal
-
 bindsym $mod+d exec "rofi -modi drun,run,window -show drun"
-
+bindsym $mod+w exec google-chrome-stable
+bindsym $mod+e exec thunar
+bindsym $mod+s exec "subl --new-window"
+bindsym $mod+z exec --no-startup-id jg-sidepanel
 bindsym Print exec "flameshot gui"
-bindsym $mod+Shift+w exec "google-chrome-stable"
-bindsym $mod+Shift+t exec "thunar"
 
-bindsym $mod+x exec jgmenu_run
-
-# ---------------------
-# Navigation
-# ---------------------
+# -----------------------------
+# Keybindings: Navigation
+# -----------------------------
 
 # Change window focus via vim keys
 bindsym $mod+h focus left
@@ -140,40 +133,20 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# Split Horizontal
+# -----------------------------
+# Keybindings: Layout
+# -----------------------------
+
 bindsym $mod+b split h
-# Split Vertical 
 bindsym $mod+v split v
-
 bindsym $mod+f fullscreen toggle
-
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
-# toggle tiling / floating
+bindsym $mod+Tab layout toggle stacking tabbed split
 bindsym $mod+Shift+space floating toggle
-
-# change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# focus the parent container
-bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
-
-set $ws1 "1: Home"
-set $ws2 "2: Utility"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+# -----------------------------
+# Keybindings: Workspaces
+# -----------------------------
 
 # Switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -202,11 +175,19 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # Change workspace names
 bindsym $mod+n exec ~/.local/bin/i3-rename-workspace
 
-for_window [class="TeamViewer" title="^TeamViewer$"] floating enable
-for_window [class="Qalculate-gtk"] floating enable
-for_window [title="System Updates"] floating enable, resize set 800 600, move position center, move to output DP-1
+# -----------------------------
+# Keybindings: Media
+# -----------------------------
 
-# Resize Window
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# -----------------------------
+# Resize Mode
+# -----------------------------
+
 mode "resize" {
         bindsym h resize shrink width  5 px or 5 ppt
         bindsym j resize grow   height 5 px or 5 ppt
