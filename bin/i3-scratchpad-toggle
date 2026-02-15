@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# i3-scratchpad-toggle
+#
+# Generic toggle script for i3 scratchpad applications. 
+# Handles both the launching of the application if not already running, and toggling its visibility.
+# 
+# The specific applications are defined by their window properies, such as 'class' or 'instance'.
+# Rules to force the application to launch in floating mode and directly to the scratchpad must be handled
+# separately, in `~/.config/i3/config`. Example:
+#   for_window [class="Qalculate-gtk"] floating enabled, move scratchpad
+# 
+# Usage: i3-scratchpad-toggle -t <type> -m <value> -c <cmd> [options]
+#
+# Options:
+#   -t, --match-type    i3 window property to match (class, instance, title)
+#   -m, --match-value   Value to match against
+#   -c, --launch-cmd    Command to launch the app if not running
+#   -s, --sleep         Seconds to wait after launch before showing the application
+#
+# Example:
+#   i3-scratchpad-toggle -t class -m Qalculate-gtk -c qalculate-gtk -s 0.5
+#
+
+# Default sleep duration - 1s is safe for most apps.
+# Chrome apps sometimes need the full second. Lightweight GTK apps can get away with less.
+SLEEP=1
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -t|--match-type)  MATCH_TYPE="$2";  shift 2 ;;
+        -m|--match-value) MATCH_VALUE="$2"; shift 2 ;;
+        -c|--launch-cmd)  LAUNCH_CMD="$2";  shift 2 ;;
+        -s|--sleep)       SLEEP="$2";       shift 2 ;;
+        *) echo "Unknown option: $1" >&2; exit 1 ;;
+    esac
+done
+
+# i3 commands use criteria like [class="Foo"] or [instance="bar"] to target specific windows.
+CRITERION="$MATCH_TYPE=\"$MATCH_VALUE\""
+
+# Check if the window already exists in i3's tree.
+# Query i3's full container tree (get_tree) and uses `jq` to recursively search every node for one whose
+# window_properties.$MATCH_TYPE matches our expected $MATCH_VALUE.
+#
+# jq breakdown
+#   ..                           - Recursively descend into all nodes
+#   .window_properties? // empty - Get window_properties if it exists, otherwise produce nothing 
+#                                  (skip non-window nodes like workspaces and outputs)
+#   select(.$MATCH_TYPE == ...)  - Keep only the node that matches
+#
+# `jq -e` exits with code 1 if there is no match, and 0 if there is. We don't care about the JSON output, only the exit code.
+if ! i3-msg -t get_tree | jq -e ".. | .window_properties? // empty | select(.${MATCH_TYPE} == \"${MATCH_VALUE}\")" > /dev/null 2>&1; then
+
+    # Window NOT found. Launch the application
+    eval "$LAUNCH_CMD" &
+    sleep "$SLEEP"
+
+    # Get the focused monitor name so we can move the window to the correct output before centering.
+    # On first launch the window might appear on a different output than the focused one.
+    FOCUSED_OUTPUT="$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true) | .output')"
+
+    # Show the scratchpad window, move it to the focused output, and center it
+    i3-msg "[$CRITERION] scratchpad show, move window to output $FOCUSED_OUTPUT, move position center"
+else
+    # Window found. Just toggle visibility
+    i3-msg "[$CRITERION] scratchpad show"
+fi
