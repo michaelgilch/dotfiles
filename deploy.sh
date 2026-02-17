@@ -25,6 +25,7 @@ FORCE_MODE=false
 NEW_ONLY_MODE=false
 SKIP_PACKAGE_CHECK=false
 DRY_RUN=false
+TARGET=""
 
 log_info() {
     echo -e "${BLUE}ℹ${NC} $1"
@@ -180,7 +181,7 @@ should_deploy_config() {
 
 deploy_all() {
 	log_info "Starting deployment for host: $HOSTNAME"
-	
+
     if [ "$DRY_RUN" = true ]; then
         log_info "DRY RUN MODE - No changes will be made"
     fi
@@ -189,12 +190,16 @@ deploy_all() {
         log_warning "FORCE MODE - Existing files will be backed up and replaced"
     fi
 
+	if [ -n "$TARGET" ]; then
+		log_info "Targeting: $TARGET"
+	fi
+
 	if [ "$SKIP_PACKAGE_CHECK" = false ] && [ -f "$PACKAGES_MAP" ]; then
 	    log_info "Package checking enabled (use --skip-package-check to disable)"
 	else
 	    log_warning "Package checking disabled"
 	fi
-	
+
 	echo ""
 
 	find "$HOME_DIR" -mindepth 1 -maxdepth 1 | while read -r src; do
@@ -205,7 +210,12 @@ deploy_all() {
 		        find "$src" -mindepth 1 -maxdepth 1 -type d | while read -r config_dir; do
 		        	app_name="$(basename "$config_dir")"
 				dest="$HOME/.config/$app_name"
-				
+
+				# Skip if not the target
+				if [ -n "$TARGET" ] && [ "$app_name" != "$TARGET" ]; then
+					continue
+				fi
+
 				# Check if destination exists
 			    if [ -e "$dest" ] || [ -L "$dest" ]; then
                     # Try to remove (will backup if force mode)
@@ -238,7 +248,12 @@ deploy_all() {
 		else
             # Regular files/directories in home/ -> ~/.filename
 		    dest="$HOME/.$filename"
-		        
+
+			# Skip if not the target
+			if [ -n "$TARGET" ] && [ "$filename" != "$TARGET" ]; then
+				continue
+			fi
+
             # Check if destination exists
 		    if [ -e "$dest" ] || [ -L "$dest" ]; then
                 # Try to remove (will backup if force mode)
@@ -277,6 +292,11 @@ deploy_all() {
 		find "$BIN_DIR" -mindepth 1 -maxdepth 1 -type f | while read -r script; do
 			script_name="$(basename "$script")"
 			dest="$HOME/.local/bin/$script_name"
+
+			# Skip if not the target
+			if [ -n "$TARGET" ] && [ "$script_name" != "$TARGET" ]; then
+				continue
+			fi
 
 			# Check if destination exists
 			if [ -e "$dest" ] || [ -L "$dest" ]; then
@@ -333,6 +353,7 @@ OPTIONS:
 	-f, --force		Backup and replace ALL existing files/symlinks
 	-n, --new-only		Only deploy files that don't already exist
 	-d, --dry-run		Show deployment plan without making changes
+	-t, --target NAME	Deploy only the specified config/app/script
 	-s, --skip-package-check	Skip package dependency checking
 
 DIRECTORY STRUCTURE:
@@ -386,6 +407,14 @@ while [[ $# -gt 0 ]]; do
 		-s|--skip-package-check)
 			SKIP_PACKAGE_CHECK=true
 			shift
+			;;
+		-t|--target)
+			if [ -z "${2:-}" ]; then
+				log_error "--target requires a config/app name"
+				exit 1
+			fi
+			TARGET="$2"
+			shift 2
 			;;
 		*)
 			log_error "Unknown option: $1"
