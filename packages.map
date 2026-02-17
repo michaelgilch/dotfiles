@@ -37,3 +37,6 @@ Thunar:thunar
 
 # Audio
 pipewire:pipewire
+
+# Other
+sqlite:sqliterc
