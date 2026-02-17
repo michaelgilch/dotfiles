@@ -1,11 +1,7 @@
-^sep(Places)
-Home,xdg-open ~,user-home
-Documents,xdg-open ~/Documents,folder-documents
-Downloads,xdg-open ~/downloads,folder-download
-Pictures,xdg-open ~/Pictures,folder-pictures
-File Manager,thunar,system-file-manager
-Terminal,kitty,utilities-terminal
-^sep(Settings)
+^sep(Applications)
+Thunar,thunar,system-file-manager
+Kitty,kitty,utilities-terminal
+^sep()
 Rename Workspace,i3-rename-workspace,rename-workspace
 Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
 ^sep(System)
@@ -15,7 +11,6 @@ Restart i3,i3-msg restart,i3
 Restart Dunst,killall dunst; dunst &,dunst
 Restart Polybar,polybar-launch,polybar
 Restart Picom,pkill picom; picom -b,picom
-Restart Dropdown Term,kitty --class dropdown-term --name dropdown-term &
 ^sep(Session)
 Lock Screen,i3-lock,system-lock-screen
 Reboot,systemctl reboot,system-reboot
