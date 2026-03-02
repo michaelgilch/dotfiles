@@ -3,6 +3,23 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 # -----------------------------
+# Index
+# -----------------------------
+#
+# Variables             Modifier key and workspace name definitions
+# Appearance            Borders, gaps, font, and focus behavior
+# Window Rules          Floating and placement rules for specific windows
+# Autostart             Applications and services launched on startup
+# Scratchpads           Scratchpad send/show bindings and app includes
+# Keybindings: General  Reload, restart, exit, kill, lock
+# Keybindings: Apps     Terminal, launcher, browser, editor, and tools
+# Keybindings: Nav      Window focus and movement (vim keys + arrows)
+# Keybindings: Layout   Splits, fullscreen, floating, and tab layouts
+# Keybindings: WS       Switch and move containers between workspaces
+# Keybindings: Media    Volume and microphone controls
+# Resize Mode           Interactive window resize mode
+
+# -----------------------------
 # Variables
 # -----------------------------
 
