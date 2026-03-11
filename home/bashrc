@@ -17,7 +17,7 @@ export MANPAGER="less --no-init"
 export PATH=$HOME/.npm-global/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
-export DOTFILES="$HOME/git/personal/dotfiles"
+export DOTFILES="$HOME/git/me/dotfiles"
 
 # History
 HISTCONTROL=ignoredups:ignorespace
