@@ -11,6 +11,10 @@ alias grep='grep --color=auto'
 alias ls='ls --color=auto'
 alias pacman='pacman --color=auto'
 
+# Package Management
+alias yay='pac yay'
+alias pacman='pac pacman'
+
 # Lists
 alias la='ls --almost-all'
 alias ld='ls --directory */'
