@@ -21,12 +21,6 @@ resolve_color() {
     esac
 }
 
-ipc_refresh() {
-    if command -v polybar-msg &>/dev/null; then
-        polybar-msg hook alerts 1 &>/dev/null || true
-    fi
-}
-
 cmd="${1:-}"
 case "$cmd" in
     set)
@@ -36,12 +30,10 @@ case "$cmd" in
         mkdir -p "$dir"
         color="$(resolve_color "$color")"
         printf '%s|%s\n' "$color" "$msg" > "$dir/${name}.alert"
-        ipc_refresh
         ;;
     clear)
         name="${2:?Usage: polybar-alert clear <name>}"
         rm -f "$dir/${name}.alert"
-        ipc_refresh
         ;;
     *)
         echo "Usage: polybar-alert set <name> <color> <message>" >&2

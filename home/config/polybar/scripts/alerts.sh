@@ -10,7 +10,7 @@ for f in "$dir"/*.alert; do
     parts+=("%{F${color}}${msg}%{F-}")
 done
 
-[ ${#parts[@]} -eq 0 ] && exit 0
+[ ${#parts[@]} -eq 0 ] && echo "" && exit 0
 
 sep="  |  "
 result=""
