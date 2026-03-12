@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# polybar-alert - set or clear named polybar alerts
+#
+# Usage:
+#   polybar-alert set <name> <color> <message>
+#   polybar-alert clear <name>
+#
+# Colors: hex (#BF616A) or named: red, orange, yellow
+
+set -euo pipefail
+
+dir="$HOME/.local/share/polybar-alerts"
+
+resolve_color() {
+    case "$1" in
+        red)    echo "#BF616A" ;;
+        orange) echo "#D08770" ;;
+        yellow) echo "#EBCB8B" ;;
+        *)      echo "$1" ;;
+    esac
+}
+
+ipc_refresh() {
+    if command -v polybar-msg &>/dev/null; then
+        polybar-msg hook alerts 1 &>/dev/null || true
+    fi
+}
+
+cmd="${1:-}"
+case "$cmd" in
+    set)
+        name="${2:?Usage: polybar-alert set <name> <color> <message>}"
+        color="${3:?Usage: polybar-alert set <name> <color> <message>}"
+        msg="${4:?Usage: polybar-alert set <name> <color> <message>}"
+        mkdir -p "$dir"
+        color="$(resolve_color "$color")"
+        printf '%s|%s\n' "$color" "$msg" > "$dir/${name}.alert"
+        ipc_refresh
+        ;;
+    clear)
+        name="${2:?Usage: polybar-alert clear <name>}"
+        rm -f "$dir/${name}.alert"
+        ipc_refresh
+        ;;
+    *)
+        echo "Usage: polybar-alert set <name> <color> <message>" >&2
+        echo "       polybar-alert clear <name>" >&2
+        echo "Colors: red, orange, yellow, or hex (#RRGGBB)" >&2
+        exit 1
+        ;;
+esac
