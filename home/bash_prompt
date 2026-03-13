@@ -54,10 +54,10 @@ set_git_prompt()
 
 prompt_command_setup()
 {
-    # Set title of window
-    set_title
+    # Append history
+    history -a
 
-    # Set prompt
+    set_title
     set_git_prompt
 }
 

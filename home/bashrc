@@ -20,11 +20,13 @@ export PATH=$HOME/.local/bin:$PATH
 export DOTFILES="$HOME/git/me/dotfiles"
 
 # History
+# note: ~/.bash_prompt has mechanism to append history after every prompt
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
 HISTFILESIZE=$HISTSIZE
 HISTIGNORE="clear:c:history:h:exit"
 shopt -s histappend
+
 
 # Additional Sources
 [ -f "$HOME"/.bash_aliases ] && source "$HOME"/.bash_aliases
