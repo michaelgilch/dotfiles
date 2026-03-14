@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Refresh mirrorlist using Reflector and custom settings
+
+sudo reflector \
+    --latest 5 \
+    --sort rate \
+    --country "United States" \
+    --protocol https \
+    --save /etc/pacman.d/mirrorlist
+
+notify-send "Mirrorlist Upated" "Pacman mirrorlist updated!" \
+    -i software-update-available \
+    -u normal \
+    -t 10000 \
+    -a "System Updates"
