@@ -44,6 +44,7 @@ alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 alias data='cd /data/'
 alias dot='cd $DOTFILES'
 alias conf='cd $HOME/git/me/arch-config'
+alias think='cd $HOME/think'
 
 # Misc
 alias c='clear'
