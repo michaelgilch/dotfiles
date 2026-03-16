@@ -1,0 +1,98 @@
+#!/bin/bash
+#
+# Apply a named layout to the next available empty workspace on the current monitor.
+#
+# Usage: i3-layout apply <layout-name>
+#
+# Workspaces 1-10 are split by parity: odd on the left monitor, even on the right.
+# The script finds the lowest empty workspace matching the current monitor's parity,
+# switches to it, applies the layout, launches the apps, and prompts for a name.
+#
+# To recreate a layout JSON:
+#   1. Arrange windows on a workspace how you want them (splits, sizes, positions)
+#   2. Run: i3-save-tree --workspace "<name>" > ~/.config/i3/layouts/<layout>.json
+#   3. Clean up the output:
+#      - Remove comment lines (// split container, etc.)
+#      - Uncomment the "class" and "instance" lines in each swallows block
+#      - Delete everything else in swallows (title, machine, window_role)
+#      - Remove non-layout fields: name, geometry, marks, window, window_properties
+#
+# i3-save-tree captures the container tree (splits, proportions, nesting) and
+# commented-out swallows criteria for matching windows to placeholders.
+
+LAYOUTS_DIR="$HOME/.config/i3/layouts"
+
+die() {
+    notify-send -u critical "i3-layout" "$1"
+    exit 1
+}
+
+usage() {
+    echo "Usage: i3-layout apply <layout-name>" >&2
+    exit 1
+}
+
+# Launch apps for a given layout
+launch_apps() {
+    case "$1" in
+        utility)
+            kitty &
+            subl --new-window &
+            thunar &
+            ;;
+        *)
+            die "Unknown layout: $1"
+            ;;
+    esac
+}
+
+# Get the layout JSON path
+layout_file() {
+    local file="$LAYOUTS_DIR/$1.json"
+    [[ -f "$file" ]] || die "Layout file not found: $file"
+    echo "$file"
+}
+
+# Find the lowest empty workspace (1-10) matching the given parity (0=even, 1=odd)
+find_empty_workspace() {
+    local parity=$1
+    local occupied
+    occupied=$(i3-msg -t get_workspaces | python3 -c "
+import json, sys
+for ws in json.load(sys.stdin):
+    print(ws['num'])
+")
+
+    for num in $(seq 1 10); do
+        if (( num % 2 == parity )) && ! echo "$occupied" | grep -qx "$num"; then
+            echo "$num"
+            return
+        fi
+    done
+}
+
+# --- Main ---
+
+[[ "$1" == "apply" && -n "$2" ]] || usage
+
+layout_name="$2"
+layout_json=$(layout_file "$layout_name") || exit 1
+
+# Determine current monitor's parity
+current_ws=$(i3-msg -t get_workspaces | python3 -c "
+import json, sys
+print(next(ws['num'] for ws in json.load(sys.stdin) if ws['focused']))
+")
+parity=$(( current_ws % 2 ))
+
+# Find target workspace
+target_ws=$(find_empty_workspace "$parity")
+[[ -n "$target_ws" ]] || die "No empty workspaces available on this monitor."
+
+# Apply layout and launch apps
+i3-msg "workspace $target_ws"
+i3-msg "append_layout $layout_json"
+launch_apps "$layout_name"
+
+# Prompt for workspace name
+exec ~/.local/bin/i3-rename-workspace
