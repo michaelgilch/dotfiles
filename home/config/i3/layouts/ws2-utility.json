@@ -1,0 +1,49 @@
+{
+    "border": "pixel",
+    "current_border_width": 3,
+    "floating": "auto_off",
+    "percent": 0.5,
+    "swallows": [
+        {
+            "class": "^kitty$",
+            "instance": "^kitty$"
+        }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "pixel",
+            "current_border_width": 3,
+            "floating": "auto_off",
+            "percent": 0.739376770538244,
+            "swallows": [
+                {
+                    "class": "^Sublime_text$",
+                    "instance": "^sublime_text$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 3,
+            "floating": "auto_off",
+            "percent": 0.260623229461756,
+            "swallows": [
+                {
+                    "class": "^Thunar$",
+                    "instance": "^thunar$"
+                }
+            ],
+            "type": "con"
+        }
+    ]
+}

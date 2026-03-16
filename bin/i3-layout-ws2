@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Apply my "Utility" layout to WS2: kitty left, sublime top-right, thunar bottom-right
+#
+# To recreate the layout JSON:
+#   1. Arrange windows on WS2 how you want them (splits, sizes, positions)
+#   2. Run: i3-save-tree --workspace "2: Utility" > ~/.config/i3/layouts//ws2-utility.json
+#   3. Clean up the output:
+#      - Remove comment lines (// split container, etc.)
+#      - Uncomment the "class" and "instance" lines in each swallows block
+#      - Delete everything else in swallows (title, machine, window_role)
+#      - Remove non-layout fields: name, geometry, marks, window, window_properties
+#
+# i3-save-tree captures the container tree (splits, proportions, nesting) and
+# commented-out swallows criteria for matching windows to placeholders.
+
+WORKSPACE="2: Utility"
+LAYOUT="$HOME/.config/i3/layouts/ws2-utility.json"
+
+i3-msg "workspace \"$WORKSPACE\""
+i3-msg "append_layout $LAYOUT"
+
+kitty &
+subl --new-window &
+thunar &
