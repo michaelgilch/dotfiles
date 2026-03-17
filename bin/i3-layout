@@ -53,6 +53,32 @@ layout_file() {
     echo "$file"
 }
 
+# Check if the focused workspace has any window containers
+current_ws_is_empty() {
+    i3-msg -t get_tree | python3 -c "
+import json, sys
+
+def find_focused_ws(node):
+    if node.get('type') == 'workspace' and node.get('focused', False):
+        return node
+    if node.get('type') == 'workspace':
+        for n in node.get('nodes', []) + node.get('floating_nodes', []):
+            if n.get('focused', False):
+                return node
+    for child in node.get('nodes', []) + node.get('floating_nodes', []):
+        result = find_focused_ws(child)
+        if result:
+            return result
+    return None
+
+tree = json.load(sys.stdin)
+ws = find_focused_ws(tree)
+if ws and not ws.get('nodes', []) and not ws.get('floating_nodes', []):
+    sys.exit(0)
+sys.exit(1)
+"
+}
+
 # Find the lowest empty workspace (1-10) matching the given parity (0=even, 1=odd)
 find_empty_workspace() {
     local parity=$1
@@ -85,9 +111,13 @@ print(next(ws['num'] for ws in json.load(sys.stdin) if ws['focused']))
 ")
 parity=$(( current_ws % 2 ))
 
-# Find target workspace
-target_ws=$(find_empty_workspace "$parity")
-[[ -n "$target_ws" ]] || die "No empty workspaces available on this monitor."
+# Use current workspace if empty, otherwise find the next available one
+if current_ws_is_empty; then
+    target_ws=$current_ws
+else
+    target_ws=$(find_empty_workspace "$parity")
+    [[ -n "$target_ws" ]] || die "No empty workspaces available on this monitor."
+fi
 
 # Apply layout and launch apps
 i3-msg "workspace $target_ws"
