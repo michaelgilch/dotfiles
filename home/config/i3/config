@@ -191,8 +191,9 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # Layout presets
 bindsym $mod+Shift+F2 exec --no-startup-id i3-layout apply utility
 
-# Change workspace names
+# Rename or move workspaces
 bindsym $mod+n exec ~/.local/bin/i3-rename-workspace
+bindsym $mod+Shift+n exec ~/.local/bin/i3-rename-workspace move
 
 # -----------------------------
 # Keybindings: Media

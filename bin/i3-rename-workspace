@@ -1,7 +1,85 @@
 #!/bin/bash
+#
+# Rename or move the focused workspace.
+#
+# Usage:
+#   i3-rename-workspace [rename]   Prompt for a new name (keeps workspace number)
+#   i3-rename-workspace move       Prompt for a new number (keeps existing name)
 
-ws_num=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .num')
-new_name=$(echo "" | rofi -dmenu -p "Rename workspace $ws_num:")
-if [ -n "$new_name" ]; then
-    i3-msg "rename workspace to \"$ws_num: $new_name\""
+mode="${1:-rename}"
+
+ws_json=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused)')
+ws_num=$(echo "$ws_json" | jq -r '.num')
+ws_name=$(echo "$ws_json" | jq -r '.name')
+
+# Extract the label portion after "N: " if present
+current_label=""
+if [[ "$ws_name" =~ ^[0-9]+:\ (.+)$ ]]; then
+    current_label="${BASH_REMATCH[1]}"
 fi
+
+# Check whether a workspace number has any windows (tiled or floating)
+workspace_has_windows() {
+    local num=$1
+    i3-msg -t get_tree | python3 -c "
+import json, sys
+
+def find_ws(node, num):
+    if node.get('type') == 'workspace' and node.get('num') == num:
+        return node
+    for child in node.get('nodes', []) + node.get('floating_nodes', []):
+        result = find_ws(child, num)
+        if result:
+            return result
+    return None
+
+tree = json.load(sys.stdin)
+ws = find_ws(tree, $num)
+sys.exit(0 if ws and (ws.get('nodes') or ws.get('floating_nodes')) else 1)
+"
+}
+
+case "$mode" in
+    rename)
+        new_name=$(echo "" | rofi -dmenu -p "Rename workspace $ws_num:")
+        if [[ -n "$new_name" ]]; then
+            i3-msg "rename workspace to \"$ws_num: $new_name\""
+        fi
+        ;;
+
+    move)
+        # Prompt for target workspace number (loops until valid or cancelled)
+        while true; do
+            target_num=$(echo "" | rofi -dmenu -p "Move workspace $ws_num to #:")
+            [[ -z "$target_num" ]] && exit 0
+
+            if ! [[ "$target_num" =~ ^[0-9]+$ ]]; then
+                rofi -e "Please enter a number."
+                continue
+            fi
+
+            if [[ "$target_num" -eq "$ws_num" ]]; then
+                rofi -e "Already on workspace $ws_num."
+                continue
+            fi
+
+            if workspace_has_windows "$target_num"; then
+                rofi -e "Workspace $target_num is already in use."
+                continue
+            fi
+
+            break
+        done
+
+        if [[ -n "$current_label" ]]; then
+            i3-msg "rename workspace to \"$target_num: $current_label\""
+        else
+            i3-msg "rename workspace to \"$target_num\""
+        fi
+        ;;
+
+    *)
+        echo "Usage: i3-rename-workspace [rename|move]" >&2
+        exit 1
+        ;;
+esac
