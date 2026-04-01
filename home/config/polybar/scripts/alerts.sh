@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 dir="$HOME/.local/share/polybar-alerts"
-[ -d "$dir" ] || exit 0
+mkdir -p "$dir"
+
+# VPN alert: check for ppp/tun interfaces
+vpn_alert="$dir/vpn.alert"
+vpn_connected=false
+for iface in /sys/class/net/ppp* /sys/class/net/tun*; do
+    [ -e "$iface" ] && vpn_connected=true && break
+done
+if $vpn_connected; then
+    echo "#A3BE8C|󰌆 VPN" > "$vpn_alert"
+else
+    rm -f "$vpn_alert"
+fi
 
 parts=()
 for f in "$dir"/*.alert; do
