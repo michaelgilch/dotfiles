@@ -5,6 +5,9 @@ Kitty,kitty,utilities-terminal
 Rename Workspace,i3-rename-workspace,rename-workspace
 Move Workspace,i3-rename-workspace move,move-workspace
 Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
+^sep(Audio)
+Audio Output,^pipe(jg-audio-output),audio-speakers
+Audio Input,^pipe(jg-audio-input),audio-input-microphone
 ^sep(System)
 Refresh mirrorlist,reflector-mirrorlist,pacman
 Reload i3 Config,i3-msg reload,i3-wm

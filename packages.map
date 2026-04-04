@@ -37,6 +37,7 @@ Thunar:thunar
 
 # Audio
 pipewire:pipewire
+wireplumber:wireplumber
 
 # Other
 sqlite:sqliterc

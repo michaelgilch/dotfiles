@@ -1,0 +1,26 @@
+#!/bin/bash
+# jgmenu pipe script for selecting the default audio output device
+#
+# Device registry: "Friendly Name|pactl_name_pattern|icon"
+# Only devices matching a registry entry AND currently available are shown.
+# Add new devices here as needed.
+
+DEVICES=(
+    "Speakers|alsa_output.pci-.*analog-stereo|audio-speakers"
+    "Bluetooth|bluez_output.*|audio-headphones"
+)
+
+current_default=$(pactl get-default-sink)
+available_sinks=$(pactl list sinks short | awk '{print $2}')
+
+for entry in "${DEVICES[@]}"; do
+    IFS='|' read -r label pattern icon <<< "$entry"
+
+    match=$(echo "$available_sinks" | grep -m1 -E "$pattern")
+    [[ -z "$match" ]] && continue
+
+    prefix=""
+    [[ "$match" == "$current_default" ]] && prefix="* "
+
+    echo "${prefix}${label},pactl set-default-sink ${match} && notify-send -h string:x-dunst-stack-tag:audio-switch 'Audio Output' 'Switched to ${label}',${icon}"
+done
