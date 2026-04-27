@@ -12,6 +12,27 @@ UPTIME=$(awk '{
 }' /proc/uptime)
 PACMAN_CACHE=$(du -sh /var/cache/pacman/pkg 2>/dev/null | awk '{print $1}')
 
+# Show on the inner edge of the active monitor (facing the center of the
+# multi-monitor layout). Parse xrandr to find the right edge of the leftmost
+# monitor; mouse left of that boundary -> right-align, otherwise -> left-align.
+BOUNDARY=$(xrandr --query | grep ' connected' | \
+    grep -oP '\d+x\d+\+\d+\+\d+' | \
+    awk -F'[x+]' '{print $3, $1}' | \
+    sort -n | \
+    awk 'NR==1 {print $1 + $2}')
+
+MOUSE_X=$(xdotool getmouselocation 2>/dev/null | grep -oP '(?<=x:)\d+')
+
+if [ -z "$MOUSE_X" ] || [ -z "$BOUNDARY" ] || [ "$MOUSE_X" -lt "$BOUNDARY" ]; then
+    HALIGN="right"
+else
+    HALIGN="left"
+fi
+
+TMPCONF=$(mktemp /tmp/jgmenu-XXXXXX.conf)
+trap 'rm -f "$TMPCONF"' EXIT
+sed "s/^menu_halign.*/menu_halign = $HALIGN/" "$CONFIG_DIR/panel.conf" > "$TMPCONF"
+
 {
     echo "^sep(System Info)"
     echo " Uptime: $UPTIME,,,,#2e3440 0,#d8dee9 100"
@@ -19,5 +40,4 @@ PACMAN_CACHE=$(du -sh /var/cache/pacman/pkg 2>/dev/null | awk '{print $1}')
     echo "^sep()"
     echo " Pacman Cache: $PACMAN_CACHE,,,,#2e3440 0,#d8dee9 100"
     cat "$CONFIG_DIR/panel.csv"
-} | jgmenu --simple --config-file="$CONFIG_DIR/panel.conf" --csv-file=/dev/stdin
-
+} | jgmenu --simple --config-file="$TMPCONF" --csv-file=/dev/stdin
