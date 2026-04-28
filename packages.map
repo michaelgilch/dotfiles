@@ -39,5 +39,10 @@ Thunar:thunar
 pipewire:pipewire
 wireplumber:wireplumber
 
+# VPN / Remote access
+vpn-connect:openfortivpn
+vpn-ssh-app:sshpass
+jg-vpn-menu:openfortivpn
+
 # Other
 sqlite:sqliterc

@@ -1,0 +1,30 @@
+#!/bin/bash
+# Launches a GUI application over SSH with X forwarding.
+# Only works when VPN is active (ppp0 interface present).
+# Requires: sshpass package, sudo NOPASSWD for /usr/bin/openfortivpn
+
+VPN_CONFIG="$HOME/.config/vpn/config"
+
+if [[ ! -f "$VPN_CONFIG" ]]; then
+    notify-send -u critical "VPN SSH" "Config not found at $VPN_CONFIG"
+    exit 1
+fi
+
+source "$VPN_CONFIG"
+
+APP="$1"
+
+if [[ -z "$APP" ]]; then
+    notify-send -u critical "VPN SSH" "No application specified"
+    exit 1
+fi
+
+if ! ip link show ppp0 &>/dev/null 2>&1; then
+    notify-send -u critical "VPN Required" "Connect to VPN before launching remote apps"
+    exit 1
+fi
+
+PASSWORD=$(rofi -dmenu -password -p "SSH Password ($SSH_USER@$SSH_HOST)" -lines 0)
+[[ -z "$PASSWORD" ]] && exit 0
+
+sshpass -p "$PASSWORD" ssh -X -C "$SSH_USER@$SSH_HOST" "$APP" &

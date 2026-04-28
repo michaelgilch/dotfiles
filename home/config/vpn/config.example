@@ -1,0 +1,22 @@
+# Copy this file to ~/.config/vpn/config and fill in your values.
+# ~/.config/vpn/config is gitignored and will not be committed to the repo.
+#
+# Sudoers requirements (NOPASSWD):
+#   /usr/bin/openfortivpn   -- for vpn-connect
+#   /usr/bin/pkill          -- for VPN disconnect from jgmenu
+
+# openfortivpn connection settings
+VPN_HOST="vpn.example.com"
+VPN_PORT="443"
+VPN_USERNAME="your_vpn_username"
+VPN_TRUSTED_CERT=""   # Optional: paste certificate hash from openfortivpn output
+
+# SSH remote access
+SSH_HOST="10.1.135.1"
+SSH_USER="your_ssh_username"
+
+# SSH applications to launch over VPN (requires: sshpass)
+# Format: "Display Name|command|icon_name"
+SSH_APPS=(
+    "Thunderbird|thunderbird|thunderbird"
+)

@@ -1,0 +1,36 @@
+#!/bin/bash
+# Connects to VPN via openfortivpn using a rofi password prompt.
+# Runs openfortivpn in the background; cleans up temp config on exit.
+# Requires: sudo NOPASSWD for /usr/bin/openfortivpn
+
+VPN_CONFIG="$HOME/.config/vpn/config"
+
+if [[ ! -f "$VPN_CONFIG" ]]; then
+    notify-send -u critical "VPN" "Config not found at $VPN_CONFIG"
+    exit 1
+fi
+
+source "$VPN_CONFIG"
+
+PASSWORD=$(rofi -dmenu -password -p "VPN Password ($VPN_USERNAME@$VPN_HOST)" -lines 0)
+[[ -z "$PASSWORD" ]] && exit 0
+
+TMPCONF=$(mktemp /tmp/openfortivpn-XXXXX.conf)
+chmod 600 "$TMPCONF"
+
+{
+    echo "host = $VPN_HOST"
+    echo "port = $VPN_PORT"
+    echo "username = $VPN_USERNAME"
+    echo "password = $PASSWORD"
+    [[ -n "$VPN_TRUSTED_CERT" ]] && echo "trusted-cert = $VPN_TRUSTED_CERT"
+} > "$TMPCONF"
+
+notify-send "VPN" "Connecting to $VPN_HOST..."
+
+# Run in a background subshell so the trap owns the openfortivpn lifetime
+# and cleans up the temp config only after the process exits.
+(
+    trap 'rm -f "$TMPCONF"; notify-send "VPN" "Disconnected"' EXIT
+    sudo openfortivpn -c "$TMPCONF" &>/dev/null
+) &

@@ -8,6 +8,8 @@ Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
 ^sep(Audio)
 Audio Output,^pipe(jg-audio-output),audio-speakers
 Audio Input,^pipe(jg-audio-input),audio-input-microphone
+^sep(Network)
+VPN,^pipe(jg-vpn-menu),network-vpn
 ^sep(System)
 Refresh mirrorlist,reflector-mirrorlist,pacman
 Reload i3 Config,i3-msg reload,i3-wm

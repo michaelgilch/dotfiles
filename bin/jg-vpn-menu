@@ -1,0 +1,32 @@
+#!/bin/bash
+# jgmenu pipe script for VPN connection and SSH app management.
+# Requires: ~/.config/vpn/config (see config.example)
+# Requires: sudo NOPASSWD for /usr/bin/openfortivpn and /usr/bin/pkill
+
+VPN_CONFIG="$HOME/.config/vpn/config"
+
+if [[ ! -f "$VPN_CONFIG" ]]; then
+    echo "VPN (not configured),notify-send -u critical 'VPN' 'Config not found at $VPN_CONFIG',dialog-error"
+    exit 0
+fi
+
+source "$VPN_CONFIG"
+
+vpn_active() {
+    ip link show ppp0 &>/dev/null 2>&1
+}
+
+if vpn_active; then
+    echo "^sep(VPN: Connected)"
+    echo "Disconnect,sudo pkill openfortivpn,network-offline"
+    if [[ ${#SSH_APPS[@]} -gt 0 ]]; then
+        echo "^sep(Remote Apps)"
+        for entry in "${SSH_APPS[@]}"; do
+            IFS='|' read -r name cmd icon <<< "$entry"
+            echo "$name,vpn-ssh-app '$cmd',${icon:-application-x-executable}"
+        done
+    fi
+else
+    echo "^sep(VPN: Disconnected)"
+    echo "Connect,vpn-connect,network-vpn"
+fi
