@@ -1,16 +1,16 @@
 ^sep(Applications)
 Thunar,thunar,system-file-manager
 Kitty,kitty,utilities-terminal
-^sep()
-Rename Workspace,i3-rename-workspace,rename-workspace
-Move Workspace,i3-rename-workspace move,move-workspace
-Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
+^sep(Network)
+VPN,^pipe(jg-vpn-menu),network-vpn
 ^sep(Audio)
 Audio Output,^pipe(jg-audio-output),audio-speakers
 Audio Input,^pipe(jg-audio-input),audio-input-microphone
-^sep(Network)
-VPN,^pipe(jg-vpn-menu),network-vpn
 ^sep(System)
+Rename Workspace,i3-rename-workspace,rename-workspace
+Move Workspace,i3-rename-workspace move,move-workspace
+Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
+^sep()
 Refresh mirrorlist,reflector-mirrorlist,pacman
 Reload i3 Config,i3-msg reload,i3-wm
 Restart i3,i3-msg restart,i3
