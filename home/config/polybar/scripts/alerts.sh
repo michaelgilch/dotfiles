@@ -9,7 +9,7 @@ for iface in /sys/class/net/ppp* /sys/class/net/tun*; do
     [ -e "$iface" ] && vpn_connected=true && break
 done
 if $vpn_connected; then
-    echo "#A3BE8C|󰌆 VPN" > "$vpn_alert"
+    echo "#A3BE8C|%{A1:jg-vpn-popup:}󰌆 VPN%{A}" > "$vpn_alert"
 else
     rm -f "$vpn_alert"
 fi

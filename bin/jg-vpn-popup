@@ -1,0 +1,15 @@
+#!/bin/bash
+# Opens jgmenu with VPN controls. Called from polybar alerts click handler.
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/jgmenu"
+
+MOUSE_X=$(xdotool getmouselocation 2>/dev/null | grep -oP '(?<=x:)\d+')
+
+TMPCONF=$(mktemp /tmp/jgmenu-XXXXXX.conf)
+trap 'rm -f "$TMPCONF"' EXIT
+
+sed "s/^menu_halign.*/menu_halign = left/
+     s/^menu_margin_x.*/menu_margin_x = ${MOUSE_X:-0}/" \
+    "$CONFIG_DIR/panel.conf" > "$TMPCONF"
+
+jg-vpn-menu | jgmenu --simple --config-file="$TMPCONF" --csv-file=/dev/stdin
