@@ -19,6 +19,13 @@ vpn_active() {
 if vpn_active; then
     echo "^sep(VPN: Connected)"
     echo "Disconnect,sudo pkill openfortivpn,network-offline"
+    if [[ ${#SSH_SESSIONS[@]} -gt 0 ]]; then
+        echo "^sep(SSH Sessions)"
+        for entry in "${SSH_SESSIONS[@]}"; do
+            IFS='|' read -r name cmd icon <<< "$entry"
+            echo "$name,$cmd,${icon:-utilities-terminal}"
+        done
+    fi
     if [[ ${#SSH_APPS[@]} -gt 0 ]]; then
         echo "^sep(Remote Apps)"
         for entry in "${SSH_APPS[@]}"; do

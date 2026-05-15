@@ -15,6 +15,13 @@ VPN_TRUSTED_CERT=""   # Optional: paste certificate hash from openfortivpn outpu
 SSH_HOST="10.1.135.1"
 SSH_USER="your_ssh_username"
 
+# SSH terminal sessions to open over VPN
+# Format: "Display Name|command|icon_name"
+# Command is executed as-is; use your terminal emulator (e.g. kitty -e ssh ...).
+SSH_SESSIONS=(
+    "hostname|kitty -e ssh user@hostname|utilities-terminal"
+)
+
 # SSH applications to launch over VPN (requires: sshpass)
 # Format: "Display Name|command|icon_name"
 SSH_APPS=(
