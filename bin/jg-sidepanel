@@ -35,9 +35,7 @@ sed "s/^menu_halign.*/menu_halign = $HALIGN/" "$CONFIG_DIR/panel.conf" > "$TMPCO
 
 {
     echo "^sep(System Info)"
-    echo " Uptime: $UPTIME,,,,#2e3440 0,#d8dee9 100"
     echo " Kernel: $(uname -r),,,,#2e3440 0,#d8dee9 100"
-    echo "^sep()"
-    echo " Pacman Cache: $PACMAN_CACHE,,,,#2e3440 0,#d8dee9 100"
-    cat "$CONFIG_DIR/panel.csv"
+    sed "s/^Reboot,/Reboot   [<b>$UPTIME<\/b>],/
+         s/^Clean Cache,/Clean Cache   [<b>$PACMAN_CACHE<\/b>],/" "$CONFIG_DIR/panel.csv"
 } | jgmenu --simple --config-file="$TMPCONF" --csv-file=/dev/stdin

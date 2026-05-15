@@ -1,20 +1,19 @@
-^sep(Applications)
-Thunar,thunar,system-file-manager
-Kitty,kitty,utilities-terminal
 ^sep(Network)
 VPN,^pipe(jg-vpn-menu),network-vpn
 ^sep(Audio)
 Audio Output,^pipe(jg-audio-output),audio-speakers
 Audio Input,^pipe(jg-audio-input),audio-input-microphone
-^sep(System)
-Rename Workspace,i3-rename-workspace,rename-workspace
-Move Workspace,i3-rename-workspace move,move-workspace
+^sep(Workspaces)
 Wallpaper,^pipe(jg-wallpaper-menu),wallpaper
 ^sep()
+Rename Workspace,i3-rename-workspace,rename-workspace
+Move Workspace,i3-rename-workspace move,move-workspace
+^sep(Package Management)
 Refresh mirrorlist,reflector-mirrorlist,pacman
+Clean Cache,sudo paccache -r,system-software-install
+^sep(System)
 Reload i3 Config,i3-msg reload,i3-wm
 Restart i3,i3-msg restart,i3
-^sep()
 Restart Dunst,killall dunst; dunst &,dunst
 Restart Polybar,polybar-launch,polybar
 Restart Picom,pkill picom; picom -b,picom
