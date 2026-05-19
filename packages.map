@@ -45,4 +45,4 @@ vpn-ssh-app:sshpass
 jg-vpn-menu:openfortivpn
 
 # Other
-sqlite:sqliterc
+sqliterc:sqlite
