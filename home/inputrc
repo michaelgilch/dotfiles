@@ -10,6 +10,3 @@ set mark-symlinked-directories on
 
 # List possible completions on first tab
 set show-all-if-ambiguous on
-
-
-
