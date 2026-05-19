@@ -59,4 +59,4 @@ alias wget='wget --continue'
 
 alias ssh-forget='ssh-keygen -R'
 
-source ~/.bash_aliases_private
+[ -f ~/.bash_aliases_private ] && source ~/.bash_aliases_private
