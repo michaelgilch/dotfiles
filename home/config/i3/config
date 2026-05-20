@@ -49,6 +49,23 @@ font pango:DejaVu Sans Mono 10
 
 focus_follows_mouse no
 
+# Nord palette
+set $nord0  #2E3440
+set $nord1  #3B4252
+set $nord3  #4C566A
+set $nord6  #ECEFF4
+set $nord8  #88C0D0
+set $nord11 #BF616A
+
+# class                 border   background  text     indicator  child_border
+client.focused          $nord8   $nord0      $nord6   $nord8     $nord8
+client.focused_inactive $nord1   $nord0      $nord6   $nord1     $nord1
+client.unfocused        $nord0   $nord0      $nord3   $nord0     $nord0
+client.urgent           $nord11  $nord0      $nord6   $nord11    $nord11
+client.placeholder      $nord0   $nord0      $nord6   $nord0     $nord0
+
+client.background       $nord0
+
 # -----------------------------
 # Window Rules
 # -----------------------------
