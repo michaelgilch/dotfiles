@@ -11,10 +11,6 @@ alias grep='grep --color=auto'
 alias ls='ls --color=auto'
 alias pacman='pacman --color=auto'
 
-# Package Management
-alias yay='pac yay'
-alias pacman='pac pacman'
-
 # Lists
 alias la='ls --almost-all'
 alias ld='ls --directory */'
@@ -31,7 +27,7 @@ alias ga='git add'
 alias gc='git commit'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias gl='git log --oneline'
+alias gl='git log --oneline | head'
 alias gp='git push'
 alias gr='git -r rm'
 alias gs='git status --short --branch'
@@ -42,11 +38,9 @@ alias nvi='vim -N -u NONE -i NONE'  # skip vimrc/viminfo, but use no-compatible
 
 # Navigation
 alias c='clear; cd'
-alias conf='cd $HOME/git/me/arch-config'
+alias conf='cd $HOME/arch-config'
 alias data='cd /data/'
 alias dot='cd $DOTFILES'
-alias gilch='cd $HOME/git/me/gilch-v2'
-alias think='cd $HOME/think'
 
 # Misc
 alias df='df --human-readable --print-type --exclude-type=tmpfs --exclude-type=devtmpfs'  
