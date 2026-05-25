@@ -1,5 +1,8 @@
-sublime
-!sublime/Packages/User/*
+# Sublime Text: only track Packages/User (license + local state live elsewhere)
+home/config/sublime-text/*
+!home/config/sublime-text/Packages/
+home/config/sublime-text/Packages/*
+!home/config/sublime-text/Packages/User/
 
 home/vim/autoload
 home/vim/plugged

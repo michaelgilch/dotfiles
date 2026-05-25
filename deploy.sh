@@ -216,6 +216,36 @@ deploy_all() {
 					continue
 				fi
 
+				# Special-case: sublime-text stores its license under Local/, so we
+				# only symlink Packages/User/ instead of the whole config directory.
+				if [ "$app_name" = "sublime-text" ]; then
+					src_user="$config_dir/Packages/User"
+					dest_user="$HOME/.config/sublime-text/Packages/User"
+
+					if [ -e "$dest_user" ] || [ -L "$dest_user" ]; then
+						if ! remove_existing "$dest_user"; then
+							echo "Skipped (exists): $dest_user"
+							continue
+						fi
+					fi
+
+					if ! should_deploy_config "$app_name"; then
+						required=$(get_required_packages "$app_name")
+						log_warning "Skipped (missing packages): $app_name (needs: $required)"
+						continue
+					fi
+
+					if [ "$DRY_RUN" = true ]; then
+						log_info "[DRY RUN] Would link: $dest_user -> $src_user"
+						continue
+					fi
+
+					mkdir -p "$(dirname "$dest_user")"
+					ln -sf "$src_user" "$dest_user"
+					log_success "Linked: $dest_user"
+					continue
+				fi
+
 				# Check if destination exists
 			    if [ -e "$dest" ] || [ -L "$dest" ]; then
                     # Try to remove (will backup if force mode)

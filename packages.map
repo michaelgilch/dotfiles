@@ -18,6 +18,7 @@ gitconfig:git
 
 # Editors
 vim:vim
+sublime-text:sublime-text
 
 # Terminal emulators
 kitty:kitty
