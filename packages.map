@@ -47,3 +47,6 @@ jg-vpn-menu:openfortivpn
 
 # Other
 sqliterc:sqlite
+
+# Desktop files
+sublime-text-new-window:sublime-text

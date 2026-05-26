@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Sublime Text (New)
+Comment=Opens Sublime in new window
+Exec=subl --new-window %F
+Icon=sublime-text
+Type=Application
+Categories=TextEditor;Development;
+StartupNotify=true

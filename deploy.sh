@@ -10,6 +10,7 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOME_DIR="$DOTFILES_DIR/home"
 BIN_DIR="$DOTFILES_DIR/bin"
+APPLICATIONS_DIR="$DOTFILES_DIR/applications"
 PACKAGES_MAP="$DOTFILES_DIR/packages.map"
 BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
@@ -358,6 +359,49 @@ deploy_all() {
 		done
 	fi
 
+	# Deploy applications/ .desktop files (individual symlinks to ~/.local/share/applications/)
+	if [ -d "$APPLICATIONS_DIR" ]; then
+		find "$APPLICATIONS_DIR" -mindepth 1 -maxdepth 1 -type f -name '*.desktop' | while read -r desktop; do
+			desktop_name="$(basename "$desktop")"
+			# Strip .desktop for packages.map lookup and --target matching
+			app_key="${desktop_name%.desktop}"
+			dest="$HOME/.local/share/applications/$desktop_name"
+
+			# Skip if not the target (match either with or without .desktop)
+			if [ -n "$TARGET" ] && [ "$desktop_name" != "$TARGET" ] && [ "$app_key" != "$TARGET" ]; then
+				continue
+			fi
+
+			# Check if destination exists
+			if [ -e "$dest" ] || [ -L "$dest" ]; then
+				if ! remove_existing "$dest"; then
+					echo "Skipped (exists): $dest"
+					continue
+				fi
+			fi
+
+			# Check if required packages are installed
+			if ! should_deploy_config "$app_key"; then
+				required=$(get_required_packages "$app_key")
+				log_warning "Skipped (missing packages): $desktop_name (needs: $required)"
+				continue
+			fi
+
+			# DRY RUN: Don't actually create anything
+			if [ "$DRY_RUN" = true ]; then
+				log_info "[DRY RUN] Would link: $dest -> $desktop"
+				continue
+			fi
+
+			# Create ~/.local/share/applications if it doesn't exist
+			mkdir -p "$HOME/.local/share/applications"
+
+			# Create symlink
+			ln -sf "$desktop" "$dest"
+			log_success "Linked: $dest"
+		done
+	fi
+
 	echo ""
 
     if [ "$DRY_RUN" = true ]; then
@@ -390,7 +434,8 @@ DIRECTORY STRUCTURE:
 	home/		-> ~/.*
 	home/config/	-> ~/.config/*
 	home/vim/	-> ~/.vim/*
-	bin/		-> ~/bin/* (helper scripts used by configs)
+	bin/		-> ~/.local/bin/* (helper scripts used by configs)
+	applications/	-> ~/.local/share/applications/*.desktop
 
 FORCE MODE:
     With --force, existing files/directories/symlinks are backed up to
