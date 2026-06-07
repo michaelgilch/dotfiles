@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 clear
 
 echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║           ARCH LINUX SYSTEM UPDATE CHECK                  ║${NC}"
+echo -e "${CYAN}║            ARCH LINUX SYSTEM UPDATE CHECK                  ║${NC}"
 echo -e "${CYAN}╚════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
