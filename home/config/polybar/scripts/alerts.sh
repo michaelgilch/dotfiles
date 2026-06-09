@@ -14,6 +14,11 @@ else
     rm -f "$vpn_alert"
 fi
 
+# repo-check alert: re-derive from report.json every refresh so the count
+# stays in sync with the latest report (timed fetch, manual run, or menu
+# re-check) and clears itself when all repos go clean.
+repo-check-alert 2>/dev/null || true
+
 parts=()
 for f in "$dir"/*.alert; do
     [ -f "$f" ] || continue
@@ -24,7 +29,7 @@ done
 
 [ ${#parts[@]} -eq 0 ] && echo "" && exit 0
 
-sep="  |  "
+sep="  "
 result=""
 for i in "${!parts[@]}"; do
     if [ "$i" -eq 0 ]; then

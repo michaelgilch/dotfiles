@@ -1,0 +1,52 @@
+#!/bin/bash
+# Bridge: reflect repo-check's report.json as a polybar alert.
+#
+# This is the (desktop-specific) half of repo-check — it reads the public
+# report.json (written by `repo-check run`/`fetch`) and maps it to a polybar
+# alert. Severity->colour and the icon live HERE, next to the rest of the
+# polybar theming, not in the desktop-agnostic tool.
+#
+# It is idempotent and cheap: it derives the alert purely from the current
+# report.json, so running it on every polybar refresh (see alerts.sh) keeps the
+# number in sync no matter who last wrote the report — the timed `fetch`, a
+# manual `repo-check run`, or the menu's re-check actions. That is what keeps
+# the count from going stale (and from sticking when repos go clean).
+set -euo pipefail
+
+STATE="${REPO_CHECK_STATE:-$HOME/.local/state/repo-check}/report.json"
+NAME="repo-check"
+CLICK="repo-check-popup"
+ICON="󰘬"   # nerd-font (Material Design) source-branch glyph — matches the bar
+
+# No report yet -> nothing to show.
+if [[ ! -s "$STATE" ]]; then
+    polybar-alert clear "$NAME"
+    exit 0
+fi
+
+# Pull the dirty count and the worst severity across dirty repos in one pass.
+# Severity is derived from the per-repo fields the report actually carries
+# (the tool no longer ships a precomputed max_severity).
+read -r dirty maxsev < <(jq -r '
+    ( .summary.dirty // 0 ) as $d
+    | ( [ .repos[] | select(.dirty)
+          | if   (.conflicts > 0 or .error != null or .detached
+                  or (.ahead > 0 and .behind > 0))           then 3
+            elif (.behind > 0 or .staged > 0 or .unstaged > 0
+                  or (.upstream == null or .upstream == ""))  then 2
+            else 1 end
+        ] | max // 0 ) as $s
+    | "\($d) \($s)"' "$STATE")
+
+if [[ "${dirty:-0}" -eq 0 ]]; then
+    polybar-alert clear "$NAME"
+    exit 0
+fi
+
+case "$maxsev" in
+    3) color=red    ;;  # conflict / diverged / detached / error
+    2) color=orange ;;  # behind / staged / unstaged / no-upstream
+    *) color=yellow ;;  # untracked / ahead / stash
+esac
+
+polybar-alert set "$NAME" "$color" "${ICON} ${dirty}" "$CLICK"

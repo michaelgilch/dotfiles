@@ -1,0 +1,15 @@
+[Unit]
+Description=Refresh repo-check remote-tracking data (ahead/behind)
+Documentation=https://github.com/michaelgilch/repo-check
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+# `fetch` (not `run`): the scheduled job refreshes remote-tracking refs first
+# (rate-limited per [fetch], ~min_host_interval per repo), then writes
+# report.json. The polybar number is NOT updated here — alerts.sh re-derives it
+# from report.json on its own refresh (see bin/repo-check-alert). The human
+# report goes to stdout and is captured by the journal.
+ExecStart=%h/.local/bin/repo-check fetch
+# Don't let a stuck fetch hold the run open forever.
+TimeoutStartSec=20min

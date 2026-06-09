@@ -3,10 +3,13 @@
 # polybar-alert - set or clear named polybar alerts
 #
 # Usage:
-#   polybar-alert set <name> <color> <message>
+#   polybar-alert set <name> <color> <message> [click-command]
 #   polybar-alert clear <name>
 #
 # Colors: hex (#BF616A) or named: red, orange, yellow
+# click-command (optional): shell command run on left-click, via polybar's
+#   %{A1:...} action wrapper. Lets callers add a clickable action without
+#   knowing polybar's markup.
 
 set -euo pipefail
 
@@ -24,11 +27,15 @@ resolve_color() {
 cmd="${1:-}"
 case "$cmd" in
     set)
-        name="${2:?Usage: polybar-alert set <name> <color> <message>}"
-        color="${3:?Usage: polybar-alert set <name> <color> <message>}"
-        msg="${4:?Usage: polybar-alert set <name> <color> <message>}"
+        name="${2:?Usage: polybar-alert set <name> <color> <message> [click-command]}"
+        color="${3:?Usage: polybar-alert set <name> <color> <message> [click-command]}"
+        msg="${4:?Usage: polybar-alert set <name> <color> <message> [click-command]}"
+        action="${5:-}"
         mkdir -p "$dir"
         color="$(resolve_color "$color")"
+        if [ -n "$action" ]; then
+            msg="%{A1:${action}:}${msg}%{A}"
+        fi
         printf '%s|%s\n' "$color" "$msg" > "$dir/${name}.alert"
         ;;
     clear)
@@ -36,7 +43,7 @@ case "$cmd" in
         rm -f "$dir/${name}.alert"
         ;;
     *)
-        echo "Usage: polybar-alert set <name> <color> <message>" >&2
+        echo "Usage: polybar-alert set <name> <color> <message> [click-command]" >&2
         echo "       polybar-alert clear <name>" >&2
         echo "Colors: red, orange, yellow, or hex (#RRGGBB)" >&2
         exit 1

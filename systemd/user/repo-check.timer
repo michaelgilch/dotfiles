@@ -1,0 +1,13 @@
+[Unit]
+Description=Daily git repo sync check + polybar alert
+
+[Timer]
+OnCalendar=daily
+# Run after a missed schedule (machine was off/asleep at the trigger time).
+Persistent=true
+# Spread the start over up to 30 min (extra anti-thundering-herd on top of the
+# tool's per-host fetch throttling).
+RandomizedDelaySec=30min
+
+[Install]
+WantedBy=timers.target
