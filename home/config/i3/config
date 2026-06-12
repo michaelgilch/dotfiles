@@ -175,7 +175,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 bindsym $mod+Tab layout toggle stacking tabbed split
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Alt+space focus mode_toggle
 
 # -----------------------------
 # Keybindings: Workspaces
