@@ -6,6 +6,7 @@
 	"installed_packages":
 	[
 		"Markdown Table Creator",
+		"Markdown Table Formatter",
 		"Package Control",
 		"Pretty JSON",
 	],
