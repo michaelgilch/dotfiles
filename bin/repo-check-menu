@@ -1,7 +1,10 @@
 #!/bin/bash
 # jgmenu pipe script: list git repos that are out of sync.
 # Reads the public report.json (written by `repo-check run`/`fetch`). Each
-# entry opens a kitty terminal at that repo. Called from repo-check-popup.
+# entry opens a kitty terminal at that repo; the "Refresh repo" submenu
+# fetches a single repo's remote data and reopens the popup, so an entry
+# that is only stale (not really dirty) can be cleared without a full
+# fetch. Called from repo-check-popup.
 
 STATE="${REPO_CHECK_STATE:-$HOME/.local/state/repo-check}/report.json"
 
@@ -21,6 +24,16 @@ jq -r '.repos[] | select(.dirty)
         | "\(.name)  [\(.short)],kitty --directory \"\(.path)\",folder"' "$STATE"
 
 echo "^sep()"
+echo "Refresh repo,^checkout(refresh),view-refresh"
 echo "Full report,kitty --hold repo-check run --all,text-x-generic"
 echo "Re-check (local),kitty --hold repo-check run,view-refresh"
 echo "Fetch remotes (slow),kitty --hold repo-check fetch,network-transmit-receive"
+
+# Submenu: fetch ONE repo's remote refs quietly, then reopen the popup so the
+# refreshed (possibly now-clean) list is immediately visible.
+echo "^tag(refresh)"
+echo "^sep(Refresh remote data)"
+jq -r '.repos[] | select(.dirty)
+        | "\(.name),sh -c '\''repo-check fetch \"\(.path)\" >/dev/null 2>&1; repo-check-popup'\'',network-transmit-receive"' "$STATE"
+echo "^sep()"
+echo "Back,^back(),go-previous"
