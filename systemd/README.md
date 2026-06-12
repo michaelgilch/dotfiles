@@ -7,8 +7,12 @@ directory would hijack units it doesn't own). Link them individually:
 ln -sf ~/dotfiles/systemd/user/repo-check.service ~/.config/systemd/user/
 ln -sf ~/dotfiles/systemd/user/repo-check.timer   ~/.config/systemd/user/
 systemctl --user daemon-reload
-systemctl --user enable --now repo-check.timer
 ```
+
+This repo only provides the unit files; *enablement* is declared per host in
+`~/arch-config/services.txt` and applied with `archcfg enable`. (Enabling by
+hand with `systemctl --user enable --now repo-check.timer` also works — then
+capture it with `archcfg services`.)
 
 ## repo-check
 
