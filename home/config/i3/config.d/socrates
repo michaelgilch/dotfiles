@@ -1,13 +1,7 @@
 # Multi-monitor workspace assignments
+# WS1 always left, WS2 always right; WS3+ open on the focused monitor
+# and stay there, sorted numerically per output by i3.
 workspace 1 output DP-1
 workspace 2 output DP-3
-workspace 3 output DP-1
-workspace 4 output DP-3
-workspace 5 output DP-1
-workspace 6 output DP-3
-workspace 7 output DP-1
-workspace 8 output DP-3
-workspace 9 output DP-1
-workspace 0 output DP-3
 
 
