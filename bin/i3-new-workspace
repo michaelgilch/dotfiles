@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Switch to the lowest-numbered workspace that doesn't yet exist.
+# i3 creates the new workspace on the currently focused output, so it
+# lands on whichever monitor is active.
+#
+# Usage:
+#   i3-new-workspace
+
+next=$(i3-msg -t get_workspaces \
+    | jq 'map(.num) | map(select(. >= 1)) | sort
+          | reduce .[] as $n (1; if $n == . then . + 1 else . end)')
+
+i3-msg "workspace number $next"
