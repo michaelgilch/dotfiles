@@ -20,7 +20,7 @@ if [[ "$dirty" -eq 0 ]]; then
 fi
 
 echo "^sep(Out of sync)"
-jq -r '.repos[] | select(.dirty)
+jq -r '.repos | sort_by(.name | ascii_downcase)[] | select(.dirty)
         | "\(.name)  [\(.short)],kitty --directory \"\(.path)\",folder"' "$STATE"
 
 echo "^sep()"
@@ -33,7 +33,7 @@ echo "Fetch remotes (slow),kitty --hold repo-check fetch,network-transmit-receiv
 # refreshed (possibly now-clean) list is immediately visible.
 echo "^tag(refresh)"
 echo "^sep(Refresh remote data)"
-jq -r '.repos[] | select(.dirty)
+jq -r '.repos | sort_by(.name | ascii_downcase)[] | select(.dirty)
         | "\(.name),sh -c '\''repo-check fetch \"\(.path)\" >/dev/null 2>&1; repo-check-popup'\'',network-transmit-receive"' "$STATE"
 echo "^sep()"
 echo "Back,^back(),go-previous"
