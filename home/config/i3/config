@@ -209,6 +209,12 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# Cycle through workspaces on the active output
+bindsym $mod+Ctrl+h workspace prev_on_output
+bindsym $mod+Ctrl+l workspace next_on_output
+bindsym $mod+Ctrl+Left workspace prev_on_output
+bindsym $mod+Ctrl+Right workspace next_on_output
+
 # Open the next free workspace on the active output
 bindsym $mod+a exec --no-startup-id ~/.local/bin/i3-new-workspace
 
