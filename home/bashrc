@@ -14,6 +14,7 @@ PS1='[\u@\h \W]\$ '
 export EDITOR="vim"
 export VISUAL="$EDITOR"
 export MANPAGER="less --no-init"
+export MANROFFOPT="-c"  # legacy groff output so LESS_TERMCAP colors apply
 export PATH=$HOME/.npm-global/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
@@ -29,7 +30,9 @@ shopt -s histappend
 
 # Additional Sources
 [ -f "$HOME"/.bash_aliases ] && source "$HOME"/.bash_aliases
+[ -f "$HOME"/.bash_functions ] && source "$HOME"/.bash_functions
 [ -f "$HOME"/.bash_prompt ] && source "$HOME"/.bash_prompt
+[ -f "$HOME"/.less_termcap ] && source "$HOME"/.less_termcap
 
 # Secrets - not tracked in dotfiles
 [ -f "$HOME"/.env.secrets ] && source "$HOME"/.env.secrets
