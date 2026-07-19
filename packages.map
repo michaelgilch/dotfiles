@@ -15,6 +15,7 @@ wallpaper:
 
 # Version control
 gitconfig:git
+gitignore_global:git
 
 # Editors
 vim:vim
