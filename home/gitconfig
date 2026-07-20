@@ -3,7 +3,7 @@
 	name = Michael Gilchrist
 [core]
 	editor = vim
-	excludesFile = /home/michael/.gitignore_global
+	excludesFile = ~/.gitignore_global
 [color]
     ui = true
     status = auto
