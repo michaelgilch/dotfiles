@@ -102,8 +102,10 @@ set foldnestmax=3                               " limit folding to 3 levels
 """""""""""""""""""""""""""""""""""""""""""""
 " Splits / Windows
 """""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>hs <C-w>s                      " split window horizontally
-nnoremap <leader>vs <C-w>v                      " split window vertically
+" split window horizontally
+nnoremap <leader>hs <C-w>s
+" split window vertically
+nnoremap <leader>vs <C-w>v
 
 set splitbelow                                  " open new horizontal splits below
 set splitright                                  " open new vertical splits to the right
