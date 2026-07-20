@@ -15,10 +15,7 @@ h()
 }
 
 # Make directory and navigate to it
-mcd()
-{
-    mkdir -p "$@" && (cd "$_" || exit);
-}
+mcd() { mkdir -p "$1" && cd "$1"; }
 
 # Search for string in PS, but remove grep process
 pg()
