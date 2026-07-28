@@ -131,6 +131,7 @@ bindsym $mod+Escape exec --no-startup-id i3-lock
 
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+d exec "rofi -modi drun,run,window -show drun"
+bindsym $mod+Ctrl+d exec --no-startup-id ~/.local/bin/wspr prompt
 bindsym $mod+w exec google-chrome-stable
 bindsym $mod+e exec thunar
 bindsym $mod+s exec "subl --new-window"
