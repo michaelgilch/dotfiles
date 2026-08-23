@@ -85,6 +85,9 @@ exec --no-startup-id dex --autostart --environment i3
 # Export all environment variables to D-Bus session so D-Bus-activated services can use (keyring, etc)
 exec --no-startup-id dbus-update-activation-environment --all
 
+# Start the wspr daemon once X is up (systemd can't: it needs DISPLAY/XAUTHORITY)
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY && systemctl --user restart wspr.service
+
 # Listen for screensaver and suspend events to run lock script
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3-lock
 
