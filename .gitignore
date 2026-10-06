@@ -11,3 +11,6 @@ home/vim/.netrwhist
 home/config/vpn/config
 
 home/config/i3/config.d/10-brightness.conf
+
+# GTK: bookmarks are machine-local sidebar shortcuts (Thunar writes to this file)
+home/config/gtk-3.0/bookmarks

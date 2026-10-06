@@ -1,0 +1,14 @@
+/* Thunar split view.
+   Thunar hardcodes: .split-view-inactive-pane .view { background-color: @theme_unfocused_bg_color; }
+   On a dark theme that color is lighter than @theme_base_color, so the dimmed
+   inactive pane ends up brighter than the active one. Darken it, and mute the
+   text toward the theme's insensitive grey so the active pane reads as active. */
+.split-view-inactive-pane .view {
+  background-color: #2e3440;
+  color: @insensitive_fg_color;
+}
+
+/* Selected rows keep full-contrast text; they already carry a selection background. */
+.split-view-inactive-pane .view:selected {
+  color: @theme_selected_fg_color;
+}
