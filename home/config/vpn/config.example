@@ -1,6 +1,14 @@
 # Copy this file to ~/.config/vpn/config and fill in your values.
 # ~/.config/vpn/config is gitignored and will not be committed to the repo.
 #
+# This file only configures the openfortivpn half of the VPN menu. The
+# Tailscale section of jg-vpn-menu works without it; the only setup Tailscale
+# needs is one-time operator access so the menu can change state unprivileged:
+#
+#   sudo tailscale set --operator=$USER
+#
+# (jg-vpn-menu offers a "Grant operator access" entry when this is missing.)
+#
 # Sudoers requirements (NOPASSWD):
 #   /usr/bin/openfortivpn   -- for vpn-connect
 #   /usr/bin/pkill          -- for VPN disconnect from jgmenu
@@ -27,3 +35,8 @@ SSH_SESSIONS=(
 SSH_APPS=(
     "Thunderbird|thunderbird|thunderbird"
 )
+
+# Tailscale
+# Username used when the Devices submenu opens an ssh session to a tailnet
+# peer. Defaults to $USER when unset.
+#TS_SSH_USER="your_ssh_username"

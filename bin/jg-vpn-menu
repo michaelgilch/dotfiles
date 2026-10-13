@@ -1,23 +1,39 @@
 #!/bin/bash
-# jgmenu pipe script for VPN connection and SSH app management.
-# Requires: ~/.config/vpn/config (see config.example)
+# jgmenu pipe script for VPN control: openfortivpn (corporate) and Tailscale.
+#
+# The two sections are independent -- Tailscale entries appear even when
+# ~/.config/vpn/config is absent, and the openfortivpn section stands alone
+# when tailscale is not installed.
+#
+# Requires: jq
+# Requires: ~/.config/vpn/config for the openfortivpn section (see config.example)
 # Requires: sudo NOPASSWD for /usr/bin/openfortivpn and /usr/bin/pkill
+# Requires: `sudo tailscale set --operator=$USER` for the Tailscale section
+#           (the menu offers to run this when it is missing)
 
 VPN_CONFIG="$HOME/.config/vpn/config"
 
-if [[ ! -f "$VPN_CONFIG" ]]; then
-    echo "VPN (not configured),notify-send -u critical 'VPN' 'Config not found at $VPN_CONFIG',dialog-error"
-    exit 0
-fi
+[[ -f "$VPN_CONFIG" ]] && source "$VPN_CONFIG"
 
-source "$VPN_CONFIG"
+# jgmenu treats everything after the first ^tag() as submenu content, so
+# submenu lines are buffered here and flushed once all root entries are out.
+SUBMENUS=""
 
-vpn_active() {
-    ip link show ppp0 &>/dev/null 2>&1
+submenu() {
+    SUBMENUS+="$1"$'\n'
 }
 
-if vpn_active; then
-    echo "^sep(VPN: Connected)"
+flush() {
+    printf '%s' "$SUBMENUS"
+}
+
+# ---------------------------------------------------------------- openfortivpn
+
+if [[ ! -f "$VPN_CONFIG" ]]; then
+    echo "^sep(FortiVPN)"
+    echo "Not configured,notify-send -u critical 'VPN' 'Config not found at $VPN_CONFIG',dialog-error"
+elif ip link show ppp0 &>/dev/null 2>&1; then
+    echo "^sep(FortiVPN: Connected)"
     echo "Disconnect,sudo pkill openfortivpn,network-offline"
     if [[ ${#SSH_SESSIONS[@]} -gt 0 ]]; then
         echo "^sep(SSH Sessions)"
@@ -34,6 +50,109 @@ if vpn_active; then
         done
     fi
 else
-    echo "^sep(VPN: Disconnected)"
+    echo "^sep(FortiVPN: Disconnected)"
     echo "Connect,vpn-connect,network-vpn"
 fi
+
+# ------------------------------------------------------------------ Tailscale
+
+command -v tailscale >/dev/null 2>&1 || { flush; exit 0; }
+
+ts_status=$(tailscale status --json 2>/dev/null)
+[[ -n "$ts_status" ]] || { flush; exit 0; }
+
+ts_prefs=$(tailscale debug prefs 2>/dev/null)
+[[ -n "$ts_prefs" ]] || ts_prefs='{}'
+
+ts_state=$(jq -r '.BackendState // "NoState"' <<< "$ts_status")
+ts_operator=$(jq -r '.OperatorUser // ""' <<< "$ts_prefs")
+exit_id=$(jq -r '.ExitNodeID // ""' <<< "$ts_prefs")
+allow_lan=$(jq -r '.ExitNodeAllowLANAccess // false' <<< "$ts_prefs")
+
+exit_name=""
+if [[ -n "$exit_id" ]]; then
+    exit_name=$(jq -r --arg id "$exit_id" \
+        '.Peer[]? | select(.ID == $id) | .HostName' <<< "$ts_status")
+fi
+
+# State-changing tailscale commands need root unless this user is the operator.
+# Rather than fail silently from inside the menu, offer the one-time setup.
+if [[ "$ts_operator" != "$USER" && $EUID -ne 0 ]]; then
+    echo "^sep(Tailscale: no operator access)"
+    echo "Grant operator access,kitty --hold sudo tailscale set --operator=$USER,dialog-password"
+    flush
+    exit 0
+fi
+
+case "$ts_state" in
+Running)
+    echo "^sep(Tailscale: ${exit_name:-direct})"
+    echo "Disconnect,tailscale down,network-offline"
+    echo "Exit Node: ${exit_name:-none},^checkout(ts-exit),network-vpn"
+    echo "Devices,^checkout(ts-peers),network-workgroup"
+
+    # Exit node submenu -----------------------------------------------------
+    submenu "^tag(ts-exit)"
+    submenu "^sep(Exit Node)"
+    if [[ -n "$exit_name" ]]; then
+        submenu "None (direct),tailscale set --exit-node=,network-wired"
+    else
+        submenu "None (direct)  ✓,:,network-wired"
+    fi
+    while IFS='|' read -r host id; do
+        [[ -n "$host" ]] || continue
+        if [[ "$id" == "$exit_id" ]]; then
+            submenu "$host  ✓,:,network-vpn"
+        else
+            submenu "$host,tailscale set --exit-node=$host,network-vpn"
+        fi
+    done < <(jq -r '.Peer[]? | select(.ExitNodeOption == true)
+                    | "\(.HostName)|\(.ID)"' <<< "$ts_status" | sort)
+    # --exit-node-allow-lan-access is only accepted while an exit node is set.
+    if [[ -n "$exit_name" ]]; then
+        submenu "^sep()"
+        if [[ "$allow_lan" == "true" ]]; then
+            submenu "Allow LAN access: on,tailscale set --exit-node-allow-lan-access=false,network-wired"
+        else
+            submenu "Allow LAN access: off,tailscale set --exit-node-allow-lan-access=true,network-wired"
+        fi
+    fi
+    submenu "^sep()"
+    submenu "Back,^back(),go-previous"
+
+    # Devices submenu -------------------------------------------------------
+    # Peers have no Tailscale SSH host keys, so these are plain ssh sessions
+    # over the tailnet DNS name. Phones are listed for their IP only.
+    ts_ssh_user="${TS_SSH_USER:-$USER}"
+    submenu "^tag(ts-peers)"
+    submenu "^sep(SSH)"
+    while IFS='|' read -r host dns; do
+        [[ -n "$host" ]] || continue
+        submenu "$host,kitty -e ssh ${ts_ssh_user}@${dns%.},utilities-terminal"
+    done < <(jq -r '.Peer[]? | select(.Online == true)
+                    | select(.OS != "android" and .OS != "iOS")
+                    | "\(.HostName)|\(.DNSName)"' <<< "$ts_status" | sort)
+    submenu "^sep(Copy IP)"
+    while IFS='|' read -r host ip; do
+        [[ -n "$host" && -n "$ip" ]] || continue
+        submenu "$host  $ip,sh -c 'printf %s $ip | xclip -selection clipboard; notify-send Tailscale \"Copied $ip\"',edit-copy"
+    done < <(jq -r '.Peer[]? | "\(.HostName)|\(.TailscaleIPs[0] // "")"' \
+                <<< "$ts_status" | sort)
+    submenu "^sep()"
+    submenu "Back,^back(),go-previous"
+    ;;
+Stopped)
+    echo "^sep(Tailscale: Stopped)"
+    echo "Connect,tailscale up,network-vpn"
+    ;;
+NeedsLogin | NeedsMachineAuth)
+    echo "^sep(Tailscale: $ts_state)"
+    echo "Log in,kitty --hold tailscale up,network-vpn"
+    ;;
+*)
+    echo "^sep(Tailscale: $ts_state)"
+    echo "Status,kitty --hold tailscale status,dialog-information"
+    ;;
+esac
+
+flush
