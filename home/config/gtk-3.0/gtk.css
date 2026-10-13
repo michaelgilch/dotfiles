@@ -12,3 +12,14 @@
 .split-view-inactive-pane .view:selected {
   color: @theme_selected_fg_color;
 }
+
+/* Thunar side pane.
+   Nordic sets `scrolledwindow.sidebar treeview.view { background: #2a2f3a; }` with no
+   state qualifier, which outranks its own `treeview.view:selected` rule. The selected
+   row keeps the dark selected-text color but loses its highlight, so it vanishes.
+   Use Nord3 instead of the theme's frost: Tela's sidebar icons are fixed grey, not
+   symbolic, so they can't be recolored and wash out on a light highlight. */
+scrolledwindow.sidebar treeview.view:selected {
+  background-color: #4c566a;
+  color: #eceff4;
+}
