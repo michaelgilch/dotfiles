@@ -9,7 +9,7 @@ for iface in /sys/class/net/ppp* /sys/class/net/tun*; do
     [ -e "$iface" ] && vpn_connected=true && break
 done
 if $vpn_connected; then
-    echo "#A3BE8C|%{A1:jg-vpn-popup:}󰌆 VPN%{A}" > "$vpn_alert"
+    echo "#A3BE8C|%{A1:rofi-netmenu forticlient:}󰌆 VPN%{A}" > "$vpn_alert"
 else
     rm -f "$vpn_alert"
 fi
@@ -22,9 +22,9 @@ if [ -n "$ts_status" ] && \
    [ "$(printf '%s' "$ts_status" | jq -r '.BackendState')" = "Running" ]; then
     ts_exit=$(printf '%s' "$ts_status" | jq -r '.Peer[]? | select(.ExitNode) | .HostName' | head -n1)
     if [ -n "$ts_exit" ]; then
-        echo "#A3BE8C|%{A1:jg-vpn-popup:}󰖂 TS→${ts_exit}%{A}" > "$ts_alert"
+        echo "#A3BE8C|%{A1:rofi-netmenu tailscale:}󰖂 TS→${ts_exit}%{A}" > "$ts_alert"
     else
-        echo "#88C0D0|%{A1:jg-vpn-popup:}󰖂 TS%{A}" > "$ts_alert"
+        echo "#88C0D0|%{A1:rofi-netmenu tailscale:}󰖂 TS%{A}" > "$ts_alert"
     fi
 else
     rm -f "$ts_alert"
