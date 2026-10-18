@@ -4,10 +4,16 @@
 
 parts=()
 
+# item <color> <text>: colored and underlined in the same color, like the
+# format-underline the other modules use.
+item() {
+    parts+=("%{F$1}%{u$1}%{+u}$2%{-u}%{F-}")
+}
+
 # VPN: check for ppp/tun interfaces
 for iface in /sys/class/net/ppp* /sys/class/net/tun*; do
     if [ -e "$iface" ]; then
-        parts+=("%{F#A3BE8C}%{A1:rofi-netmenu forticlient:}󰌆 VPN%{A}%{F-}")
+        item "#A3BE8C" "%{A1:rofi-netmenu forticlient:}󰌆 VPN%{A}"
         break
     fi
 done
@@ -19,9 +25,9 @@ if [ -n "$ts_status" ] && \
    [ "$(printf '%s' "$ts_status" | jq -r '.BackendState')" = "Running" ]; then
     ts_exit=$(printf '%s' "$ts_status" | jq -r '.Peer[]? | select(.ExitNode) | .HostName' | head -n1)
     if [ -n "$ts_exit" ]; then
-        parts+=("%{F#A3BE8C}%{A1:rofi-netmenu tailscale:}󰖂 TS→${ts_exit}%{A}%{F-}")
+        item "#A3BE8C" "%{A1:rofi-netmenu tailscale:}󰖂 TS→${ts_exit}%{A}"
     else
-        parts+=("%{F#88C0D0}%{A1:rofi-netmenu tailscale:}󰖂 TS%{A}%{F-}")
+        item "#88C0D0" "%{A1:rofi-netmenu tailscale:}󰖂 TS%{A}"
     fi
 fi
 
