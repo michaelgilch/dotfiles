@@ -138,6 +138,7 @@ bindsym $mod+Ctrl+d exec --no-startup-id ~/.local/bin/wspr prompt
 bindsym $mod+w exec google-chrome-stable
 bindsym $mod+e exec thunar
 bindsym $mod+s exec "subl --new-window"
+bindsym $mod+i exec --no-startup-id rofi-netmenu
 bindsym $mod+z exec --no-startup-id jg-sidepanel
 bindsym Print exec "flameshot gui"
 
