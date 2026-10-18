@@ -12,7 +12,7 @@ for f in "$dir"/*.alert; do
     [ -f "$f" ] || continue
     IFS='|' read -r color msg < "$f"
     [ -n "$msg" ] || continue
-    parts+=("%{F${color}}${msg}%{F-}")
+    parts+=("%{u${color}}%{+u}${msg}%{-u}")
 done
 
 [ ${#parts[@]} -eq 0 ] && echo "" && exit 0

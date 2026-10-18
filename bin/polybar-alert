@@ -7,6 +7,8 @@
 #   polybar-alert clear <name>
 #
 # Colors: hex (#BF616A) or named: red, orange, yellow
+# message: "<icon> <text>". Like the other bar modules, the icon is drawn in
+#   <color>, the text in the bar foreground, and both are underlined in <color>.
 # click-command (optional): shell command run on left-click, via polybar's
 #   %{A1:...} action wrapper. Lets callers add a clickable action without
 #   knowing polybar's markup.
@@ -33,6 +35,11 @@ case "$cmd" in
         action="${5:-}"
         mkdir -p "$dir"
         color="$(resolve_color "$color")"
+        # Split off the icon before the action wrap so a click command
+        # containing spaces can't confuse it.
+        if [[ "$msg" == *" "* ]]; then
+            msg="%{F${color}}${msg%% *}%{F-} ${msg#* }"
+        fi
         if [ -n "$action" ]; then
             msg="%{A1:${action}:}${msg}%{A}"
         fi
