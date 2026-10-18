@@ -9,6 +9,7 @@ home/vim/plugged
 home/vim/.netrwhist
 
 home/config/vpn/config
+home/coonfig/rofi-netmenu/config
 
 home/config/i3/config.d/10-brightness.conf
 
