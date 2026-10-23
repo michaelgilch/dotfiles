@@ -1,2 +1,1 @@
-exec --no-startup-id xrandr-3-2-modes
-bindsym $mod+F9 exec --no-startup-id rofi-resolution
+bindsym $mod+F9 exec --no-startup-id rofi-screens resolution

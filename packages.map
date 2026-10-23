@@ -31,6 +31,7 @@ jgmenu:jgmenu
 picom:picom
 polybar:polybar
 rofi:rofi
+rofi-screens:rofi-screens
 
 # Applications
 flameshot:flameshot

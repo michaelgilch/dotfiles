@@ -1,0 +1,12 @@
+# rofi-screens configuration. Sourced as bash. See config.example in
+# ~/git/rofi-screens for every setting.
+
+# Relaunch polybar so it picks up the new screen geometry.
+ON_CHANGE="$HOME/.local/bin/polybar-launch"
+
+# Exact 3:2 modes for the 2256x1504 Framework panel, largest first.
+# Others at 3:2: 1200x800 1350x900 1500x1000 1620x1080 1692x1128
+# After changing this, regenerate the Xorg config:
+#   rofi-screens --xorg-conf > ~/arch-config/etc/galileo/X11/xorg.conf.d/10-monitor.conf
+#   aconf apply
+RES_MODES=(2016x1344 1800x1200)
