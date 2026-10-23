@@ -95,6 +95,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3-lock
 # Force workspace creation with proper names at startup and switches back to WS1
 exec --no-startup-id "i3-msg 'workspace \"1: Home\"; workspace \"2: Utility\"; workspace \"1: Home\"'"
 
+# Add the scaled panel modes and restore the last resolution picked in rofi-screens
+exec --no-startup-id rofi-screens --init
+
 exec --no-startup-id dunst
 exec --no-startup-id flameshot
 exec --no-startup-id picom --daemon

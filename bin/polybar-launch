@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Serialize concurrent launches (e.g. i3 startup and rofi-screens --init)
+exec 9>"${XDG_RUNTIME_DIR:-/tmp}/polybar-launch.lock"
+flock 9
+
 # Terminate already running bar instances
 killall -q polybar
 
@@ -32,7 +36,7 @@ if type "xrandr" >/dev/null 2>&1; then
   if xrandr --query | grep -q "eDP-1 connected"; then
     echo "==> Laptop Mode (eDP-1 detected)" | tee -a /tmp/polybar-launch.log
     echo "Launching LAPTOP bar on: $LAPTOP_MONITOR" | tee -a /tmp/polybar-launch.log
-    MONITOR=$LAPTOP_MONITOR polybar --reload laptop >>/tmp/polybar-laptop.log 2>&1 &
+    MONITOR=$LAPTOP_MONITOR polybar --reload laptop >>/tmp/polybar-laptop.log 2>&1 9>&- &
     
   elif [ "$HOSTNAME" = "socrates" ]; then
     # Desktop mode (Socrates)
@@ -41,18 +45,18 @@ if type "xrandr" >/dev/null 2>&1; then
       echo "Launching PRIMARY bar on: $PRIMARY_MONITOR" | tee -a /tmp/polybar-launch.log
       echo "Launching SECONDARY bar on: $SECONDARY_MONITOR" | tee -a /tmp/polybar-launch.log
       
-      MONITOR=$PRIMARY_MONITOR polybar --reload primary >>/tmp/polybar-primary.log 2>&1 &
-      MONITOR=$SECONDARY_MONITOR polybar --reload secondary >>/tmp/polybar-secondary.log 2>&1 &
+      MONITOR=$PRIMARY_MONITOR polybar --reload primary >>/tmp/polybar-primary.log 2>&1 9>&- &
+      MONITOR=$SECONDARY_MONITOR polybar --reload secondary >>/tmp/polybar-secondary.log 2>&1 9>&- &
     else
       echo "==> Desktop Single Monitor Mode" | tee -a /tmp/polybar-launch.log
-      MONITOR=$PRIMARY_MONITOR polybar --reload primary >>/tmp/polybar-primary.log 2>&1 &
+      MONITOR=$PRIMARY_MONITOR polybar --reload primary >>/tmp/polybar-primary.log 2>&1 9>&- &
     fi
     
   else
     # Fallback for unknown system
     echo "==> Unknown system, using primary bar" | tee -a /tmp/polybar-launch.log
     SINGLE_MON=$(xrandr --query | grep " connected" | head -n1 | cut -d" " -f1)
-    MONITOR=$SINGLE_MON polybar --reload primary >>/tmp/polybar-primary.log 2>&1 &
+    MONITOR=$SINGLE_MON polybar --reload primary >>/tmp/polybar-primary.log 2>&1 9>&- &
   fi
   
   echo "" | tee -a /tmp/polybar-launch.log
@@ -63,7 +67,7 @@ if type "xrandr" >/dev/null 2>&1; then
   
 else
   echo "ERROR: xrandr not available" | tee -a /tmp/polybar-launch.log
-  polybar --reload primary >>/tmp/polybar-primary.log 2>&1 &
+  polybar --reload primary >>/tmp/polybar-primary.log 2>&1 9>&- &
 fi
 
 echo "" | tee -a /tmp/polybar-launch.log
