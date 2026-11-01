@@ -15,3 +15,6 @@ home/config/i3/config.d/10-brightness.conf
 
 # GTK: bookmarks are machine-local sidebar shortcuts (Thunar writes to this file)
 home/config/gtk-3.0/bookmarks
+
+# polybar: modules symlinked in by external installers (e.g. polybar-arch-updates)
+home/config/polybar/modules.d/*.ini
