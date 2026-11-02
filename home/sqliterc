@@ -1,1 +1,6 @@
 .headers ON
+.mode list
+.separator "|"
+.nullvalue "∅"
+.timer on
+.echo on
