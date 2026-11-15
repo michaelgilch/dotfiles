@@ -10,6 +10,7 @@ bash_profile:
 bash_prompt:
 bashrc:
 dir_colors:
+user-dirs.dirs:xdg-user-dirs
 wallpaper:
 
 # Version control

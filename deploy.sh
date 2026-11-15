@@ -207,8 +207,8 @@ deploy_all() {
 		filename="$(basename "$src")"
 
 		if [ "$filename" = "config" ]; then
-		        # Special handling for config/ - symlink each subdirectory
-		        find "$src" -mindepth 1 -maxdepth 1 -type d | while read -r config_dir; do
+		        # Special handling for config/ - symlink each subdirectory or file
+		        find "$src" -mindepth 1 -maxdepth 1 \( -type d -o -type f \) | while read -r config_dir; do
 		        	app_name="$(basename "$config_dir")"
 				dest="$HOME/.config/$app_name"
 
