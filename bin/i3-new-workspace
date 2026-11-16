@@ -4,11 +4,29 @@
 # i3 creates the new workspace on the currently focused output, so it
 # lands on whichever monitor is active.
 #
+# With `all`, do this on every active output, then return focus to the
+# original output. Effectively "show desktop".
+#
 # Usage:
-#   i3-new-workspace
+#   i3-new-workspace [all]
 
-next=$(i3-msg -t get_workspaces \
-    | jq 'map(.num) | map(select(. >= 1)) | sort
-          | reduce .[] as $n (1; if $n == . then . + 1 else . end)')
+next_free() {
+    i3-msg -t get_workspaces \
+        | jq 'map(.num) | map(select(. >= 1)) | sort
+              | reduce .[] as $n (1; if $n == . then . + 1 else . end)'
+}
 
-i3-msg "workspace number $next"
+if [[ "$1" != "all" ]]; then
+    i3-msg "workspace number $(next_free)"
+    exit
+fi
+
+focused=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .output')
+
+# Recompute per output: each new workspace stays visible on its output,
+# so it counts as taken for the next one.
+for output in $(i3-msg -t get_outputs | jq -r '.[] | select(.active) | .name'); do
+    i3-msg "focus output \"$output\"; workspace number $(next_free)"
+done
+
+i3-msg "focus output \"$focused\""

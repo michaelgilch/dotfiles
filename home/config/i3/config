@@ -222,6 +222,8 @@ bindsym $mod+Ctrl+Right workspace next_on_output
 
 # Open the next free workspace on the active output
 bindsym $mod+a exec --no-startup-id ~/.local/bin/i3-new-workspace
+# ...on every active output ("show desktop")
+bindsym $mod+Shift+a exec --no-startup-id ~/.local/bin/i3-new-workspace all
 
 # Layout presets
 bindsym $mod+Shift+F2 exec --no-startup-id i3-layout apply utility
